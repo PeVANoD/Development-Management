@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d38sliilc7xgb"]
 
-[ext_resource type="Script" uid="uid://i6xnkb2bufhg" path="res://project/node_2d.gd" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://i6xnkb2bufhg" path="res://project/scripts/node_2d.gd" id="1_wtcfe"]
 [ext_resource type="Script" uid="uid://3rgxv63vsbv0" path="res://project/scripts/polygon_2d.gd" id="2_0e48y"]
 
 [node name="Node2D" type="Node2D"]

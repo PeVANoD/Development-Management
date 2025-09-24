@@ -128,8 +128,7 @@ func bodyGrow(amount = 1):
 		$Body.call_deferred("add_child", newPart)
 		$Body.call_deferred("move_child", newPart,0)
 		
-		newPart.global_position = $Body.get_child(0).global_position
-		newPart.rotation = $Body.get_child(0).rotation
+		
 		
 		# Добавляем больше точек в историю при создании новой части
 		for j in range(addLength):

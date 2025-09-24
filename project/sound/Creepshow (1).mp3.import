@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://btn2x8u881y2e"
+path="res://.godot/imported/Creepshow (1).mp3-23e798370f92c0812818cdacded75f58.mp3str"
+
+[deps]
+
+source_file="res://project/sound/Creepshow (1).mp3"
+dest_files=["res://.godot/imported/Creepshow (1).mp3-23e798370f92c0812818cdacded75f58.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -77,3 +77,4 @@ func genSnake():
 	
 	# Создаем начальную территорию для этой змейки
 	territory_capture.create_initial_territory_for_snake(snakeArr.size() - 1, pos)
+	
