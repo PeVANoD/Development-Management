@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D 
 
 #region переменные межфункций
 var isRotating
@@ -30,7 +30,7 @@ func _ready():
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
 	bodyGrow(50)
-
+	
 func _physics_process(delta):
 	if !territory_capture or !is_controlled:
 		$Head/Camera2D.enabled = false
@@ -167,6 +167,8 @@ func countAngle():
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
 		body.queue_free()
+		if !$EatSound.playing:
+			$EatSound.play()
 		if !randi_range(0,2):
 			bodyGrow()
 		$"../..".genFood()
