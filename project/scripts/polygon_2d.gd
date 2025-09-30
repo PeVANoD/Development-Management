@@ -23,20 +23,29 @@ var colors = [
 
 # Настройки
 var snake_colors: Array = []  # Цвета для каждой змейки
-var line_thickness: float = 3.0
-var point_radius: float = 4.0
+var line_thickness: float = 1.0
+var point_radius: float = 1.0
 var min_distance: float = 15.0
 
-# Состояние
-var is_capturing: bool = false
-var capturing_snake_index: int = -1  # Индекс змейки, которая захватывает
-var capture_points: PackedVector2Array = []
+# Состояние для КАЖДОЙ змейки
+var snake_capture_states: Array = []  # Массив состояний захвата для каждой змейки
+
 var territories: Array = []  # Массив территорий для каждой змейки
 
 func _ready():
 	mesh = ArrayMesh.new()
 	# Инициализируем массив территорий
 	territories = []
+	snake_capture_states = []
+
+# Класс для хранения состояния захвата каждой змейки
+class SnakeCaptureState:
+	var is_capturing: bool = false
+	var capture_points: PackedVector2Array = []
+	
+	func _init():
+		is_capturing = false
+		capture_points = []
 
 # Создаем начальную территорию для змейки
 func create_initial_territory_for_snake(snake_index: int, center: Vector2):
@@ -47,92 +56,159 @@ func create_initial_territory_for_snake(snake_index: int, center: Vector2):
 	else:
 		snake_colors.append(Color(colors[snake_index]))
 	
-	# Убедимся, что массив территорий достаточно большой
+	# Убедимся, что массивы достаточно большие
 	if territories.size() <= snake_index:
 		territories.resize(snake_index + 1)
+	if snake_capture_states.size() <= snake_index:
+		snake_capture_states.resize(snake_index + 1)
+		snake_capture_states[snake_index] = SnakeCaptureState.new()
 	
 	# Создаем начальную территорию вокруг позиции змейки
-	territories[snake_index] = generate_initial_territory(center, Vector2(80, 80))
+	territories[snake_index] = generate_initial_territory(center, 100)
 	update_territory_mesh()
 
-func generate_initial_territory(center: Vector2, size: Vector2) -> PackedVector2Array:
+func generate_initial_territory(center: Vector2, radius: float, segments: int = 32) -> PackedVector2Array:
 	var points := PackedVector2Array()
 	
-	# Создаем квадратную территорию
-	points.append(center + Vector2(-size.x, -size.y))
-	points.append(center + Vector2(size.x, -size.y))
-	points.append(center + Vector2(size.x, size.y))
-	points.append(center + Vector2(-size.x, size.y))
+	# Создаем круглую территорию
+	for i in range(segments):
+		var angle = 2 * PI * i / segments
+		var point = center + Vector2(cos(angle), sin(angle)) * radius
+		points.append(point)
 	
 	return points
 
 # Внешний метод для начала захвата
 func start_external_capture(snake_index: int, start_point: Vector2):
-	if is_capturing:
+	# Убедимся, что состояние для этой змейки существует
+	if snake_capture_states.size() <= snake_index:
+		snake_capture_states.resize(snake_index + 1)
+	if snake_capture_states[snake_index] == null:
+		snake_capture_states[snake_index] = SnakeCaptureState.new()
+	
+	var state = snake_capture_states[snake_index]
+	if state.is_capturing:
 		return
 	
-	is_capturing = true
-	capturing_snake_index = snake_index
-	capture_points.clear()
-	capture_points.append(start_point)
+	state.is_capturing = true
+	state.capture_points.clear()
+	state.capture_points.append(start_point)
 
 # Внешний метод для обновления захвата
-func update_external_capture(new_point: Vector2):
-	if not is_capturing or capture_points.is_empty():
+func update_external_capture(snake_index: int, new_point: Vector2):
+	# Проверяем валидность индекса и состояния
+	if snake_index >= snake_capture_states.size() or snake_capture_states[snake_index] == null:
 		return
 	
-	var last_point = capture_points[-1]
-	if last_point.distance_to(new_point) > min_distance:
-		capture_points.append(new_point)
+	var state = snake_capture_states[snake_index]
+	if not state.is_capturing or state.capture_points.is_empty():
+		return
 	
-	queue_redraw()
+	var last_point = state.capture_points[-1]
+	if last_point.distance_to(new_point) > min_distance:
+		state.capture_points.append(new_point)
+	
+	# ОПТИМИЗАЦИЯ: перерисовываем только при значительных изменениях
+	if state.capture_points.size() % 3 == 0:  # был каждый раз
+		#queue_redraw()
+		pass
 
 # Внешний метод для завершения захвата
-func finish_external_capture():
-	if not is_capturing or capture_points.size() < 3:
-		is_capturing = false
+func finish_external_capture(snake_index: int):
+	if snake_index >= snake_capture_states.size() or snake_capture_states[snake_index] == null:
 		return
 	
+	var state = snake_capture_states[snake_index]
+	if not state.is_capturing:
+		return
+	
+	if state.capture_points.size() < 3:
+		state.is_capturing = false
+		return
+	
+	
 	# Замыкаем путь если нужно
-	if capture_points[0].distance_to(capture_points[-1]) > min_distance:
-		capture_points.append(capture_points[0])
+	var first_point = state.capture_points[0]
+	var last_point = state.capture_points[-1]
 	
-	# Обрабатываем захват для выбранной змейки
-	process_capture()
+	if first_point.distance_to(last_point) > min_distance:
+		state.capture_points.append(first_point)
 	
-	is_capturing = false
-	queue_redraw()
+	process_capture(snake_index, state.capture_points)
+	state.is_capturing = false
+	#queue_redraw()
 
-func process_capture():
+# Останавливаем захват без обработки
+func cancel_external_capture(snake_index: int):
+	if snake_index < snake_capture_states.size() and snake_capture_states[snake_index] != null:
+		snake_capture_states[snake_index].is_capturing = false
+		snake_capture_states[snake_index].capture_points.clear()
+
+func global_to_territory_local(point: Vector2) -> Vector2:
+	return to_local(point)
+
+func is_point_in_territory_global(point: Vector2, snake_index: int) -> bool:
+	var local_point = global_to_territory_local(point)
+	return is_point_in_territory(local_point, snake_index)
+
+func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	if capture_points.size() < 3:
 		return
 	
-	# Если путь не замкнут, не обрабатываем
-	if capture_points[0].distance_to(capture_points[-1]) > min_distance:
+	# Проверяем замкнутость полигона
+	var first_point = capture_points[0]
+	var last_point = capture_points[-1]
+	
+	if first_point.distance_to(last_point) > min_distance * 2:
+		# Автоматически замыкаем если точки близки
+		if first_point.distance_to(last_point) < min_distance * 3:
+			capture_points.append(first_point)
+		else:
+			return
+	
+	var capture_polygon = simplify_polygon(capture_points)
+	if capture_polygon.size() < 3:
 		return
 	
-	# Создаем полигон из точек захвата
-	var capture_polygon = simplify_polygon(capture_points)
 	
-	# Объединяем с территорией захватывающей змейки
-	if territories.size() <= capturing_snake_index:
-		territories.resize(capturing_snake_index + 1)
+	# Расширяем массив территорий если нужно
+	while territories.size() <= snake_index:
+		territories.append(PackedVector2Array())
 	
-	if territories[capturing_snake_index].is_empty():
-		territories[capturing_snake_index] = capture_polygon
+	# Объединяем с существующей территорией
+	if territories[snake_index].is_empty():
+		territories[snake_index] = capture_polygon
 	else:
-		var union_result = Geometry2D.merge_polygons(territories[capturing_snake_index], capture_polygon)
+		var union_result = Geometry2D.merge_polygons(
+			territories[snake_index], 
+			capture_polygon
+		)
 		if not union_result.is_empty():
-			territories[capturing_snake_index] = get_largest_polygon(union_result)
+			territories[snake_index] = combine_polygons(union_result)
+		else:
+			print("Объединение не удалось")
 	
-	# Вычитаем из территорий других змеек
+	# Вычитаем у других змеек
 	for i in range(territories.size()):
-		if i != capturing_snake_index and not territories[i].is_empty():
+		if i != snake_index and not territories[i].is_empty():
 			var clip_result = Geometry2D.clip_polygons(territories[i], capture_polygon)
 			if not clip_result.is_empty():
-				territories[i] = get_largest_polygon(clip_result)
+				territories[i] = combine_polygons(clip_result)
+			else:
+				territories[i] = PackedVector2Array()
 	
 	update_territory_mesh()
+	queue_redraw()
+
+func combine_polygons(polygons: Array) -> PackedVector2Array:
+	# Объединяем все полигоны в один (простая реализация)
+	if polygons.size() == 1:
+		return polygons[0]
+	
+	# Для сложных случаев - возвращаем самый большой или объединяем
+	var largest = get_largest_polygon(polygons)
+	# TODO: Реализовать proper union всех полигонов
+	return largest
 
 func get_largest_polygon(polygons: Array) -> PackedVector2Array:
 	var largest_area = -1.0
@@ -176,16 +252,18 @@ func simplify_polygon(points: PackedVector2Array) -> PackedVector2Array:
 func update_territory_mesh():
 	mesh.clear_surfaces()
 	
-	# Создаем общий массив вершин для всех территорий
 	var all_vertices := PackedVector2Array()
 	var all_colors := PackedColorArray()
 	var all_indices := PackedInt32Array()
 	
-	# Добавляем территории всех змеек
 	for i in range(territories.size()):
-		if territories[i].size() >= 3 and i < snake_colors.size():
+		if i < snake_colors.size() and territories[i].size() >= 3:
+			# ОПТИМИЗАЦИЯ: пропускаем триангуляцию для очень маленьких территорий
+			if calculate_polygon_area(territories[i]) < 10.0:
+				continue
+				
 			var indices = Geometry2D.triangulate_polygon(territories[i])
-			if not indices.is_empty():
+			if indices.size() >= 3 and indices.size() % 3 == 0:
 				var start_index = all_vertices.size()
 				all_vertices.append_array(territories[i])
 				
@@ -193,14 +271,14 @@ func update_territory_mesh():
 					all_colors.append(snake_colors[i])
 				
 				for index in indices:
-					all_indices.append(start_index + index)
+					if start_index + index < all_vertices.size():
+						all_indices.append(start_index + index)
 	
-	# Создаем меш только если есть что отображать
 	if all_vertices.size() > 0 and all_indices.size() > 0:
-		var arrays := []
+		var arrays = []
 		arrays.resize(Mesh.ARRAY_MAX)
 		arrays[Mesh.ARRAY_VERTEX] = all_vertices
-		arrays[Mesh.ARRAY_COLOR] = all_colors
+		arrays[Mesh.ARRAY_COLOR] = all_colors  
 		arrays[Mesh.ARRAY_INDEX] = all_indices
 		
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
@@ -208,11 +286,15 @@ func update_territory_mesh():
 func clear_territories():
 	territories.clear()
 	snake_colors.clear()
+	snake_capture_states.clear()
 	update_territory_mesh()
 	queue_redraw()
 
 func clear_territory(snake_index):
-	territories[snake_index].clear()
+	if snake_index < territories.size():
+		territories[snake_index].clear()
+	if snake_index < snake_capture_states.size():
+		snake_capture_states[snake_index] = null
 	update_territory_mesh()
 	queue_redraw()
 
@@ -224,13 +306,14 @@ func _draw():
 			for point in territories[i]:
 				draw_circle(point, point_radius, snake_colors[i].darkened(0.3))
 	
-	# Рисуем текущий след захвата
-	if is_capturing and capture_points.size() > 1 and capturing_snake_index < snake_colors.size():
-		var draw_color = snake_colors[capturing_snake_index]
-		draw_polyline(capture_points, draw_color, line_thickness)
-		
-		for point in capture_points:
-			draw_circle(point, point_radius, draw_color)
+	# Рисуем текущие следы захвата для ВСЕХ змеек
+	for i in range(snake_capture_states.size()):
+		if snake_capture_states[i] != null and snake_capture_states[i].is_capturing and snake_capture_states[i].capture_points.size() > 1 and i < snake_colors.size():
+			var draw_color = snake_colors[i]
+			draw_polyline(snake_capture_states[i].capture_points, draw_color, line_thickness)
+			
+			for point in snake_capture_states[i].capture_points:
+				draw_circle(point, point_radius, draw_color)
 
 func is_point_in_territory(point: Vector2, snake_index: int) -> bool:
 	if snake_index < territories.size():
@@ -248,3 +331,9 @@ func get_total_territory_area() -> float:
 	for territory in territories:
 		total += calculate_polygon_area(territory)
 	return total
+
+# Проверяем, находится ли змейка в процессе захвата
+func is_snake_capturing(snake_index: int) -> bool:
+	if snake_index < snake_capture_states.size() and snake_capture_states[snake_index] != null:
+		return snake_capture_states[snake_index].is_capturing
+	return false

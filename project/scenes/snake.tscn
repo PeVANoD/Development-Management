@@ -32,7 +32,7 @@ texture = ExtResource("2_xgrlx")
 [node name="Camera2D" type="Camera2D" parent="Head"]
 rotation = -1.5708
 enabled = false
-zoom = Vector2(0.8, 0.8)
+zoom = Vector2(0.3, 0.3)
 
 [node name="Mouth" type="Area2D" parent="Head"]
 
