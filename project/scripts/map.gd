@@ -58,6 +58,7 @@ func clearSnake():
 			snakeArr.pop_at(i)
 			if snakeArr:
 				curSnake = 0
+				$DeathSound.play()
 			break
 
 func genSnake():

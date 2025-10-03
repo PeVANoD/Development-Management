@@ -68,9 +68,12 @@ func checkInputs(delta):
 		if time_since_last_growth >= 0.2:
 			if !randi_range(0,1):
 				loseGrowth()
+				if !$SpeedUpSound.playing:
+					$SpeedUpSound.play()
 			time_since_last_growth = 0.0
 	else:
 		speed = lerp(speed, startSpeed, 0.1)
+		$SpeedUpSound.stop()
 
 func update_territory_capture():
 	var head_pos = $Head.global_position
