@@ -11,6 +11,7 @@ var ai_snakes: Array = []  # Массив змеек с включенным AI
 func _ready():
 	# Создаем общую территорию
 	territory_capture = TerritoryCapture.new()
+	G.tera = territory_capture
 	add_child(territory_capture)
 	territory_capture.position = Vector2.ZERO
 	
@@ -129,6 +130,7 @@ func genSnake():
 	var pos = Vector2(cos(angle) * distance, sin(angle) * distance)
 	newSnake.global_position = pos
 	newSnake.snakeNum = $Snakes.get_child_count()
+	newSnake.name = str(newSnake.snakeNum + 1)
 	
 	snakeArr.push_back(newSnake)
 	$Snakes.add_child(newSnake)

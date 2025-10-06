@@ -1,11 +1,13 @@
 extends Node2D
 
 #region переменные персонажа
-@export var speed = 130.0
+@export var speed = 150.0
 @export var partDistance = 6
-@export var snakeNum = 0
 #endregion
 #region переменные межфункций
+@export var length = 0
+@export var snakeNum = 0
+var targetZoom = 0.8
 var isRotating
 var direction = Vector2(0,-1)
 var desiredDirection = Vector2(0,-1)
@@ -13,7 +15,8 @@ var lastPos = Vector2(0,1)
 var lastAngle = 1.0
 var lastBodyAngle = 1.0
 @onready var startSpeed = speed
-@onready var maxSpeed = speed*1.5
+@onready var baseSpeed = speed
+@onready var maxSpeed = baseSpeed*1.5
 var positionHistory = []
 var maxHistoryLength = 4
 var addLength = 6
@@ -32,6 +35,8 @@ func _ready():
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
 	bodyGrow(30)
+	await get_tree().create_timer(0.1).timeout
+	changeBody()
 @export var ai_control = false
 var aiSpeed = false
 
@@ -41,6 +46,9 @@ func _physics_process(delta):
 		return
 	if is_controlled:
 		$Head/Camera2D.enabled = true
+	
+	var newZoom = lerp($Head/Camera2D.zoom.x,targetZoom,0.1)
+	$Head/Camera2D.zoom = Vector2(newZoom,newZoom)
 	
 	checkInputs(delta)
 	
@@ -134,6 +142,7 @@ func update_territory_capture():
 			territory_capture.finish_external_capture(snake_index)
 			capture_started = false
 			headOutPos = null
+			changeBody()
 	
 	elif capture_started and not tail_in_own_territory:
 		# Прерываем захват
@@ -148,16 +157,24 @@ func loseGrowth():
 	$"../..".genFood(1,$Body.get_child(0).global_position)
 	$Body.get_child(0).queue_free()
 	maxHistoryLength -= addLength
+	length -= 1
 	changeBody()
 # увеличение размера змейки
+
 func changeBody():
-	var length = $Body.get_child_count()
-	var scaling = max(pow(length,0.02),1.0)
+	var length = ($Body.get_child_count()+20.0)/40.0
+	var scaling = max(pow(length,0.3),1.0)
+	var countSpeed = max(pow(territory_capture.get_territory_area(snake_index)/31000,0.05),1.0)
+	targetZoom = 0.8*1/scaling
+	startSpeed = baseSpeed*countSpeed
+	maxSpeed = baseSpeed*1.5
 	scale = Vector2(scaling,scaling)
+	
 # увеличение змейки
 func bodyGrow(amount = 1):
 	for i in range(amount):
 		var newPart = $Body.get_child(0).duplicate()
+		length += 1
 		maxHistoryLength += addLength
 		$Body.call_deferred("add_child", newPart)
 		$Body.call_deferred("move_child", newPart,0)
