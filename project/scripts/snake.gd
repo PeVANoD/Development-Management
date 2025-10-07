@@ -5,6 +5,7 @@ extends Node2D
 @export var partDistance = 6
 #endregion
 #region переменные межфункций
+@onready var map_node = $"../.."
 @export var length = 0
 @export var snakeNum = 0
 var targetZoom = 0.8
@@ -28,7 +29,6 @@ var time_since_last_growth: float = 0.0
 var territory_capture: TerritoryCapture
 @export var snake_index: int = 0  # Индекс этой змейки
 var was_in_territory: bool = false
-
 
 func _ready():
 	# инициирует размер змейки
@@ -76,6 +76,7 @@ func _physics_process(delta):
 	$Head.rotation = angle  # используем радианы напрямую
 	
 	update_territory_capture()
+	check_out_of_bounds()
 	checkBody()
 
 func checkInputs(delta):
@@ -154,7 +155,7 @@ func update_territory_capture():
 		goingToBase = false
 # уменьшение змейки
 func loseGrowth():
-	$"../..".genFood(1,$Body.get_child(0).global_position)
+	map_node.genFood(1,$Body.get_child(0).global_position)
 	$Body.get_child(0).queue_free()
 	maxHistoryLength -= addLength
 	length -= 1
@@ -210,17 +211,26 @@ func countAngle():
 	var angle_diff = direction.angle_to(desiredDirection)
 	angle_diff = clamp(angle_diff, -max_rotation_speed, max_rotation_speed)
 	direction = direction.rotated(angle_diff)
+
+# Проверка выхода за пределы карты и смерть
+func check_out_of_bounds():
+	if $Head.global_position.length() > map_node.radius:
+		kill_snake()
+
+func kill_snake():
+	territory_capture.clear_territory(snakeNum)
+	self.queue_free()
+	map_node.clearSnake()
+
 # при попадании головы во что-то
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
 		body.queue_free()
 		if !randi_range(0,2):
 			bodyGrow()
-		$"../..".genFood()
+		map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
-		territory_capture.clear_territory(snakeNum)
-		self.queue_free()
-		$"../..".clearSnake()
+		kill_snake()
 
 var aiTimer = 0.0
 var ai_direction = Vector2(0,0)
