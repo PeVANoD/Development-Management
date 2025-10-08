@@ -41,44 +41,23 @@ func _ready():
 var aiSpeed = false
 
 func _physics_process(delta):
+	update_camera()
+	checkInputs(delta)
+	update_position_history()
+	update_direction(delta)
+	move_head(delta)
+	keep_inside_bounds()
+	update_territory_capture()
+	checkBody()
+	
+func update_camera():
 	if (!territory_capture or !is_controlled) and !ai_control:
 		$Head/Camera2D.enabled = false
 		return
-	if is_controlled:
-		$Head/Camera2D.enabled = true
+	$Head/Camera2D.enabled = true
+	var new_zoom = lerp($Head/Camera2D.zoom.x, targetZoom, 0.1)
+	$Head/Camera2D.zoom = Vector2(new_zoom, new_zoom)
 	
-	var newZoom = lerp($Head/Camera2D.zoom.x,targetZoom,0.1)
-	$Head/Camera2D.zoom = Vector2(newZoom,newZoom)
-	
-	checkInputs(delta)
-	
-	# Оптимизация: добавляем позицию в историю только если достаточно переместились
-	if positionHistory.is_empty() or $Head.global_position.distance_to(positionHistory[0]) > 2.0:
-		positionHistory.push_front($Head.global_position)
-	
-	# Держим историю оптимального размера
-	var max_needed_history = $Body.get_child_count() * partDistance + 10
-	if positionHistory.size() > max_needed_history:
-		positionHistory.resize(max_needed_history)
-	
-	# выбор направления передвижения
-	if isRotating or ai_control:
-		if ai_control:
-			desiredDirection = get_ai_direction(delta)
-		else:
-			desiredDirection = (get_global_mouse_position() - $Head.global_position).normalized()
-	
-	countAngle()
-	$Head.position += direction * delta * speed
-	
-	var angle = lerp_angle(lastAngle, atan2(-direction.y, -direction.x), 0.2)
-	lastAngle = angle
-	$Head.rotation = angle  # используем радианы напрямую
-	
-	update_territory_capture()
-	check_out_of_bounds()
-	checkBody()
-
 func checkInputs(delta):
 	if is_controlled:
 		# Оригинальное управление игрока
@@ -99,6 +78,41 @@ func checkInputs(delta):
 			time_since_last_growth = 0.0
 	else:
 		speed = lerp(speed, startSpeed, 0.1)
+	
+func update_position_history():
+	if positionHistory.is_empty() or $Head.global_position.distance_to(positionHistory[0]) > 2.0:
+		positionHistory.push_front($Head.global_position)
+	var max_needed_history = $Body.get_child_count() * partDistance + 10
+	if positionHistory.size() > max_needed_history:
+		positionHistory.resize(max_needed_history)
+		
+func update_direction(delta):
+	if isRotating or ai_control:
+		if ai_control:
+			desiredDirection = get_ai_direction(delta)
+		else:
+			desiredDirection = (get_global_mouse_position() - $Head.global_position).normalized()
+	countAngle()
+	
+func move_head(delta):
+	$Head.position += direction * delta * speed
+	var angle = lerp_angle(lastAngle, atan2(-direction.y, -direction.x), 0.2)
+	lastAngle = angle
+	$Head.rotation = angle
+	
+func keep_inside_bounds():
+	var head_pos = $Head.global_position
+	var distance_from_center = head_pos.length()
+	var margin = 10.0
+	
+	if distance_from_center > map_node.radius - margin:
+		var normal = head_pos.normalized()
+		if direction.dot(normal) > 0:
+			var tangent = Vector2(-normal.y, normal.x)
+			if direction.dot(tangent) < 0:
+				tangent = -tangent
+			direction = direction.lerp(tangent, 0.2).normalized()
+			$Head.global_position = normal * (map_node.radius - margin)
 
 var capture_started = false
 # проверка захвата территории
@@ -153,15 +167,7 @@ func update_territory_capture():
 	
 	if head_in_own_territory:
 		goingToBase = false
-# уменьшение змейки
-func loseGrowth():
-	map_node.genFood(1,$Body.get_child(0).global_position)
-	$Body.get_child(0).queue_free()
-	maxHistoryLength -= addLength
-	length -= 1
-	changeBody()
-# увеличение размера змейки
-
+		
 func changeBody():
 	var length = ($Body.get_child_count()+20.0)/40.0
 	var scaling = max(pow(length,0.3),1.0)
@@ -170,7 +176,15 @@ func changeBody():
 	startSpeed = baseSpeed*countSpeed
 	maxSpeed = baseSpeed*1.5
 	scale = Vector2(scaling,scaling)
-	
+
+# уменьшение змейки
+func loseGrowth():
+	map_node.genFood(1,$Body.get_child(0).global_position)
+	$Body.get_child(0).queue_free()
+	maxHistoryLength -= addLength
+	length -= 1
+	changeBody()
+
 # увеличение змейки
 func bodyGrow(amount = 1):
 	for i in range(amount):
@@ -183,6 +197,7 @@ func bodyGrow(amount = 1):
 		for j in range(addLength):
 			positionHistory.push_back(positionHistory[-1] if positionHistory.size() > 0 else $Head.global_position)
 	changeBody()
+	
 # перемещение каждой части тела по следу головы
 func checkBody():
 	var parts = $Body.get_children()
@@ -205,17 +220,13 @@ func checkBody():
 				parts[i].rotation = atan2(dir.y, dir.x)
 				#if i == parts.size()-1:
 					#parts[i].rotation_degrees = 90
+					
 # перерасчет направления
 func countAngle():
 	var max_rotation_speed = 0.04
 	var angle_diff = direction.angle_to(desiredDirection)
 	angle_diff = clamp(angle_diff, -max_rotation_speed, max_rotation_speed)
 	direction = direction.rotated(angle_diff)
-
-# Проверка выхода за пределы карты и смерть
-func check_out_of_bounds():
-	if $Head.global_position.length() > map_node.radius:
-		kill_snake()
 
 func kill_snake():
 	territory_capture.clear_territory(snakeNum)
