@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://cjpuaslk4snkw"]
+[gd_scene load_steps=10 format=4 uid="uid://cjpuaslk4snkw"]
 
 [ext_resource type="Script" uid="uid://chbc5x46o2anv" path="res://project/scripts/snake.gd" id="1_66od3"]
 [ext_resource type="Texture2D" uid="uid://bag45r7s6613n" path="res://project/images/Body.png" id="2_svp7d"]
 [ext_resource type="Texture2D" uid="uid://hvqti2vmv7mi" path="res://project/images/Head.png" id="2_xgrlx"]
 [ext_resource type="AudioStream" uid="uid://cl3d486okyv3b" path="res://project/sounds/speedUpSound1.2_segment_0s0_to_0s3.mp3" id="4_svp7d"]
 [ext_resource type="AudioStream" uid="uid://cqbxb2kroj1ya" path="res://project/sounds/deathSound.mp3" id="5_8wuad"]
+[ext_resource type="AudioStream" uid="uid://dpa3cyxhfjpyh" path="res://project/sounds/territoryCaptureSound.mp3" id="6_cl06a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xgrlx"]
 radius = 14.0
@@ -45,9 +46,11 @@ zoom = Vector2(0.8, 0.8)
 visible = false
 position = Vector2(-4, 1.74846e-07)
 shape = SubResource("CircleShape2D_svp7d")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="EatSound" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamMP3_xgrlx")
+volume_db = -15.0
 bus = &"Sounds"
 
 [node name="SpeedUpSound" type="AudioStreamPlayer" parent="."]
@@ -59,5 +62,13 @@ bus = &"Sounds"
 stream = ExtResource("5_8wuad")
 volume_db = -15.0
 bus = &"Sounds"
+
+[node name="TerritoryCaptureSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_cl06a")
+volume_db = -15.0
+bus = &"Sounds"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
 
 [connection signal="body_entered" from="Head/Mouth" to="." method="_in_mouth_body_entered"]

@@ -12,6 +12,7 @@ func _ready():
 	territory_capture = TerritoryCapture.new()
 	add_child(territory_capture)
 	territory_capture.position = Vector2.ZERO
+	$Music.play()
 	
 	genFood(350)
 

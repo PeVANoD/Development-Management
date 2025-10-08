@@ -105,6 +105,7 @@ func update_territory_capture():
 		if head_in_own_territory:
 			# Завершаем захват
 			territory_capture.finish_external_capture()
+			$TerritoryCaptureSound.play()
 			was_in_territory = false
 	
 	if was_in_territory and not tail_in_own_territory:
@@ -112,6 +113,7 @@ func update_territory_capture():
 		territory_capture.is_capturing = false
 		territory_capture.finish_external_capture()
 		was_in_territory = false
+	
 
 func loseGrowth():
 	$"../..".genFood(1,$Body.get_child(0).global_position)
@@ -179,3 +181,27 @@ func _in_mouth_body_entered(body):
 		territory_capture.clear_territory($"../..".snakeArr.size()-1)
 		$"../..".clearSnake()
 		self.queue_free()
+
+func debuff_out_territory():
+	var head_pos = $Head.global_position
+	var local_head_pos = territory_capture.to_local(head_pos)
+	
+	# Проверяем, находится ли голова на территории этой змейки
+	var head_in_own_territory = territory_capture.is_point_in_territory(local_head_pos, snake_index)
+	
+	# Проверяем, находится ли хвост на территории этой змейки
+	var tail_in_own_territory = false
+	for i in range($Body.get_child_count()-1, -1, -1):
+		var tail_pos = $Body.get_child(i).global_position
+		var local_tail_pos = territory_capture.to_local(tail_pos)
+		tail_in_own_territory = territory_capture.is_point_in_territory(local_tail_pos, snake_index)
+		if tail_in_own_territory:
+			break
+	print("smt")
+	print_rich("smt2")
+	if not head_in_own_territory and not tail_in_own_territory:
+		$Timer.start()
+		if $Timer.is_stopped():
+			loseGrowth()
+			print_rich("losing grow")
+	
