@@ -20,6 +20,8 @@ var colors = [
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
 
 func _ready():
+	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
+	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
 	colorBoard()
 
 func colorBoard():
@@ -57,7 +59,7 @@ func sortTerrain():
 	for i in sorted_indices:
 		var node = container.get_node(str(i + 1))
 		if node.modulate.a > 0.9:
-			node.get_node("Count").text = str(round(float(G.tera.get_territory_area(i))/G.tera.get_total_territory_area()*1000)/10)+"%"
+			node.get_node("Count").text = str(round(float(G.tera.get_territory_area(i))/5226191*1000)/10)+"%"
 			container.move_child(node, pos)
 		pos += 1
 	
