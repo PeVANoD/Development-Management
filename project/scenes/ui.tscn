@@ -1,6 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1xxx4s3i5l46"]
+[gd_scene load_steps=7 format=3 uid="uid://b1xxx4s3i5l46"]
 
 [ext_resource type="PackedScene" uid="uid://d2m1ldvx5xuc7" path="res://project/scenes/map.tscn" id="1_a2vad"]
+[ext_resource type="Script" uid="uid://1r02dnbrfk60" path="res://project/scripts/ui_node.gd" id="2_sb116"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2vad"]
+bg_color = Color(0.00392157, 0.0235294, 0.0862745, 1)
+border_width_left = 16
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+
+[sub_resource type="Gradient" id="Gradient_a2vad"]
+offsets = PackedFloat32Array(0, 0.441696, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.876325, 0.876325, 0.876325, 0.876325, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sb116"]
+gradient = SubResource("Gradient_a2vad")
+width = 40
+height = 40
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sb116"]
+bg_color = Color(0.0583842, 0.00937853, 0.0439383, 1)
+border_width_left = 16
+border_color = Color(0, 0, 0, 0)
+border_blend = true
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -16,13 +42,917 @@ grow_vertical = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -180.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(972, 648)
 render_target_update_mode = 4
 
 [node name="Map" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("1_a2vad")]
+
+[node name="uiNode" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_sb116")
+
+[node name="Leaders" type="Control" parent="CanvasLayer/uiNode"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 930.0
+offset_right = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Terrain" type="Panel" parent="CanvasLayer/uiNode/Leaders"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a2vad")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/uiNode/Leaders/Terrain"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/Header"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 23
+text = " Terrain Leaders"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="4" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="5" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/5"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/5"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/5"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="6" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/6"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/6"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/6"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="7" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/7"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/7"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/7"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="8" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/8"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/8"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/8"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 21
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Size" type="Panel" parent="CanvasLayer/uiNode/Leaders"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sb116")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/uiNode/Leaders/Size"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/Header"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 23
+text = " Size Leaders"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="4" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="5" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/5"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/5"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/5"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="6" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/6"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/6"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/6"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="7" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/7"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/7"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/7"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="8" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/8"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -20.0
+offset_right = -50.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 22
+text = "Player 8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/8"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_sb116")
+
+[node name="Count" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/8"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1

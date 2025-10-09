@@ -39,6 +39,7 @@ texture = ExtResource("2_xgrlx")
 rotation = -1.5708
 enabled = false
 zoom = Vector2(0.8, 0.8)
+position_smoothing_enabled = true
 
 [node name="Mouth" type="Area2D" parent="Head"]
 
@@ -70,5 +71,21 @@ bus = &"Sounds"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="EatSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_fdxhw")
+volume_db = -15.0
+
+[node name="SpeedUpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_gfo8o")
+volume_db = -15.0
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_4yf5m")
+volume_db = -15.0
+
+[node name="TerritoryCaptureSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_v8h33")
+volume_db = -15.0
 
 [connection signal="body_entered" from="Head/Mouth" to="." method="_in_mouth_body_entered"]

@@ -9,6 +9,7 @@
 script = ExtResource("1_mr1h5")
 
 [node name="MapSprite" type="Sprite2D" parent="."]
+scale = Vector2(2.3, 2.3)
 texture = ExtResource("1_1myhu")
 
 [node name="Food" type="Node2D" parent="."]
