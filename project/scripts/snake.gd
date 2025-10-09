@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D 
 
 #region переменные персонажа
 @export var speed = 150.0
@@ -81,6 +81,7 @@ func checkInputs(delta):
 			time_since_last_growth = 0.0
 	else:
 		speed = lerp(speed, startSpeed, 0.1)
+		$SpeedUpSound.stop()
 	
 func update_position_history():
 	if positionHistory.is_empty() or $Head.global_position.distance_to(positionHistory[0]) > 2.0:
@@ -154,6 +155,9 @@ func update_territory_capture(delta):
 		
 		if head_in_own_territory:
 			# Завершаем захват
+			territory_capture.finish_external_capture()
+			$TerritoryCaptureSound.play()
+			was_in_territory = false
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*4)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*12)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*20)

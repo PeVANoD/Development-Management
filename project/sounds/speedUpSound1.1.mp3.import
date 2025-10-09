@@ -2,7 +2,7 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-uid="uid://b3u5tkhbxgymf"
+uid="uid://d6p7lgvolbsh"
 path="res://.godot/imported/speedUpSound1.1.mp3-0cd401330acd120e4362d7cb1ba1385e.mp3str"
 
 [deps]
@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/speedUpSound1.1.mp3-0cd401330acd120e4362d7cb1
 
 [params]
 
-loop=false
-loop_offset=0
-bpm=0
+loop=true
+loop_offset=0.03
+bpm=0.0
 beat_count=0
 bar_beats=4

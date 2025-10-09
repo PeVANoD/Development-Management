@@ -16,6 +16,7 @@ func _ready():
 	G.tera = territory_capture
 	add_child(territory_capture)
 	territory_capture.position = Vector2.ZERO
+	$Music.play()
 	
 	
 	genFood(radius)
@@ -139,6 +140,7 @@ func clearSnake():
 			ai_snakes.erase(i)  # Удаляем из AI списка
 			if snakeArr:
 				curSnake = 0
+				$DeathSound.play()
 			break
 
 func genSnake():
