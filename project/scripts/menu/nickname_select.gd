@@ -85,7 +85,8 @@ func play_transition_sound():
 	var sound = load("res://project/sounds/play_button_load_map_soundeffect.mp3")
 	if sound:
 		sound_player.stream = sound
-		sound_player.volume_db = -8.0
+		sound_player.pitch_scale = 1.3
+		sound_player.volume_db = -12.0
 		sound_player.play()
 		
 		await sound_player.finished

@@ -3,7 +3,7 @@ const FOOD = preload("res://project/scenes/food.tscn")
 const SNAKE = preload("res://project/scenes/snake.tscn")
 
 var radius = 1300
-var start_snakes_count = 8
+var start_snakes_count = 2
 @export var curSnake = null
 @export var snakeArr = []
 var territory_capture: TerritoryCapture
@@ -68,11 +68,14 @@ func check_game():
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 
 func play_win_sound():
-	for i in range(5):
+	for i in range(8):
 		var p_scale = 0.5 + i*0.1
 		$WinSound.pitch_scale = p_scale
 		$WinSound.play()
 		await get_tree().create_timer(0.3/p_scale).timeout
+	await get_tree().create_timer(0.1).timeout
+	$WinSound.pitch_scale = 0.2
+	$WinSound.play()
 
 var turnAI = true
 func _physics_process(_delta):
