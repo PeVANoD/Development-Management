@@ -12,7 +12,6 @@ var ai_snakes: Array = []  # Массив змеек с включенным AI
 func _ready():
 	Engine.time_scale = 1.0
 	G.alive = true
-	$Music.play()
 	# Создаем общую территорию
 	territory_capture = TerritoryCapture.new()
 	G.tera = territory_capture
@@ -48,19 +47,32 @@ func smooth_modulate_transition(node,target_color: Color, duration: float) -> vo
 	tween.tween_property(node, "modulate", target_color, duration).set_trans(Tween.TransitionType.TRANS_SINE).set_ease(Tween.EaseType.EASE_IN_OUT)
 @onready var change_view_node = $"../.."
 
+var game_ended = false
 func check_game():
-	if !G.alive:
-		print("Loooooose...")
-		Engine.time_scale = 0.5
-		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
-		await get_tree().create_timer(1).timeout
-		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
-	elif $Snakes.get_child_count() < 2 and start_snakes_count != 1:
-		print("WIN!!!")
-		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
-		Engine.time_scale = 1.5
-		await get_tree().create_timer(2).timeout
-		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+	if !game_ended:
+		if !G.alive:
+			game_ended = true
+			$DeathSound.play()
+			print("Loooooose...")
+			Engine.time_scale = 0.5
+			smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
+			await get_tree().create_timer(2).timeout
+			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+		elif $Snakes.get_child_count() < 2 and start_snakes_count != 1:
+			game_ended = true
+			play_win_sound()
+			print("WIN!!!")
+			smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
+			Engine.time_scale = 1.5
+			await get_tree().create_timer(5).timeout
+			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+
+func play_win_sound():
+	for i in range(5):
+		var p_scale = 0.5 + i*0.1
+		$WinSound.pitch_scale = p_scale
+		$WinSound.play()
+		await get_tree().create_timer(0.3/p_scale).timeout
 
 var turnAI = true
 func _physics_process(_delta):

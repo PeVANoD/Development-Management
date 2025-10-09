@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
-[ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
+[ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/music/Pixel Heartbeat.mp3" id="2_0gow5"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_ala84")

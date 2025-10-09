@@ -70,8 +70,8 @@ func _go_to_map():
 			#print("Никнейм сохранен: ", nickname)
 			
 			# Воспроизводим звук и ЖДЕМ его окончания
-			await play_transition_sound()
-			
+			play_transition_sound()
+			await get_tree().create_timer(0.3).timeout
 			# Только потом переходим
 			get_tree().change_scene_to_file("res://project/scenes/ui.tscn")
 		else:
