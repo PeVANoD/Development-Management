@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://c076qe6gwkye6"]
+
+[ext_resource type="Script" uid="uid://nbpqyjc2150w" path="res://project/scripts/menu/nickname_select.gd" id="1_cipxa"]
+
+[node name="NicknameSelect" type="Control"]
+layout_mode = 3
+anchor_right = 0.017
+anchor_bottom = 0.065
+offset_right = -19.584
+offset_bottom = -42.12
+script = ExtResource("1_cipxa")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 473.0
+offset_top = 172.0
+offset_right = 657.0
+offset_bottom = 225.0
+text = "Введите ваш никнейм
+"
+
+[node name="NicknameInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 227.0
+offset_right = 735.0
+offset_bottom = 258.0
+
+[node name="ContinueButton" type="Button" parent="NicknameInput"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.223
+anchor_top = -7.277
+anchor_right = -1.223
+anchor_bottom = -7.277
+offset_left = 485.144
+offset_top = 315.587
+offset_right = 624.144
+offset_bottom = 371.587
+text = "Продолжить
+"
+
+[connection signal="pressed" from="NicknameInput/ContinueButton" to="." method="_on_continue_button_pressed"]

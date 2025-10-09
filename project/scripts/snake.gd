@@ -17,7 +17,7 @@ var lastAngle = 1.0
 var lastBodyAngle = 1.0
 @onready var startSpeed = speed
 @onready var baseSpeed = speed
-@onready var maxSpeed = baseSpeed*1.5
+@onready var maxSpeed = speed*1.5
 var positionHistory = []
 var maxHistoryLength = 4
 var addLength = 6
@@ -47,7 +47,7 @@ func _physics_process(delta):
 	update_direction(delta)
 	move_head(delta)
 	keep_inside_bounds()
-	update_territory_capture()
+	update_territory_capture(delta)
 	checkBody()
 	
 func update_camera():
@@ -67,7 +67,8 @@ func checkInputs(delta):
 			isRotating = false
 		
 		if Input.is_action_just_pressed("ui_up"):
-			print("ChildCount: ",$Body.get_child_count(), " Length: ", $Head.global_position.distance_to($Body.get_child(0).global_position))
+			pass
+			#print("ChildCount: ",$Body.get_child_count(), " Length: ", $Head.global_position.distance_to($Body.get_child(0).global_position))
 		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and $Body.get_child_count() > 2 and (!ai_control or aiSpeed):
 		speed = lerp(speed, maxSpeed, 0.1)
@@ -75,6 +76,8 @@ func checkInputs(delta):
 		if time_since_last_growth >= 0.2:
 			if !randi_range(0,1):
 				loseGrowth()
+				if !$SpeedUpSound.playing and !ai_control:
+					$SpeedUpSound.play()
 			time_since_last_growth = 0.0
 	else:
 		speed = lerp(speed, startSpeed, 0.1)
@@ -116,7 +119,7 @@ func keep_inside_bounds():
 
 var capture_started = false
 # проверка захвата территории
-func update_territory_capture():
+func update_territory_capture(delta):
 	var head_pos = $Head.global_position
 	var local_head_pos = territory_capture.global_to_territory_local(head_pos)
 	
@@ -155,6 +158,8 @@ func update_territory_capture():
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*12)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*20)
 			territory_capture.finish_external_capture(snake_index)
+			if !ai_control:
+				$TerritoryCaptureSound.play()
 			capture_started = false
 			headOutPos = null
 			changeBody()
@@ -167,7 +172,10 @@ func update_territory_capture():
 	
 	if head_in_own_territory:
 		goingToBase = false
-		
+	
+	if not tail_in_own_territory and not head_in_own_territory:
+		debuff_out_territory(delta)
+	
 func changeBody():
 	var length = ($Body.get_child_count()+20.0)/40.0
 	var scaling = max(pow(length,0.3),1.0)
@@ -230,6 +238,8 @@ func countAngle():
 
 func kill_snake():
 	territory_capture.clear_territory(snakeNum)
+	if !ai_control:
+		G.alive = false
 	self.queue_free()
 	map_node.clearSnake()
 
@@ -237,6 +247,8 @@ func kill_snake():
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
 		body.queue_free()
+		if !$EatSound.playing and !ai_control:
+			$EatSound.play()
 		if !randi_range(0,2):
 			bodyGrow()
 		map_node.genFood()
@@ -287,3 +299,15 @@ func find_closest_polygon_point(position: Vector2, polygon: PackedVector2Array) 
 			closest_point = polygon[i]
 	
 	return closest_point
+
+var debuff_timer = 0.0
+func debuff_out_territory(delta):
+	if debuff_timer > 0.5:
+		debuff_timer = 0.0
+		if $Body.get_child_count() < 2:
+			if !ai_control:
+				G.alive = false
+			queue_free()
+		loseGrowth()
+		#print_rich("losing grow")
+	debuff_timer += delta

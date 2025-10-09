@@ -186,7 +186,8 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 		if not union_result.is_empty():
 			territories[snake_index] = combine_polygons(union_result)
 		else:
-			print("Объединение не удалось")
+			pass
+			#print("Объединение не удалось")
 	
 	# Вычитаем у других змеек
 	for i in range(territories.size()):

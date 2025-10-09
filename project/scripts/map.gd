@@ -9,11 +9,14 @@ var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
 func _ready():
+	G.alive = true
+	$Music.play()
 	# Создаем общую территорию
 	territory_capture = TerritoryCapture.new()
 	G.tera = territory_capture
 	add_child(territory_capture)
 	territory_capture.position = Vector2.ZERO
+	
 	
 	genFood(radius)
 	spawn_initial_snakes()
@@ -39,10 +42,29 @@ func genFood(amount = 1, pos = false):
 		createFood.scale = Vector2(scalee,scalee)
 		$Food.call_deferred("add_child", createFood)
 
+func smooth_modulate_transition(node,target_color: Color, duration: float) -> void:
+	var tween = create_tween()
+	tween.tween_property(node, "modulate", target_color, duration).set_trans(Tween.TransitionType.TRANS_SINE).set_ease(Tween.EaseType.EASE_IN_OUT)
+@onready var change_view_node = $"../.."
+
+func check_game():
+	if !G.alive:
+		print("Loooooose...")
+		Engine.time_scale = 0.5
+		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
+		await get_tree().create_timer(1).timeout
+		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+	elif $Snakes.get_child_count() < 2:
+		print("WIN!!!")
+		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
+		Engine.time_scale = 1.5
+		await get_tree().create_timer(2).timeout
+		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+
 var turnAI = true
 func _physics_process(_delta):
 	handle_input()
-	
+	check_game()
 	# Обновляем управление для всех змеек
 	for i in range(snakeArr.size()):
 		if snakeArr[i]:
@@ -67,7 +89,7 @@ func handle_input():
 			# Проверяем, не нажат ли Ctrl
 			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_ALT):
 				curSnake = i
-				print("Выбрана змейка ", i + 1)
+				#print("Выбрана змейка ", i + 1)
 	
 	for i in range(12):  # Клавиши 0-9
 		if Input.is_key_pressed(KEY_F1 + i):
@@ -91,10 +113,10 @@ func toggle_snake_ai(snake_index: int):
 	
 	if snake.ai_control:
 		snake.ai_control = false
-		print("AI выключен для змейки ", snake_index + 1)
+		#print("AI выключен для змейки ", snake_index + 1)
 	else:
 		snake.ai_control = true
-		print("AI включен для змейки ", snake_index + 1)
+		#print("AI включен для змейки ", snake_index + 1)
 		if curSnake == snake_index:
 			curSnake = null
 			for i in range(snakeArr.size()):
