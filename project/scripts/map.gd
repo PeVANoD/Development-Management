@@ -3,12 +3,14 @@ const FOOD = preload("res://project/scenes/food.tscn")
 const SNAKE = preload("res://project/scenes/snake.tscn")
 
 var radius = 1300
+var start_snakes_count = 8
 @export var curSnake = null
 @export var snakeArr = []
 var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
 func _ready():
+	Engine.time_scale = 1.0
 	G.alive = true
 	$Music.play()
 	# Создаем общую территорию
@@ -22,8 +24,7 @@ func _ready():
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
-	var snake_count = 8
-	for i in range(snake_count):
+	for i in range(start_snakes_count):
 		genSnake()
 		if i > 0:
 			toggle_snake_ai(i)
@@ -54,7 +55,7 @@ func check_game():
 		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
 		await get_tree().create_timer(1).timeout
 		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
-	elif $Snakes.get_child_count() < 2:
+	elif $Snakes.get_child_count() < 2 and start_snakes_count != 1:
 		print("WIN!!!")
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
 		Engine.time_scale = 1.5

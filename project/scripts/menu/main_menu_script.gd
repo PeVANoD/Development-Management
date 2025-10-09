@@ -53,10 +53,9 @@ func _ready():
 	#print("Меню загружено")
 
 func _find_buttons():
-	return
 	play_button = find_child("Play") as Button
 	options_button = find_child("Options") as Button
-	
+	return
 	if play_button:
 		play_button.pressed.connect(_on_play_pressed)
 	if options_button:
@@ -118,15 +117,6 @@ func _apply_language():
 		play_button.text = texts["play"]
 	if options_button:
 		options_button.text = texts["options"]
-
-func _check_all_windows_closed():
-	# Проверяем, все ли окна закрыты
-	var all_closed = !random_skin_window.visible and !daily_skins_window.visible and !quests_window.visible
-	
-	if all_closed:
-		show_windows_button.visible = true
-	else:
-		show_windows_button.visible = false
 
 # Функция для воспроизведения звука кнопок
 func play_button_sound():

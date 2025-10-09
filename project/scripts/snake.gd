@@ -1,5 +1,22 @@
 extends Node2D
-
+var colors = [
+	"#FF0000",  # Красный
+	"#00FF00",  # Зеленый
+	"#0000FF",  # Синий
+	"#FFFF00",  # Желтый
+	"#FF00FF",  # Пурпурный
+	"#00FFFF",  # Голубой
+	"#FF8000",  # Оранжевый
+	"#8000FF",  # Фиолетовый
+	"#FF0080",  # Розовый
+	"#00FF80",  # Весенний зеленый
+	"#80FF00",  # Лаймовый
+	"#0080FF",  # Ярко-синий
+	"#FF8040",  # Коралловый
+	"#40FF80",  # Мятный
+	"#8040FF",  # Лавандовый
+	"#FF4080"   # Фуксия
+]
 #region переменные персонажа
 @export var speed = 150.0
 @export var partDistance = 6
@@ -31,6 +48,7 @@ var territory_capture: TerritoryCapture
 var was_in_territory: bool = false
 
 func _ready():
+	modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
 	# инициирует размер змейки
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
@@ -246,7 +264,8 @@ func kill_snake():
 # при попадании головы во что-то
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
-		body.queue_free()
+		body.get_node("CollisionShape2D").set_deferred("disabled", true)
+		suck_food(body)
 		if !$EatSound.playing and !ai_control:
 			$EatSound.play()
 		if !randi_range(0,2):
@@ -254,6 +273,16 @@ func _in_mouth_body_entered(body):
 		map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
 		kill_snake()
+
+func suck_food(node):
+	for i in range(10):
+		if node:
+			node.global_position = lerp(node.global_position,$Head.global_position+direction*32,0.1)
+		else:
+			return
+		await get_tree().create_timer(0.02).timeout
+	if node:
+		node.queue_free()
 
 var aiTimer = 0.0
 var ai_direction = Vector2(0,0)
