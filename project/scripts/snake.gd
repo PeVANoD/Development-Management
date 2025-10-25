@@ -155,14 +155,13 @@ func update_territory_capture(delta):
 		
 		if head_in_own_territory:
 			# Завершаем захват
-			territory_capture.finish_external_capture()
-			$TerritoryCaptureSound.play()
 			was_in_territory = false
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*4)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*12)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*20)
 			territory_capture.finish_external_capture(snake_index)
 			if !ai_control:
+				$TerritoryCaptureSound.pitch_scale = randf_range(0.7,1.3)
 				$TerritoryCaptureSound.play()
 			capture_started = false
 			headOutPos = null

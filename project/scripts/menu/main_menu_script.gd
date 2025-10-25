@@ -1,168 +1,141 @@
 extends Node2D
-# Переменные для кнопок
-@onready var play_button: Button
-@onready var options_button: Button
 
-# Переменные для окон
-var random_skin_window
-var daily_skins_window
-var quests_window
-var language_window
-
-# Кнопка для открытия окон
-var show_windows_button: Button
+# Переменные для музыки и звуков
+var is_muted_music = false
+var is_muted_sound = false
+var sound_level
+var music_level
 
 # Тексты для разных языков
 var language_texts = {
 	"ru": {
 		"play": "ИГРАТЬ",
 		"options": "НАСТРОЙКИ",
+		"music": "Музыка",
+		"sounds": "Звуки",
 		"show_windows": "ПОКАЗАТЬ ОКНА",
 		"random_skin": "Случайный скин",
 		"daily_skins": "Ежедневные скины", 
 		"quests": "Квесты",
 		"language": "Язык",
 		"russian": "Русский",
-		"english": "English"
+		"english": "English",
+		"nickname": "Введите ваш никнейм"
 	},
 	"en": {
 		"play": "PLAY",
 		"options": "OPTIONS",
+		"music": "Music",
+		"sounds": "Sounds",
 		"show_windows": "SHOW WINDOWS",
 		"random_skin": "Random Skin",
 		"daily_skins": "Daily Skins",
 		"quests": "Quests",
 		"language": "Language",
 		"russian": "Русский",
-		"english": "English"
+		"english": "English",
+		"nickname": "Enter your nickname"
 	}
 }
 
 var current_language = "ru"
 
 func _ready():
-	# Находим кнопки
-	_find_buttons()
-	
-	# Создаём окно выбора языка
-	_create_language_window()
-	
 	# Применяем текущий язык
 	_apply_language()
 	
 	#print("Меню загружено")
 
-func _find_buttons():
-	return
-	play_button = find_child("Play") as Button
-	options_button = find_child("Options") as Button
-	
-	if play_button:
-		play_button.pressed.connect(_on_play_pressed)
-	if options_button:
-		options_button.pressed.connect(_on_options_pressed)
-	
-	# Добавляем окна как дети текущей сцены
-	add_child(random_skin_window)
-	add_child(daily_skins_window)
-	add_child(quests_window)
-	
-func _set_window_positions():
-	# Фиксированные позиции для окон
-	random_skin_window.position = Vector2(50, 100)
-	random_skin_window.size = Vector2i(350, 250)
-	
-	daily_skins_window.position = Vector2(450, 100)
-	daily_skins_window.size = Vector2i(350, 250)
-	
-	quests_window.position = Vector2(250, 400)
-	quests_window.size = Vector2i(400, 200)
-
-func _create_language_window():
-	# Создаём окно выбора языка
-	language_window = Window.new()
-	language_window.title = "Выбор языка / Language"
-	language_window.size = Vector2i(300, 150)
-	language_window.position = Vector2(350, 200)
-	language_window.visible = false
-	
-	# Контейнер для кнопок
-	var vbox = VBoxContainer.new()
-	vbox.size = Vector2(280, 120)
-	vbox.position = Vector2(10, 30)
-	language_window.add_child(vbox)
-	
-	# Кнопка русского языка
-	var ru_button = Button.new()
-	ru_button.text = "Русский"
-	ru_button.custom_minimum_size = Vector2(260, 40)
-	ru_button.pressed.connect(_on_russian_selected)
-	ru_button.pressed.connect(_on_any_button_pressed)  # Звук для динамической кнопки
-	vbox.add_child(ru_button)
-	
-	# Кнопка английского языка
-	var en_button = Button.new()
-	en_button.text = "English"
-	en_button.custom_minimum_size = Vector2(260, 40)
-	en_button.pressed.connect(_on_english_selected)
-	en_button.pressed.connect(_on_any_button_pressed)  # Звук для динамической кнопки
-	vbox.add_child(en_button)
-	
-	add_child(language_window)
 
 func _apply_language():
 	var texts = language_texts[current_language]
-	
 	# Обновляем тексты кнопок
-	if play_button:
-		play_button.text = texts["play"]
-	if options_button:
-		options_button.text = texts["options"]
-
-func _check_all_windows_closed():
-	# Проверяем, все ли окна закрыты
-	var all_closed = !random_skin_window.visible and !daily_skins_window.visible and !quests_window.visible
-	
-	if all_closed:
-		show_windows_button.visible = true
-	else:
-		show_windows_button.visible = false
+	$CanvasLayer/Button_menu/Play.text = texts["play"]
+	$CanvasLayer/MusicButton.text = texts["music"]
+	$CanvasLayer/SoundButton.text = texts["sounds"]
+	$CanvasLayer/Label.text = texts["nickname"]
 
 # Функция для воспроизведения звука кнопок
-func play_button_sound():
-	var sound_player = AudioStreamPlayer.new()
-	get_tree().root.add_child(sound_player)
-	
-	var sound = load("res://project/sounds/9e5204b502b116c.mp3")
-	if sound:
-		sound_player.stream = sound
-		sound_player.volume_db = -5.0
-		sound_player.play()
-		sound_player.finished.connect(sound_player.queue_free)
+func play_button_sound(): 
+	$ButtonSound.play()
+
 
 # Универсальный обработчик звука для всех кнопок
 func _on_any_button_pressed():
 	play_button_sound()
 
-func _on_play_pressed():
+
+func _on_play_pressed(): 
 	play_button_sound()  # Звук для кнопки Play
-	#print("Играть нажато")
-	get_tree().change_scene_to_file("res://project/scenes/menu/nickname_select.tscn")
+	_go_to_map()
 	
-func _on_options_pressed():
-	play_button_sound()  # Звук для кнопки Options
-	#print("Настройки нажаты")
-	# Показываем окно выбора языка
-	language_window.visible = true
+	
+func _go_to_map():
+	var nickname = $CanvasLayer/NicknameInput.text
+	if nickname.length() <= 25:
+		if nickname == "":
+			nickname = "Player"
+			
+		G.nickname = nickname
+		# Воспроизводим звук и ЖДЕМ его окончания
+		await play_transition_sound()
+		# Только потом переходим
+		get_tree().change_scene_to_file("res://project/scenes/ui.tscn")
+	else:
+		pass
 
-func _on_russian_selected():
-	play_button_sound()  # Звук для кнопки русского языка
-	current_language = "ru"
-	_apply_language()
-	language_window.visible = false
 
-func _on_english_selected():
-	play_button_sound()  # Звук для кнопки английского языка
-	current_language = "en"
+func play_transition_sound():
+	$TransitionSound.play()
+	await $TransitionSound.finished
+	$TransitionSound.queue_free()
+
+
+# Слайдер для музыки
+func _on_music_slider_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), value)
+	if value == -30:
+		is_muted_music == true
+	else:
+		is_muted_music = false
+	 
+# Кнопка для музыки
+func _on_music_button_pressed() -> void:
+	if $CanvasLayer/MusicSlider.value != -70 and is_muted_music == false:
+		music_level = $CanvasLayer/MusicSlider.value
+		$CanvasLayer/MusicSlider.value = -70
+		is_muted_music = true
+	elif $CanvasLayer/MusicSlider.value == -70 and is_muted_music == true:
+		$CanvasLayer/MusicSlider.value = music_level
+		is_muted_music = false
+	
+	
+# Слайдер для звуков
+func _on_sound_slider_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), value)
+	if value == -70:
+		is_muted_sound == true
+	else:
+		is_muted_sound = false
+
+
+# Кнопка для звуков
+func _on_sound_button_pressed() -> void:
+	if $CanvasLayer/SoundSlider.value != -70 and is_muted_sound == false:
+		sound_level = $CanvasLayer/SoundSlider.value
+		$CanvasLayer/SoundSlider.value = -70
+		is_muted_sound = true
+	elif $CanvasLayer/SoundSlider.value == -70 and is_muted_sound == true:
+		$CanvasLayer/SoundSlider.value = sound_level
+		is_muted_sound = false
+
+
+func _on_language_button_pressed() -> void:
+	play_button_sound()
+	if current_language == "ru":
+		current_language = "en"
+		$CanvasLayer/LanguageButton.text = "EN"
+	else:
+		current_language = "ru"
+		$CanvasLayer/LanguageButton.text = "RU"
 	_apply_language()
-	language_window.visible = false
