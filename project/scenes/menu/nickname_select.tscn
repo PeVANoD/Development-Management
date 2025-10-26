@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://pucho3lj8y54"]
+[gd_scene load_steps=2 format=3 uid="uid://dpcqi5n2wlgek"]
 
 [sub_resource type="GDScript" id="GDScript_2ca86"]
 script/source = "extends Control

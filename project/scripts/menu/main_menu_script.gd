@@ -6,6 +6,11 @@ var is_muted_sound = false
 var sound_level
 var music_level
 
+# Переменные для списка результатов
+#var nickname_res
+#var terrain_res
+#var size_res
+
 # Тексты для разных языков
 var language_texts = {
 	"ru": {
@@ -20,7 +25,10 @@ var language_texts = {
 		"language": "Язык",
 		"russian": "Русский",
 		"english": "English",
-		"nickname": "Введите ваш никнейм"
+		"nickname_enter": "Введите ваш никнейм",
+		"nickname_result": "Никнейм: ",
+		"terrain_result": "Территории захвачено: ",
+		"size_result": "Размер: "
 	},
 	"en": {
 		"play": "PLAY",
@@ -34,7 +42,10 @@ var language_texts = {
 		"language": "Language",
 		"russian": "Русский",
 		"english": "English",
-		"nickname": "Enter your nickname"
+		"nickname_enter": "Enter your nickname",
+		"nickname_result": "Nickname: ",
+		"terrain_result": "Terrain captured: ",
+		"size_result": "Size: "
 	}
 }
 
@@ -43,17 +54,21 @@ var current_language = "ru"
 func _ready():
 	# Применяем текущий язык
 	_apply_language()
-	
+	#prev_session_results()
 	#print("Меню загружено")
 
 
 func _apply_language():
 	var texts = language_texts[current_language]
-	# Обновляем тексты кнопок
+	# Обновляем тексты меню
 	$CanvasLayer/Button_menu/Play.text = texts["play"]
 	$CanvasLayer/MusicButton.text = texts["music"]
 	$CanvasLayer/SoundButton.text = texts["sounds"]
-	$CanvasLayer/Label.text = texts["nickname"]
+	$CanvasLayer/Label.text = texts["nickname_enter"]
+	#nickname_res = texts["nickname_result"]
+	#terrain_res = texts["terrain_result"]
+	#size_res = texts["size_result"]
+	#prev_session_results() # нужно переписать текст в заголовках
 
 # Функция для воспроизведения звука кнопок
 func play_button_sound(): 
@@ -89,6 +104,14 @@ func play_transition_sound():
 	$TransitionSound.play()
 	await $TransitionSound.finished
 	$TransitionSound.queue_free()
+
+# Результаты предыдущей сессии
+#func prev_session_results():
+	#if G.alive == false:
+		#$CanvasLayer/PassSessionBox.visible = true
+		#$CanvasLayer/PassSessionBox/NicknameLabel.text = nickname_res + G.nickname
+		#$CanvasLayer/PassSessionBox/TerrainLabel.text = terrain_res + G.terrain
+		#$CanvasLayer/PassSessionBox/SizeLabel.text = size_res + G.size
 
 
 # Слайдер для музыки
@@ -134,8 +157,10 @@ func _on_language_button_pressed() -> void:
 	play_button_sound()
 	if current_language == "ru":
 		current_language = "en"
+		G.language = "en"
 		$CanvasLayer/LanguageButton.text = "EN"
 	else:
 		current_language = "ru"
+		G.language = "ru"
 		$CanvasLayer/LanguageButton.text = "RU"
 	_apply_language()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=8 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
@@ -8,6 +8,12 @@
 [sub_resource type="LabelSettings" id="LabelSettings_4wfjr"]
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wuwks"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a73ww"]
+font_color = Color(0.0166239, 0.00598695, 0.00105087, 1)
+outline_color = Color(0.0177324, 0.0177324, 0.0177324, 1)
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_ala84")
@@ -19,9 +25,9 @@ anchors_preset = 0
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 layout_mode = 0
 offset_left = 7.0
-offset_top = 22.0
+offset_top = 29.0
 offset_right = 1159.0
-offset_bottom = 667.0
+offset_bottom = 674.0
 
 [node name="Button_menu" type="VBoxContainer" parent="CanvasLayer"]
 layout_mode = 0
@@ -36,6 +42,7 @@ text = "PLAY"
 icon_alignment = 1
 
 [node name="Label" type="Label" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 484.0
 offset_top = 213.0
 offset_right = 668.0
@@ -45,12 +52,14 @@ text = "Введите ваш никнейм
 label_settings = SubResource("LabelSettings_4wfjr")
 
 [node name="NicknameInput" type="LineEdit" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 413.0
 offset_top = 248.0
 offset_right = 741.0
 offset_bottom = 279.0
 
 [node name="MusicSlider" type="HSlider" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 80.0
 offset_top = 55.0
 offset_right = 240.0
@@ -59,6 +68,7 @@ min_value = -70.0
 max_value = 0.0
 
 [node name="MusicButton" type="Button" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 18.0
 offset_top = 48.0
 offset_right = 72.0
@@ -66,6 +76,7 @@ offset_bottom = 79.0
 text = "Music"
 
 [node name="SoundSlider" type="HSlider" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 80.0
 offset_top = 100.0
 offset_right = 240.0
@@ -74,6 +85,7 @@ min_value = -70.0
 max_value = 0.0
 
 [node name="SoundButton" type="Button" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 12.0
 offset_top = 91.0
 offset_right = 77.0
@@ -81,11 +93,38 @@ offset_bottom = 122.0
 text = "Sounds"
 
 [node name="LanguageButton" type="Button" parent="CanvasLayer"]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 135.0
 offset_right = 70.0
 offset_bottom = 170.0
 text = "RU"
+
+[node name="PassSessionBox" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+modulate = Color(0.000113828, 0.000113828, 0.000113828, 1)
+self_modulate = Color(0, 0, 0, 1)
+material = SubResource("CanvasItemMaterial_wuwks")
+layout_mode = 0
+offset_left = 430.0
+offset_top = 349.0
+offset_right = 724.0
+offset_bottom = 490.0
+
+[node name="NicknameLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
+layout_mode = 2
+text = "Nickname: "
+label_settings = SubResource("LabelSettings_a73ww")
+
+[node name="TerrainLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
+layout_mode = 2
+text = "Terrain: "
+label_settings = SubResource("LabelSettings_a73ww")
+
+[node name="SizeLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
+layout_mode = 2
+text = "Size: "
+label_settings = SubResource("LabelSettings_a73ww")
 
 [node name="MainMenuMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_0gow5")

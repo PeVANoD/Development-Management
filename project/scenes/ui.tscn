@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1xxx4s3i5l46"]
+[gd_scene load_steps=11 format=3 uid="uid://b1xxx4s3i5l46"]
 
 [ext_resource type="PackedScene" uid="uid://d2m1ldvx5xuc7" path="res://project/scenes/map.tscn" id="1_a2vad"]
 [ext_resource type="Script" uid="uid://1r02dnbrfk60" path="res://project/scripts/ui_node.gd" id="2_sb116"]
@@ -27,6 +27,27 @@ bg_color = Color(0.0583842, 0.00937853, 0.0439383, 1)
 border_width_left = 16
 border_color = Color(0, 0, 0, 0)
 border_blend = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sb116"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uyeg7"]
+font_color = Color(0.00184107, 0.00184107, 0.00184107, 1)
+outline_color = Color(0.0253638, 0.0253638, 0.0253638, 1)
+
+[sub_resource type="FontFile" id="FontFile_icniv"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_s5be5"]
+line_spacing = 6.0
+paragraph_spacing = 6.0
+font = SubResource("FontFile_icniv")
+font_color = Color(0, 0, 0, 1)
+outline_color = Color(0.935685, 0.767268, 0.754603, 1)
+shadow_color = Color(1, 1, 1, 0)
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -956,3 +977,33 @@ theme_override_font_sizes/normal_font_size = 24
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PassSessionBox" type="VBoxContainer" parent="CanvasLayer/uiNode"]
+visible = false
+modulate = Color(0.000113828, 0.000113828, 0.000113828, 1)
+self_modulate = Color(0, 0, 0, 1)
+material = SubResource("CanvasItemMaterial_sb116")
+offset_left = 405.0
+offset_top = 244.0
+offset_right = 699.0
+offset_bottom = 385.0
+
+[node name="EndResLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionBox"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_uyeg7")
+
+[node name="NicknameLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionBox"]
+layout_mode = 2
+text = "Nickname: "
+label_settings = SubResource("LabelSettings_s5be5")
+justification_flags = 162
+
+[node name="TerrainLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionBox"]
+layout_mode = 2
+text = "Terrain: "
+label_settings = SubResource("LabelSettings_s5be5")
+
+[node name="SizeLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionBox"]
+layout_mode = 2
+text = "Size: "
+label_settings = SubResource("LabelSettings_s5be5")

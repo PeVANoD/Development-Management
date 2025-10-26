@@ -1,4 +1,22 @@
 extends Control
+
+var language_texts = {
+	"ru" = {
+		"victory": "ПОБЕДА!",
+		"defeat": ":'(",
+		"nickname_result": "Никнейм: ",
+		"terrain_result": "Территории захвачено: ",
+		"size_result": "Размер: "
+	},
+	"en" = {
+		"victory": "VICTORY!",
+		"defeat": ":'(",
+		"nickname_result": "Nickname: ",
+		"terrain_result": "Terrain captured: ",
+		"size_result": "Size: "
+	}
+}
+
 var colors = [
 	"#FF0000",  # Красный
 	"#00FF00",  # Зеленый
@@ -33,6 +51,7 @@ func _process(delta):
 	setAliveSnakes()
 	sortTerrain()
 	sortSize()
+	sessionEnd()
 
 
 func setAliveSnakes():
@@ -79,3 +98,22 @@ func sortSize():
 				node.get_node("Count").text = str(snake.length)
 				container.move_child(node, pos)
 				pos += 1
+
+# Передача инфы про настоящую сессию после смерти
+func sessionEnd() -> void:
+	var text = language_texts[G.language]
+	if !G.alive:
+		await get_tree().create_timer(1).timeout
+		$PassSessionBox.visible = true
+		$PassSessionBox/EndResLabel.text = text["defeat"]
+		$PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
+		$PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
+		$PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
+	elif G.result_is_win:
+		await get_tree().create_timer(2).timeout
+		$PassSessionBox.visible = true
+		$PassSessionBox/EndResLabel.text = text["victory"]
+		$PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
+		$PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
+		$PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
+		

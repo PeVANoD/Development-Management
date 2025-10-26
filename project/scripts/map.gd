@@ -51,16 +51,20 @@ func smooth_modulate_transition(node,target_color: Color, duration: float) -> vo
 func check_game():
 	if !G.alive:
 		print("Loooooose...")
+		G.result_is_win = false
 		Engine.time_scale = 0.5
 		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
 		await get_tree().create_timer(1).timeout
-		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
+			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 	elif $Snakes.get_child_count() < 2:
 		print("WIN!!!")
+		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
 		Engine.time_scale = 1.5
 		await get_tree().create_timer(2).timeout
-		get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 
 var turnAI = true
 func _physics_process(_delta):

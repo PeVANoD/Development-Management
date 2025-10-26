@@ -243,6 +243,7 @@ func kill_snake():
 	territory_capture.clear_territory(snakeNum)
 	if !ai_control:
 		G.alive = false
+		
 	self.queue_free()
 	map_node.clearSnake()
 
