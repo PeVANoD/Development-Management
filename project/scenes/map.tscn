@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2m1ldvx5xuc7"]
 
-[ext_resource type="Texture2D" uid="uid://dy1odxbb5bse0" path="res://project/images/Map.png" id="1_1myhu"]
+[ext_resource type="Texture2D" uid="uid://but22lsgf6dxj" path="res://project/images/Map.png" id="1_1myhu"]
 [ext_resource type="Script" uid="uid://0x2rko78jspr" path="res://project/scripts/map.gd" id="1_mr1h5"]
 [ext_resource type="AudioStream" uid="uid://cqbxb2kroj1ya" path="res://project/sounds/deathSound.mp3" id="3_mr1h5"]
 [ext_resource type="AudioStream" uid="uid://b3r55aubq06te" path="res://project/music/gamePlayMusic.mp3" id="4_pt02f"]

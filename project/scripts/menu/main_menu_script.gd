@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 # Переменные для музыки и звуков
 var is_muted_music = false
@@ -117,18 +117,21 @@ func play_transition_sound():
 # Слайдер для музыки
 func _on_music_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), value)
-	if value == -30:
-		is_muted_music == true
+	if value == -40.0:
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), true)
+		is_muted_music = true
 	else:
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), false)
 		is_muted_music = false
+	print(value, is_muted_music)
 	 
 # Кнопка для музыки
 func _on_music_button_pressed() -> void:
-	if $CanvasLayer/MusicSlider.value != -70 and is_muted_music == false:
+	if $CanvasLayer/MusicSlider.value != -40.0 and is_muted_music == false:
 		music_level = $CanvasLayer/MusicSlider.value
-		$CanvasLayer/MusicSlider.value = -70
+		$CanvasLayer/MusicSlider.value = -40.0
 		is_muted_music = true
-	elif $CanvasLayer/MusicSlider.value == -70 and is_muted_music == true:
+	elif $CanvasLayer/MusicSlider.value == -40.0 and is_muted_music == true:
 		$CanvasLayer/MusicSlider.value = music_level
 		is_muted_music = false
 	
@@ -136,19 +139,21 @@ func _on_music_button_pressed() -> void:
 # Слайдер для звуков
 func _on_sound_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), value)
-	if value == -70:
-		is_muted_sound == true
+	if value == -40.0:
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds"), true)
+		is_muted_sound = true
 	else:
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds"), false)
 		is_muted_sound = false
 
 
 # Кнопка для звуков
 func _on_sound_button_pressed() -> void:
-	if $CanvasLayer/SoundSlider.value != -70 and is_muted_sound == false:
+	if $CanvasLayer/SoundSlider.value != -40.0 and is_muted_sound == false:
 		sound_level = $CanvasLayer/SoundSlider.value
-		$CanvasLayer/SoundSlider.value = -70
+		$CanvasLayer/SoundSlider.value = -40.0
 		is_muted_sound = true
-	elif $CanvasLayer/SoundSlider.value == -70 and is_muted_sound == true:
+	elif $CanvasLayer/SoundSlider.value == -40.0 and is_muted_sound == true:
 		$CanvasLayer/SoundSlider.value = sound_level
 		is_muted_sound = false
 

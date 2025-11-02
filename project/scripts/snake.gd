@@ -1,4 +1,24 @@
-extends Node2D 
+extends Node2D
+
+var colors = [
+	"#FF0000",  # Красный
+	"#00FF00",  # Зеленый
+	"#0000FF",  # Синий
+	"#FFFF00",  # Желтый
+	"#FF00FF",  # Пурпурный
+	"#00FFFF",  # Голубой
+	"#FF8000",  # Оранжевый
+	"#8000FF",  # Фиолетовый
+	"#FF0080",  # Розовый
+	"#00FF80",  # Весенний зеленый
+	"#80FF00",  # Лаймовый
+	"#0080FF",  # Ярко-синий
+	"#FF8040",  # Коралловый
+	"#40FF80",  # Мятный
+	"#8040FF",  # Лавандовый
+	"#FF4080"   # Фуксия
+]
+
 
 #region переменные персонажа
 @export var speed = 150.0
@@ -31,6 +51,7 @@ var territory_capture: TerritoryCapture
 var was_in_territory: bool = false
 
 func _ready():
+	modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
 	# инициирует размер змейки
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
@@ -81,7 +102,8 @@ func checkInputs(delta):
 			time_since_last_growth = 0.0
 	else:
 		speed = lerp(speed, startSpeed, 0.1)
-		$SpeedUpSound.stop()
+		if !ai_control:
+			$SpeedUpSound.stop()
 	
 func update_position_history():
 	if positionHistory.is_empty() or $Head.global_position.distance_to(positionHistory[0]) > 2.0:
@@ -155,7 +177,6 @@ func update_territory_capture(delta):
 		
 		if head_in_own_territory:
 			# Завершаем захват
-			was_in_territory = false
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*4)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*12)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*20)
@@ -178,6 +199,8 @@ func update_territory_capture(delta):
 	
 	if not tail_in_own_territory and not head_in_own_territory:
 		debuff_out_territory(delta)
+	else:
+		debuff_amount = 1.0
 	
 func changeBody():
 	var length = ($Body.get_child_count()+20.0)/40.0
@@ -189,17 +212,23 @@ func changeBody():
 	scale = Vector2(scaling,scaling)
 
 # уменьшение змейки
-func loseGrowth():
-	map_node.genFood(1,$Body.get_child(0).global_position)
-	$Body.get_child(0).queue_free()
-	maxHistoryLength -= addLength
-	length -= 1
-	changeBody()
+func loseGrowth(amount = 1):
+	for i in range(amount):
+		var part_count = $Body.get_child_count()
+		if part_count > 1:
+			var lose_part = $Body.get_child(part_count-1)
+			map_node.genFood(1,lose_part.global_position)
+			lose_part.queue_free()
+			maxHistoryLength -= addLength
+			length -= 1
+			changeBody()
+			await get_tree().create_timer(0.01).timeout
 
 # увеличение змейки
 func bodyGrow(amount = 1):
 	for i in range(amount):
 		var newPart = $Body.get_child(0).duplicate()
+		newPart.z_index = $Body.get_child_count() - 1
 		length += 1
 		maxHistoryLength += addLength
 		$Body.call_deferred("add_child", newPart)
@@ -243,21 +272,35 @@ func kill_snake():
 	territory_capture.clear_territory(snakeNum)
 	if !ai_control:
 		G.alive = false
-		
 	self.queue_free()
 	map_node.clearSnake()
 
 # при попадании головы во что-то
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
-		body.queue_free()
-		if !$EatSound.playing and !ai_control:
-			$EatSound.play()
+		body.get_node("CollisionShape2D").set_deferred("disabled", true)
+		suck_food(body)
 		if !randi_range(0,2):
 			bodyGrow()
 		map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
 		kill_snake()
+
+func suck_food(node):
+	if Engine.time_scale == 1.0:
+		for i in range(10):
+			if node:
+				node.global_position = lerp(node.global_position,$Head.global_position+direction*32,0.1)
+			else:
+				return
+			await get_tree().create_timer(0.02).timeout
+		if node:
+			if !ai_control:
+				$EatSound.pitch_scale = randf_range(2.0,5.0)
+				$EatSound.play()
+			node.queue_free()
+	else:
+		node.queue_free()
 
 var aiTimer = 0.0
 var ai_direction = Vector2(0,0)
@@ -305,13 +348,15 @@ func find_closest_polygon_point(position: Vector2, polygon: PackedVector2Array) 
 	return closest_point
 
 var debuff_timer = 0.0
+var debuff_amount = 1.0
+var max_debuff_amount = 2.0
 func debuff_out_territory(delta):
-	if debuff_timer > 0.5:
+	if debuff_timer > 1.0/debuff_amount:
 		debuff_timer = 0.0
-		if $Body.get_child_count() < 2:
-			if !ai_control:
-				G.alive = false
-			queue_free()
-		loseGrowth()
+		if $Body.get_child_count() < 1:
+			kill_snake()
+		debuff_amount = clamp(debuff_amount*1.05,1.0,max_debuff_amount)
+		loseGrowth(round(debuff_amount))
+		print(debuff_amount)
 		#print_rich("losing grow")
 	debuff_timer += delta
