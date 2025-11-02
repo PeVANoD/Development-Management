@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://iksv4222e2am" path="res://project/images/Food.png" id="1_rmiu4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rtc4x"]
-radius = 21.095
 
 [node name="Food" type="StaticBody2D" groups=["Food"]]
 

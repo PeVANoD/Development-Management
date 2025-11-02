@@ -1,24 +1,16 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=3 format=3 uid="uid://cqsrprnhyu8le"]
-
-[ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
-[ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/music/Pixel Heartbeat.mp3" id="2_0gow5"]
-=======
-[gd_scene load_steps=36 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=29 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
-[ext_resource type="Material" uid="uid://dpba1sbhm233x" path="res://project/resources/HighOut.tres" id="2_a73ww"]
+[ext_resource type="Material" uid="uid://dpba1sbhm233x" path="res://project/resources/HighOut.tres" id="2_xfj45"]
 [ext_resource type="AudioStream" uid="uid://c4cj6g7o2khg" path="res://project/sounds/9e5204b502b116c.mp3" id="3_5hjh5"]
-[ext_resource type="Texture2D" uid="uid://bwypxxqiv2kkm" path="res://project/images/Map1.png" id="3_a73tg"]
-[ext_resource type="Texture2D" uid="uid://dnd06m76gy1jh" path="res://project/images/Head.png" id="3_bsa18"]
-[ext_resource type="Texture2D" uid="uid://fkikubomv4dw" path="res://project/images/Map2.png" id="4_1fca8"]
+[ext_resource type="Texture2D" uid="uid://bx4605e8wnrxk" path="res://project/images/Map1.png" id="3_kmb6j"]
+[ext_resource type="Texture2D" uid="uid://c8vobcx4dncwy" path="res://project/images/Map2.png" id="4_k1ki7"]
 [ext_resource type="AudioStream" uid="uid://cerbpfjtew484" path="res://project/sounds/play_button_load_map_soundeffect.mp3" id="4_wuwks"]
-[ext_resource type="Texture2D" uid="uid://capom1s0qmk7c" path="res://project/images/Map3.png" id="5_xfj45"]
-[ext_resource type="Script" uid="uid://wwewqgik0jeg" path="res://project/scripts/code.gd" id="7_xfj45"]
-[ext_resource type="Shader" uid="uid://dnow5vqu6jbu8" path="res://project/resources/blur.gdshader" id="8_kmb6j"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_k1ki7"]
+[ext_resource type="Texture2D" uid="uid://c3o1sswgq2uhs" path="res://project/images/Map3.png" id="5_331vj"]
+[ext_resource type="Texture2D" uid="uid://ekud1ofvt4b3" path="res://project/images/Head.png" id="6_1flf6"]
+[ext_resource type="Script" uid="uid://k0o1qqu14adf" path="res://project/scripts/code.gd" id="7_1dtmg"]
+[ext_resource type="Shader" uid="uid://dnow5vqu6jbu8" path="res://project/resources/blur.gdshader" id="8_3iiqw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4wfjr"]
 outline_size = 5
@@ -29,9 +21,8 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_a73ww"]
 font_color = Color(0.0166239, 0.00598695, 0.00105087, 1)
 outline_color = Color(0.0177324, 0.0177324, 0.0177324, 1)
->>>>>>> Stashed changes
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ewg5"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uh2sl"]
 bg_color = Color(0.313726, 0.313726, 0.313726, 0.392157)
 border_width_left = 16
 border_width_top = 4
@@ -44,60 +35,7 @@ corner_radius_top_right = 64
 corner_radius_bottom_right = 64
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_331vj"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_color = Color(0, 0, 0, 0)
-border_blend = true
-corner_radius_top_left = 64
-corner_radius_top_right = 64
-corner_radius_bottom_right = 64
-corner_radius_bottom_left = 64
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_a73tg"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_a73tg")
-}],
-"loop": true,
-"name": &"0",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_1fca8")
-}],
-"loop": true,
-"name": &"1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_xfj45")
-}],
-"loop": true,
-"name": &"2",
-"speed": 5.0
-}]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fca8"]
-bg_color = Color(0, 0, 0, 0.392157)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 16
-border_width_bottom = 16
-border_color = Color(1, 1, 1, 1)
-border_blend = true
-corner_radius_top_left = 64
-corner_radius_top_right = 64
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 64
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1flf6"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fxh08"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 16
 border_width_top = 16
@@ -114,21 +52,74 @@ corner_radius_bottom_left = 64
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_bsa18")
+"texture": ExtResource("3_kmb6j")
 }],
-"loop": true,
+"loop": false,
 "name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_k1ki7")
+}],
+"loop": false,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_331vj")
+}],
+"loop": false,
+"name": &"2",
 "speed": 5.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_331vj"]
-shader = ExtResource("8_kmb6j")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qkcdb"]
+bg_color = Color(0, 0, 0, 0.392157)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 64
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rtcj"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h2y7y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_1flf6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bb3"]
+shader = ExtResource("8_3iiqw")
 shader_parameter/blur_intensity = 3.0
 shader_parameter/samples = 8
 shader_parameter/quality = 1.0
 shader_parameter/direction = Vector2(1, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfj45"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6eiil"]
 bg_color = Color(1, 1, 1, 0.588235)
 border_width_left = 8
 border_width_top = 8
@@ -141,7 +132,7 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmb6j"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vbtaj"]
 bg_color = Color(1, 1, 1, 0.196078)
 border_width_left = 16
 border_width_top = 16
@@ -154,20 +145,7 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1ki7"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_color = Color(0, 0, 0, 0)
-border_blend = true
-corner_radius_top_left = 118
-corner_radius_top_right = 118
-corner_radius_bottom_right = 118
-corner_radius_bottom_left = 118
-
-[sub_resource type="Shader" id="Shader_xfj45"]
+[sub_resource type="Shader" id="Shader_6hlqe"]
 code = "shader_type canvas_item;
 
 // Outline shader variables
@@ -291,8 +269,8 @@ void fragment() {
     COLOR = final_color * modulate_color;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kmb6j"]
-shader = SubResource("Shader_xfj45")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4jd7g"]
+shader = SubResource("Shader_6hlqe")
 shader_parameter/outline_color = Color(1, 1, 1, 0.784314)
 shader_parameter/outline_width = 0.0
 shader_parameter/pattern = 2
@@ -303,9 +281,22 @@ shader_parameter/size_effect = 1.0
 shader_parameter/highlight_speed = -0.6
 shader_parameter/highlight_strength = 0.6
 shader_parameter/frequency = 0.6
-shader_parameter/angle = 0.0
+shader_parameter/angle = 60.0
 
-[sub_resource type="Shader" id="Shader_k1ki7"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eh6en"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+corner_radius_top_left = 128
+corner_radius_top_right = 128
+corner_radius_bottom_right = 128
+corner_radius_bottom_left = 128
+
+[sub_resource type="Shader" id="Shader_vvvvi"]
 code = "shader_type canvas_item;
 
 // Outline shader variables
@@ -429,422 +420,8 @@ void fragment() {
     COLOR = final_color * modulate_color;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1flf6"]
-shader = SubResource("Shader_k1ki7")
-shader_parameter/outline_color = Color(1, 1, 1, 0.784314)
-shader_parameter/outline_width = 0.0
-shader_parameter/pattern = 2
-shader_parameter/inside = true
-shader_parameter/add_margins = true
-shader_parameter/highlight_color = Color(1, 1, 1, 0.392157)
-shader_parameter/size_effect = 1.0
-shader_parameter/highlight_speed = -0.6
-shader_parameter/highlight_strength = 0.6
-shader_parameter/frequency = 0.75
-shader_parameter/angle = 120.0
-
-[sub_resource type="Shader" id="Shader_1dtmg"]
-code = "shader_type canvas_item;
-
-// Outline shader variables
-uniform vec4 outline_color : source_color = vec4(1.0);
-uniform float outline_width : hint_range(0, 10) = 0;
-uniform int pattern : hint_range(0, 2) = 0; // diamond, circle, square
-uniform bool inside = true;
-uniform bool add_margins = true; // only useful when inside is false
-
-// Highlight shader variables
-uniform vec4 highlight_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform float size_effect : hint_range(0.0, 1.0) = 0.1;
-uniform float highlight_speed : hint_range(-5.0, 5.0) = 1.0;
-uniform float highlight_strength : hint_range(0.0, 4.0) = 0.5;
-uniform float frequency : hint_range(0.1, 10.0) = 1.0; // Controls how often highlights appear
-uniform float angle : hint_range(0.0, 360.0) = 0.0; // Angle in degrees for the highlight direction
-
-void vertex() {
-    if (add_margins) {
-        VERTEX += (UV * 2.0 - 1.0) * outline_width;
-    }
-}
-
-bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, sampler2D texture) {
-    for (float i = -ceil(outline_width); i <= ceil(outline_width); i++) {
-        float x = abs(i) > outline_width ? outline_width * sign(i) : i;
-        float offset;
-
-        if (pattern == 0) {
-            offset = outline_width - abs(x);
-        } else if (pattern == 1) {
-            offset = floor(sqrt(pow(outline_width + 0.5, 2) - x * x));
-        } else if (pattern == 2) {
-            offset = outline_width;
-        }
-
-        for (float j = -ceil(offset); j <= ceil(offset); j++) {
-            float y = abs(j) > offset ? offset * sign(j) : j;
-            vec2 xy = uv + texture_pixel_size * vec2(x, y);
-
-            if ((xy != clamp(xy, vec2(0.0), vec2(1.0)) || texture(texture, xy).a <= 0.0) == inside) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-void fragment() {
-    vec2 uv = UV;
-    vec4 original_color = texture(TEXTURE, uv);
-    
-    // Сохраняем исходный modulate цвет
-    vec4 modulate_color = COLOR;
-    
-    if (add_margins) {
-        vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(outline_width * 2.0));
-        uv = (uv - texture_pixel_size * outline_width) * TEXTURE_PIXEL_SIZE / texture_pixel_size;
-
-        if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
-            COLOR.a = 0.0;
-        } else {
-            original_color = texture(TEXTURE, uv);
-        }
-    }
-
-    // Применяем outline эффект
-    vec4 final_color = original_color;
-    
-    // Проверяем, нужно ли применять outline
-    bool should_apply_outline = false;
-    
-    if (inside) {
-        // Для внутреннего outline: применяем если текущий пиксель непрозрачный И есть прозрачные соседи
-        if (original_color.a > 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
-            should_apply_outline = true;
-        }
-    } else {
-        // Для внешнего outline: применяем если текущий пиксель прозрачный И есть непрозрачные соседи
-        if (original_color.a <= 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
-            should_apply_outline = true;
-        }
-    }
-    
-    if (should_apply_outline) {
-        if (inside) {
-            final_color.rgb = mix(original_color.rgb, outline_color.rgb, outline_color.a);
-            final_color.a = original_color.a; // Сохраняем оригинальную альфу для внутреннего outline
-        } else {
-            final_color.rgb = outline_color.rgb;
-            final_color.a = outline_color.a;
-        }
-    }
-
-    // Применяем highlight эффект
-    float time = TIME * highlight_speed;
-    float current_time = fract(-time * frequency);
-    current_time = mix(0.0 - size_effect, 1.0 + size_effect, current_time);
-
-    // Convert angle to radians and calculate direction vector
-    float angle_rad = radians(angle);
-    vec2 direction = vec2(cos(angle_rad), sin(angle_rad));
-
-    // Calculate position value along the direction vector
-    float position_value = dot(uv - vec2(0.5), direction) + 0.5;
-
-    float effect_lower_bound = current_time - size_effect;
-    float effect_upper_bound = current_time + size_effect;
-
-    float effect_distance = smoothstep(effect_lower_bound, current_time, position_value) -
-                          smoothstep(current_time, effect_upper_bound, position_value);
-
-    // Apply highlight effect
-    if (final_color.a > 0.0) {
-        vec3 highlight = highlight_color.rgb * highlight_color.a;
-        final_color.rgb = mix(final_color.rgb, highlight, effect_distance * highlight_strength);
-    }
-
-    // В конце применяем modulate цвет ко всему результату
-    COLOR = final_color * modulate_color;
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3iiqw"]
-shader = SubResource("Shader_1dtmg")
-shader_parameter/outline_color = Color(1, 1, 1, 0.784314)
-shader_parameter/outline_width = 0.0
-shader_parameter/pattern = 2
-shader_parameter/inside = true
-shader_parameter/add_margins = true
-shader_parameter/highlight_color = Color(1, 1, 1, 0.392157)
-shader_parameter/size_effect = 1.0
-shader_parameter/highlight_speed = -0.6
-shader_parameter/highlight_strength = 0.6
-shader_parameter/frequency = 0.68
-shader_parameter/angle = 30.0
-
-[sub_resource type="Shader" id="Shader_uh2sl"]
-code = "shader_type canvas_item;
-
-// Outline shader variables
-uniform vec4 outline_color : source_color = vec4(1.0);
-uniform float outline_width : hint_range(0, 10) = 0;
-uniform int pattern : hint_range(0, 2) = 0; // diamond, circle, square
-uniform bool inside = true;
-uniform bool add_margins = true; // only useful when inside is false
-
-// Highlight shader variables
-uniform vec4 highlight_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform float size_effect : hint_range(0.0, 1.0) = 0.1;
-uniform float highlight_speed : hint_range(-5.0, 5.0) = 1.0;
-uniform float highlight_strength : hint_range(0.0, 4.0) = 0.5;
-uniform float frequency : hint_range(0.1, 10.0) = 1.0; // Controls how often highlights appear
-uniform float angle : hint_range(0.0, 360.0) = 0.0; // Angle in degrees for the highlight direction
-
-void vertex() {
-    if (add_margins) {
-        VERTEX += (UV * 2.0 - 1.0) * outline_width;
-    }
-}
-
-bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, sampler2D texture) {
-    for (float i = -ceil(outline_width); i <= ceil(outline_width); i++) {
-        float x = abs(i) > outline_width ? outline_width * sign(i) : i;
-        float offset;
-
-        if (pattern == 0) {
-            offset = outline_width - abs(x);
-        } else if (pattern == 1) {
-            offset = floor(sqrt(pow(outline_width + 0.5, 2) - x * x));
-        } else if (pattern == 2) {
-            offset = outline_width;
-        }
-
-        for (float j = -ceil(offset); j <= ceil(offset); j++) {
-            float y = abs(j) > offset ? offset * sign(j) : j;
-            vec2 xy = uv + texture_pixel_size * vec2(x, y);
-
-            if ((xy != clamp(xy, vec2(0.0), vec2(1.0)) || texture(texture, xy).a <= 0.0) == inside) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-void fragment() {
-    vec2 uv = UV;
-    vec4 original_color = texture(TEXTURE, uv);
-    
-    // Сохраняем исходный modulate цвет
-    vec4 modulate_color = COLOR;
-    
-    if (add_margins) {
-        vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(outline_width * 2.0));
-        uv = (uv - texture_pixel_size * outline_width) * TEXTURE_PIXEL_SIZE / texture_pixel_size;
-
-        if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
-            COLOR.a = 0.0;
-        } else {
-            original_color = texture(TEXTURE, uv);
-        }
-    }
-
-    // Применяем outline эффект
-    vec4 final_color = original_color;
-    
-    // Проверяем, нужно ли применять outline
-    bool should_apply_outline = false;
-    
-    if (inside) {
-        // Для внутреннего outline: применяем если текущий пиксель непрозрачный И есть прозрачные соседи
-        if (original_color.a > 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
-            should_apply_outline = true;
-        }
-    } else {
-        // Для внешнего outline: применяем если текущий пиксель прозрачный И есть непрозрачные соседи
-        if (original_color.a <= 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
-            should_apply_outline = true;
-        }
-    }
-    
-    if (should_apply_outline) {
-        if (inside) {
-            final_color.rgb = mix(original_color.rgb, outline_color.rgb, outline_color.a);
-            final_color.a = original_color.a; // Сохраняем оригинальную альфу для внутреннего outline
-        } else {
-            final_color.rgb = outline_color.rgb;
-            final_color.a = outline_color.a;
-        }
-    }
-
-    // Применяем highlight эффект
-    float time = TIME * highlight_speed;
-    float current_time = fract(-time * frequency);
-    current_time = mix(0.0 - size_effect, 1.0 + size_effect, current_time);
-
-    // Convert angle to radians and calculate direction vector
-    float angle_rad = radians(angle);
-    vec2 direction = vec2(cos(angle_rad), sin(angle_rad));
-
-    // Calculate position value along the direction vector
-    float position_value = dot(uv - vec2(0.5), direction) + 0.5;
-
-    float effect_lower_bound = current_time - size_effect;
-    float effect_upper_bound = current_time + size_effect;
-
-    float effect_distance = smoothstep(effect_lower_bound, current_time, position_value) -
-                          smoothstep(current_time, effect_upper_bound, position_value);
-
-    // Apply highlight effect
-    if (final_color.a > 0.0) {
-        vec3 highlight = highlight_color.rgb * highlight_color.a;
-        final_color.rgb = mix(final_color.rgb, highlight, effect_distance * highlight_strength);
-    }
-
-    // В конце применяем modulate цвет ко всему результату
-    COLOR = final_color * modulate_color;
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fxh08"]
-shader = SubResource("Shader_uh2sl")
-shader_parameter/outline_color = Color(1, 1, 1, 0.784314)
-shader_parameter/outline_width = 0.0
-shader_parameter/pattern = 2
-shader_parameter/inside = true
-shader_parameter/add_margins = true
-shader_parameter/highlight_color = Color(1, 1, 1, 0.392157)
-shader_parameter/size_effect = 1.0
-shader_parameter/highlight_speed = -0.6
-shader_parameter/highlight_strength = 0.6
-shader_parameter/frequency = 0.9
-shader_parameter/angle = 240.0
-
-[sub_resource type="Shader" id="Shader_banw6"]
-code = "shader_type canvas_item;
-
-// Outline shader variables
-uniform vec4 outline_color : source_color = vec4(1.0);
-uniform float outline_width : hint_range(0, 10) = 0;
-uniform int pattern : hint_range(0, 2) = 0; // diamond, circle, square
-uniform bool inside = true;
-uniform bool add_margins = true; // only useful when inside is false
-
-// Highlight shader variables
-uniform vec4 highlight_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform float size_effect : hint_range(0.0, 1.0) = 0.1;
-uniform float highlight_speed : hint_range(-5.0, 5.0) = 1.0;
-uniform float highlight_strength : hint_range(0.0, 4.0) = 0.5;
-uniform float frequency : hint_range(0.1, 10.0) = 1.0; // Controls how often highlights appear
-uniform float angle : hint_range(0.0, 360.0) = 0.0; // Angle in degrees for the highlight direction
-
-void vertex() {
-    if (add_margins) {
-        VERTEX += (UV * 2.0 - 1.0) * outline_width;
-    }
-}
-
-bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, sampler2D texture) {
-    for (float i = -ceil(outline_width); i <= ceil(outline_width); i++) {
-        float x = abs(i) > outline_width ? outline_width * sign(i) : i;
-        float offset;
-
-        if (pattern == 0) {
-            offset = outline_width - abs(x);
-        } else if (pattern == 1) {
-            offset = floor(sqrt(pow(outline_width + 0.5, 2) - x * x));
-        } else if (pattern == 2) {
-            offset = outline_width;
-        }
-
-        for (float j = -ceil(offset); j <= ceil(offset); j++) {
-            float y = abs(j) > offset ? offset * sign(j) : j;
-            vec2 xy = uv + texture_pixel_size * vec2(x, y);
-
-            if ((xy != clamp(xy, vec2(0.0), vec2(1.0)) || texture(texture, xy).a <= 0.0) == inside) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-void fragment() {
-    vec2 uv = UV;
-    vec4 original_color = texture(TEXTURE, uv);
-    
-    // Сохраняем исходный modulate цвет
-    vec4 modulate_color = COLOR;
-    
-    if (add_margins) {
-        vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(outline_width * 2.0));
-        uv = (uv - texture_pixel_size * outline_width) * TEXTURE_PIXEL_SIZE / texture_pixel_size;
-
-        if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
-            COLOR.a = 0.0;
-        } else {
-            original_color = texture(TEXTURE, uv);
-        }
-    }
-
-    // Применяем outline эффект
-    vec4 final_color = original_color;
-    
-    // Проверяем, нужно ли применять outline
-    bool should_apply_outline = false;
-    
-    if (inside) {
-        // Для внутреннего outline: применяем если текущий пиксель непрозрачный И есть прозрачные соседи
-        if (original_color.a > 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
-            should_apply_outline = true;
-        }
-    } else {
-        // Для внешнего outline: применяем если текущий пиксель прозрачный И есть непрозрачные соседи
-        if (original_color.a <= 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
-            should_apply_outline = true;
-        }
-    }
-    
-    if (should_apply_outline) {
-        if (inside) {
-            final_color.rgb = mix(original_color.rgb, outline_color.rgb, outline_color.a);
-            final_color.a = original_color.a; // Сохраняем оригинальную альфу для внутреннего outline
-        } else {
-            final_color.rgb = outline_color.rgb;
-            final_color.a = outline_color.a;
-        }
-    }
-
-    // Применяем highlight эффект
-    float time = TIME * highlight_speed;
-    float current_time = fract(-time * frequency);
-    current_time = mix(0.0 - size_effect, 1.0 + size_effect, current_time);
-
-    // Convert angle to radians and calculate direction vector
-    float angle_rad = radians(angle);
-    vec2 direction = vec2(cos(angle_rad), sin(angle_rad));
-
-    // Calculate position value along the direction vector
-    float position_value = dot(uv - vec2(0.5), direction) + 0.5;
-
-    float effect_lower_bound = current_time - size_effect;
-    float effect_upper_bound = current_time + size_effect;
-
-    float effect_distance = smoothstep(effect_lower_bound, current_time, position_value) -
-                          smoothstep(current_time, effect_upper_bound, position_value);
-
-    // Apply highlight effect
-    if (final_color.a > 0.0) {
-        vec3 highlight = highlight_color.rgb * highlight_color.a;
-        final_color.rgb = mix(final_color.rgb, highlight, effect_distance * highlight_strength);
-    }
-
-    // В конце применяем modulate цвет ко всему результату
-    COLOR = final_color * modulate_color;
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qkcdb"]
-shader = SubResource("Shader_banw6")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4f5le"]
+shader = SubResource("Shader_vvvvi")
 shader_parameter/outline_color = Color(1, 1, 1, 0.784314)
 shader_parameter/outline_width = 0.0
 shader_parameter/pattern = 2
@@ -855,33 +432,33 @@ shader_parameter/size_effect = 1.0
 shader_parameter/highlight_speed = -0.6
 shader_parameter/highlight_strength = 0.6
 shader_parameter/frequency = 0.8
-shader_parameter/angle = 60.0
+shader_parameter/angle = 120.0
 
-[node name="MainMenu" type="Node2D"]
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ala84")
 
 [node name="CanvasLayer" type="Control" parent="."]
-material = SubResource("ShaderMaterial_k1ki7")
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 648.0
-mouse_filter = 1
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-<<<<<<< Updated upstream
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 645.0
-=======
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
->>>>>>> Stashed changes
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.332881, 0.332881, 0.332881, 1)
 
 [node name="Button_menu" type="VBoxContainer" parent="CanvasLayer"]
 layout_mode = 0
@@ -895,9 +472,6 @@ layout_mode = 2
 text = "PLAY"
 icon_alignment = 1
 
-<<<<<<< Updated upstream
-[node name="Options" type="Button" parent="CanvasLayer/Button_menu"]
-=======
 [node name="Label" type="Label" parent="CanvasLayer"]
 layout_mode = 0
 offset_left = 484.0
@@ -921,8 +495,9 @@ offset_left = 80.0
 offset_top = 55.0
 offset_right = 240.0
 offset_bottom = 71.0
-min_value = -30.0
-max_value = 10.0
+min_value = -40.0
+max_value = 20.0
+value = -10.0
 
 [node name="MusicButton" type="Button" parent="CanvasLayer"]
 layout_mode = 0
@@ -938,8 +513,9 @@ offset_left = 80.0
 offset_top = 100.0
 offset_right = 240.0
 offset_bottom = 116.0
-min_value = -30.0
-max_value = 10.0
+min_value = -40.0
+max_value = 20.0
+value = -10.0
 
 [node name="SoundButton" type="Button" parent="CanvasLayer"]
 layout_mode = 0
@@ -969,13 +545,10 @@ offset_right = 724.0
 offset_bottom = 490.0
 
 [node name="NicknameLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
->>>>>>> Stashed changes
 layout_mode = 2
-text = "Options"
+text = "Nickname: "
+label_settings = SubResource("LabelSettings_a73ww")
 
-<<<<<<< Updated upstream
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-=======
 [node name="TerrainLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
 layout_mode = 2
 text = "Terrain: "
@@ -1004,7 +577,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_0ewg5")
+theme_override_styles/panel = SubResource("StyleBoxFlat_uh2sl")
 
 [node name="Slot" type="Control" parent="CanvasLayer/Map"]
 layout_mode = 1
@@ -1023,12 +596,12 @@ offset_top = -70.0
 offset_right = 70.0
 offset_bottom = 70.0
 pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_331vj")
+theme_override_styles/panel = SubResource("StyleBoxFlat_fxh08")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="CanvasLayer/Map/Slot"]
-material = ExtResource("2_a73ww")
+material = ExtResource("2_xfj45")
 scale = Vector2(4, 4)
-sprite_frames = SubResource("SpriteFrames_a73tg")
+sprite_frames = SubResource("SpriteFrames_xfj45")
 animation = &"0"
 
 [node name="Button" type="Button" parent="CanvasLayer/Map"]
@@ -1039,7 +612,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-mouse_filter = 1
 flat = true
 
 [node name="Skin" type="Control" parent="CanvasLayer"]
@@ -1063,7 +635,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1fca8")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qkcdb")
 
 [node name="Slot" type="Control" parent="CanvasLayer/Skin"]
 layout_mode = 1
@@ -1082,16 +654,15 @@ offset_top = -70.0
 offset_right = 70.0
 offset_bottom = 70.0
 pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_1flf6")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6rtcj")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot"]
-modulate = Color(0.35426, 0.830555, 0.26817, 1)
-material = ExtResource("2_a73ww")
+modulate = Color(0.376471, 1, 0.435294, 1)
+material = ExtResource("2_xfj45")
 position = Vector2(0, -1)
 rotation = 1.5708
 scale = Vector2(3.7, 3.7)
-sprite_frames = SubResource("SpriteFrames_xfj45")
-animation = &"0"
+sprite_frames = SubResource("SpriteFrames_h2y7y")
 
 [node name="Button" type="Button" parent="CanvasLayer/Skin"]
 layout_mode = 1
@@ -1101,7 +672,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-mouse_filter = 1
 flat = true
 
 [node name="Choose" type="Control" parent="CanvasLayer"]
@@ -1112,11 +682,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("7_xfj45")
+script = ExtResource("7_1dtmg")
 
 [node name="BLUR" type="ColorRect" parent="CanvasLayer/Choose"]
 modulate = Color(1, 1, 1, 0)
-material = SubResource("ShaderMaterial_331vj")
+material = SubResource("ShaderMaterial_f8bb3")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1131,8 +701,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 8.0
-offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
@@ -1152,7 +720,6 @@ offset_right = 500.0
 offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(500, 524)
 
 [node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow"]
@@ -1162,7 +729,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xfj45")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6eiil")
 
 [node name="Border" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/Panel"]
 layout_mode = 1
@@ -1175,26 +742,17 @@ offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_kmb6j")
+theme_override_styles/panel = SubResource("StyleBoxFlat_vbtaj")
 
 [node name="MAP" type="ScrollContainer" parent="CanvasLayer/Choose/ChooseWindow"]
 visible = false
 custom_minimum_size = Vector2(900, 300)
-layout_direction = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = -150.0
-offset_right = 450.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 950.0
+offset_bottom = 350.0
 horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
 
 [node name="H" type="HBoxContainer" parent="CanvasLayer/Choose/ChooseWindow/MAP"]
 custom_minimum_size = Vector2(900, 300)
@@ -1203,83 +761,157 @@ size_flags_horizontal = 4
 alignment = 1
 
 [node name="1" type="Control" parent="CanvasLayer/Choose/ChooseWindow/MAP/H"]
-custom_minimum_size = Vector2(260, 300)
+custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
-size_flags_horizontal = 4
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/1"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 270.0
-pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_k1ki7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/1"]
-material = SubResource("ShaderMaterial_kmb6j")
-position = Vector2(130, 150)
-scale = Vector2(7, 7)
-texture = ExtResource("3_a73tg")
-
-[node name="2" type="Control" parent="CanvasLayer/Choose/ChooseWindow/MAP/H"]
-custom_minimum_size = Vector2(260, 300)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/2"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 270.0
-pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_k1ki7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/2"]
-material = SubResource("ShaderMaterial_1flf6")
-position = Vector2(130, 150)
-scale = Vector2(7, 7)
-texture = ExtResource("4_1fca8")
-
-[node name="3" type="Control" parent="CanvasLayer/Choose/ChooseWindow/MAP/H"]
-custom_minimum_size = Vector2(260, 300)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/3"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 270.0
-pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_k1ki7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/3"]
-material = SubResource("ShaderMaterial_3iiqw")
-position = Vector2(130, 150)
-scale = Vector2(7, 7)
-texture = ExtResource("5_xfj45")
-
-[node name="SKIN" type="ScrollContainer" parent="CanvasLayer/Choose/ChooseWindow"]
-visible = false
-custom_minimum_size = Vector2(900, 300)
-layout_direction = 2
+[node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/1"]
+material = SubResource("ShaderMaterial_4jd7g")
+custom_minimum_size = Vector2(240, 240)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = -150.0
-offset_right = 450.0
-offset_bottom = 150.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(120, 150)
+texture = ExtResource("3_kmb6j")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/1/Sprite"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.042
+anchor_top = 0.067
+anchor_right = 1.042
+anchor_bottom = 0.933
+offset_left = 0.0800009
+offset_top = -0.1
+offset_right = -0.0800171
+offset_bottom = 0.100006
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(130, 130)
+theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
+
+[node name="2" type="Control" parent="CanvasLayer/Choose/ChooseWindow/MAP/H"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+
+[node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/2"]
+material = ExtResource("2_xfj45")
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(120, 153)
+texture = ExtResource("4_k1ki7")
+stretch_mode = 5
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/2/Sprite"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.042
+anchor_top = 0.067
+anchor_right = 1.042
+anchor_bottom = 0.933
+offset_left = 0.0800009
+offset_top = -0.1
+offset_right = -0.0800171
+offset_bottom = 0.100006
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(130, 130)
+theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 15.3
+offset_right = 12.0
+offset_bottom = 15.3
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
+
+[node name="3" type="Control" parent="CanvasLayer/Choose/ChooseWindow/MAP/H"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+
+[node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/3"]
+material = SubResource("ShaderMaterial_4f5le")
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(120, 153)
+texture = ExtResource("5_331vj")
+stretch_mode = 5
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/3/Sprite"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.042
+anchor_top = 0.067
+anchor_right = 1.042
+anchor_bottom = 0.933
+offset_left = 0.0800009
+offset_top = -0.1
+offset_right = -0.0800171
+offset_bottom = 0.100006
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(130, 133)
+theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/MAP/H/3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 15.3
+offset_right = 12.0
+offset_bottom = 15.3
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
+
+[node name="SKIN" type="ScrollContainer" parent="CanvasLayer/Choose/ChooseWindow"]
+custom_minimum_size = Vector2(900, 300)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 950.0
+offset_bottom = 350.0
 horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
 
 [node name="H" type="HBoxContainer" parent="CanvasLayer/Choose/ChooseWindow/SKIN"]
 custom_minimum_size = Vector2(900, 300)
@@ -1288,81 +920,163 @@ size_flags_horizontal = 4
 alignment = 1
 
 [node name="1" type="Control" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H"]
-custom_minimum_size = Vector2(260, 300)
+custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
-size_flags_horizontal = 4
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 270.0
-pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_k1ki7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
-modulate = Color(0.537786, 1, 0.506004, 1)
-material = SubResource("ShaderMaterial_fxh08")
-position = Vector2(130, 144)
+[node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
+modulate = Color(0.375506, 0.999999, 0.436684, 1)
+material = SubResource("ShaderMaterial_4jd7g")
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 rotation = 1.5708
-scale = Vector2(6.5, 6.5)
-texture = ExtResource("3_bsa18")
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(120, 150)
+texture = ExtResource("6_1flf6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.042
+anchor_top = 0.067
+anchor_right = 1.042
+anchor_bottom = 0.933
+offset_left = 1.6094
+offset_top = -5.1
+offset_right = 11.4494
+offset_bottom = 5.10001
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(130, 130)
+theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
 
 [node name="2" type="Control" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H"]
-custom_minimum_size = Vector2(260, 300)
+custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
-size_flags_horizontal = 4
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 270.0
-pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_k1ki7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
-modulate = Color(1, 0.387955, 0.319725, 1)
-material = SubResource("ShaderMaterial_qkcdb")
-position = Vector2(130, 144)
+[node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
+modulate = Color(1, 0.586436, 0.63507, 1)
+material = ExtResource("2_xfj45")
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 rotation = 1.5708
-scale = Vector2(6.5, 6.5)
-texture = ExtResource("3_bsa18")
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(120, 153)
+texture = ExtResource("6_1flf6")
+stretch_mode = 5
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.042
+anchor_top = 0.067
+anchor_right = 1.042
+anchor_bottom = 0.933
+offset_left = 1.6094
+offset_top = -5.1
+offset_right = 11.4494
+offset_bottom = 5.10001
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(130, 130)
+theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
 
 [node name="3" type="Control" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H"]
-custom_minimum_size = Vector2(260, 300)
+custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
-size_flags_horizontal = 4
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 270.0
-pivot_offset = Vector2(130, 130)
-theme_override_styles/panel = SubResource("StyleBoxFlat_k1ki7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
-modulate = Color(0.339605, 0.542632, 1, 1)
-material = ExtResource("2_a73ww")
-position = Vector2(130, 144)
+[node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
+modulate = Color(0.433909, 0.838059, 1, 1)
+material = SubResource("ShaderMaterial_4f5le")
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 rotation = 1.5708
-scale = Vector2(6.5, 6.5)
-texture = ExtResource("3_bsa18")
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(120, 153)
+texture = ExtResource("6_1flf6")
+stretch_mode = 5
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.042
+anchor_top = 0.067
+anchor_right = 1.042
+anchor_bottom = 0.933
+offset_left = 1.6094
+offset_top = -5.1
+offset_right = 11.4494
+offset_bottom = 5.10001
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(130, 130)
+theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
 
 [node name="MainMenuMusic" type="AudioStreamPlayer2D" parent="."]
->>>>>>> Stashed changes
 stream = ExtResource("2_0gow5")
-volume_db = -10.0
 autoplay = true
+bus = &"Music"
+
+[node name="ButtonSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_5hjh5")
+volume_db = -5.0
+bus = &"Sounds"
+
+[node name="TransitionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_wuwks")
+volume_db = -8.0
+bus = &"Sounds"
 
 [connection signal="pressed" from="CanvasLayer/Button_menu/Play" to="." method="_on_play_pressed"]
-<<<<<<< Updated upstream
-[connection signal="pressed" from="CanvasLayer/Button_menu/Options" to="." method="_on_options_pressed"]
-=======
 [connection signal="value_changed" from="CanvasLayer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="pressed" from="CanvasLayer/MusicButton" to="." method="_on_music_button_pressed"]
 [connection signal="value_changed" from="CanvasLayer/SoundSlider" to="." method="_on_sound_slider_value_changed"]
@@ -1371,4 +1085,9 @@ autoplay = true
 [connection signal="pressed" from="CanvasLayer/Map/Button" to="CanvasLayer/Choose" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Skin/Button" to="CanvasLayer/Choose" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choose/Button" to="CanvasLayer/Choose" method="_on_button_pressed"]
->>>>>>> Stashed changes
+[connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/MAP/H/1/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/MAP/H/2/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/MAP/H/3/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]

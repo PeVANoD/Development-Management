@@ -1,21 +1,12 @@
 [gd_scene load_steps=10 format=3 uid="uid://cjpuaslk4snkw"]
 
 [ext_resource type="Script" uid="uid://chbc5x46o2anv" path="res://project/scripts/snake.gd" id="1_66od3"]
-<<<<<<< Updated upstream
-[ext_resource type="Texture2D" uid="uid://bag45r7s6613n" path="res://project/images/Body.png" id="2_svp7d"]
-[ext_resource type="Texture2D" uid="uid://hvqti2vmv7mi" path="res://project/images/Head.png" id="2_xgrlx"]
-[ext_resource type="AudioStream" uid="uid://0xonaixk8voh" path="res://project/sounds/eatSound.mp3" id="4_fdxhw"]
-[ext_resource type="AudioStream" uid="uid://b8f7s4pu4g18p" path="res://project/sounds/speedUpSound1.2_segment_0s0_to_0s3.mp3" id="5_gfo8o"]
-[ext_resource type="AudioStream" uid="uid://dibnogvacilh8" path="res://project/sounds/deathSound.mp3" id="6_4yf5m"]
-[ext_resource type="AudioStream" uid="uid://dmv2k8r2wnid2" path="res://project/sounds/territoryCaptureSound.mp3" id="7_v8h33"]
-=======
-[ext_resource type="Texture2D" uid="uid://b7kec4dfe5cb4" path="res://project/images/Body.png" id="2_svp7d"]
-[ext_resource type="Texture2D" uid="uid://dnd06m76gy1jh" path="res://project/images/Head.png" id="2_xgrlx"]
+[ext_resource type="Texture2D" uid="uid://duitlwhqq3j3n" path="res://project/images/Body.png" id="2_svp7d"]
+[ext_resource type="Texture2D" uid="uid://ekud1ofvt4b3" path="res://project/images/Head.png" id="2_xgrlx"]
 [ext_resource type="AudioStream" uid="uid://dayr3ei4dcl7p" path="res://project/sounds/eatSound.mp3" id="4_fdxhw"]
 [ext_resource type="AudioStream" uid="uid://cl3d486okyv3b" path="res://project/sounds/speedUpSound1.2_segment_0s0_to_0s3.mp3" id="5_gfo8o"]
 [ext_resource type="AudioStream" uid="uid://cqbxb2kroj1ya" path="res://project/sounds/deathSound.mp3" id="6_4yf5m"]
 [ext_resource type="AudioStream" uid="uid://dpa3cyxhfjpyh" path="res://project/sounds/territoryCaptureSound.mp3" id="7_v8h33"]
->>>>>>> Stashed changes
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xgrlx"]
 radius = 14.0
@@ -60,19 +51,23 @@ shape = SubResource("CircleShape2D_svp7d")
 stream = ExtResource("4_fdxhw")
 volume_db = -20.0
 pitch_scale = 3.0
+bus = &"Sounds"
 
 [node name="SpeedUpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_gfo8o")
 volume_db = -15.0
+bus = &"Sounds"
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_4yf5m")
 volume_db = -20.0
 pitch_scale = 0.6
+bus = &"Sounds"
 
 [node name="TerritoryCaptureSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_v8h33")
 volume_db = -15.0
 pitch_scale = 1.2
+bus = &"Sounds"
 
 [connection signal="body_entered" from="Head/Mouth" to="." method="_in_mouth_body_entered"]

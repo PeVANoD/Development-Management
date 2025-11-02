@@ -53,10 +53,10 @@ bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, sampler2D texture) {
 void fragment() {
     vec2 uv = UV;
     vec4 original_color = texture(TEXTURE, uv);
-    
+
     // Сохраняем исходный modulate цвет
     vec4 modulate_color = COLOR;
-    
+
     if (add_margins) {
         vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(outline_width * 2.0));
         uv = (uv - texture_pixel_size * outline_width) * TEXTURE_PIXEL_SIZE / texture_pixel_size;
@@ -70,10 +70,10 @@ void fragment() {
 
     // Применяем outline эффект
     vec4 final_color = original_color;
-    
+
     // Проверяем, нужно ли применять outline
     bool should_apply_outline = false;
-    
+
     if (inside) {
         // Для внутреннего outline: применяем если текущий пиксель непрозрачный И есть прозрачные соседи
         if (original_color.a > 0.0 && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
@@ -85,7 +85,7 @@ void fragment() {
             should_apply_outline = true;
         }
     }
-    
+
     if (should_apply_outline) {
         if (inside) {
             final_color.rgb = mix(original_color.rgb, outline_color.rgb, outline_color.a);

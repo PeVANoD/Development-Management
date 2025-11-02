@@ -13,9 +13,12 @@ func _on_button_pressed():
 	if choose_skin.get_node("Button").is_pressed():
 		makeChoice(0)
 	if $Button.is_pressed() and opened:
-		$Button.set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
-		opened = false
-		moveBLUR(0)
+		close_choose()
+
+func close_choose():
+	$Button.set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
+	opened = false
+	moveBLUR(0)
 
 var tweenChoice: Tween
 func makeChoice(where = 0, end = 0):
@@ -49,3 +52,24 @@ func moveBLUR(how = 0):
 		$Button.set_mouse_filter(Control.MOUSE_FILTER_STOP)
 		opened = true
 		tweenBLUR.tween_property($BLUR, "modulate:a", 1.0, 0.3)
+
+var colors = [
+	"60ff6f",
+	"ff96a2",
+	"6fd6ff"
+]
+
+func _on_choose_pressed():
+	close_choose()
+	if $"ChooseWindow/MAP/H/1/Button".is_pressed():
+		$"../Map/Slot/Sprite".animation = "0"
+	if $"ChooseWindow/MAP/H/2/Button".is_pressed():
+		$"../Map/Slot/Sprite".animation = "1"
+	if $"ChooseWindow/MAP/H/3/Button".is_pressed():
+		$"../Map/Slot/Sprite".animation = "2"
+	if $"ChooseWindow/SKIN/H/1/Button".is_pressed():
+		$"../Skin/Slot/Sprite".modulate = colors[0]
+	if $"ChooseWindow/SKIN/H/2/Button".is_pressed():
+		$"../Skin/Slot/Sprite".modulate = colors[1]
+	if $"ChooseWindow/SKIN/H/3/Button".is_pressed():
+		$"../Skin/Slot/Sprite".modulate = colors[2]
