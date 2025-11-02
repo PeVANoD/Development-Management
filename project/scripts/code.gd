@@ -8,7 +8,6 @@ func _ready():
 	$ChooseWindow.scale = Vector2(0.0,0.0)
 
 func _on_button_pressed():
-	print("PRESSED")
 	if choose_map.get_node("Button").is_pressed():
 		makeChoice(1)
 	if choose_skin.get_node("Button").is_pressed():
@@ -69,11 +68,8 @@ func _on_choose_pressed():
 	if $"ChooseWindow/MAP/H/3/Button".is_pressed():
 		$"../Map/Slot/Sprite".animation = "2"
 	if $"ChooseWindow/SKIN/H/1/Button".is_pressed():
-		print("0")
 		$"../Skin/Slot/Sprite".modulate = colors[0]
 	if $"ChooseWindow/SKIN/H/2/Button".is_pressed():
-		print("1")
 		$"../Skin/Slot/Sprite".modulate = colors[1]
 	if $"ChooseWindow/SKIN/H/3/Button".is_pressed():
-		print("2")
 		$"../Skin/Slot/Sprite".modulate = colors[2]
