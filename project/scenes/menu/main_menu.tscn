@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=31 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
@@ -434,6 +434,15 @@ shader_parameter/highlight_strength = 0.6
 shader_parameter/frequency = 0.8
 shader_parameter/angle = 120.0
 
+[sub_resource type="Gradient" id="Gradient_xfj45"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0.494152, 0.20153, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kmb6j"]
+gradient = SubResource("Gradient_xfj45")
+width = 289
+height = 27
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -456,6 +465,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.332881, 0.332881, 0.332881, 1)
@@ -481,6 +494,7 @@ offset_bottom = 266.0
 text = "Введите ваш никнейм
 "
 label_settings = SubResource("LabelSettings_4wfjr")
+horizontal_alignment = 1
 
 [node name="NicknameInput" type="LineEdit" parent="CanvasLayer"]
 layout_mode = 0
@@ -491,39 +505,41 @@ offset_bottom = 279.0
 
 [node name="MusicSlider" type="HSlider" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 55.0
-offset_right = 240.0
-offset_bottom = 71.0
+offset_left = 90.0
+offset_top = 57.0
+offset_right = 250.0
+offset_bottom = 73.0
 min_value = -40.0
 max_value = 20.0
 value = -10.0
 
 [node name="MusicButton" type="Button" parent="CanvasLayer"]
+custom_minimum_size = Vector2(72, 31)
 layout_mode = 0
-offset_left = 18.0
+offset_left = 12.0
 offset_top = 48.0
-offset_right = 72.0
+offset_right = 77.0
 offset_bottom = 79.0
-text = "Music"
+text = "Музыка"
 
 [node name="SoundSlider" type="HSlider" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 100.0
-offset_right = 240.0
-offset_bottom = 116.0
+offset_left = 90.0
+offset_top = 102.0
+offset_right = 250.0
+offset_bottom = 118.0
 min_value = -40.0
 max_value = 20.0
 value = -10.0
 
 [node name="SoundButton" type="Button" parent="CanvasLayer"]
+custom_minimum_size = Vector2(72, 31)
 layout_mode = 0
 offset_left = 12.0
 offset_top = 91.0
-offset_right = 77.0
+offset_right = 84.0
 offset_bottom = 122.0
-text = "Sounds"
+text = "Звуки"
 
 [node name="LanguageButton" type="Button" parent="CanvasLayer"]
 layout_mode = 0
@@ -675,6 +691,7 @@ focus_mode = 0
 flat = true
 
 [node name="Choose" type="Control" parent="CanvasLayer"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1060,6 +1077,49 @@ grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 flat = true
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="ExpBar" type="TextureProgressBar" parent="CanvasLayer"]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 40.0
+offset_right = 723.0
+offset_bottom = 67.0
+max_value = 1000.0
+texture_progress = SubResource("GradientTexture2D_kmb6j")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 291.0
+offset_bottom = 28.0
+
+[node name="MinValue" type="Label" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 32.0
+offset_right = 41.0
+offset_bottom = 55.0
+
+[node name="MaxValue" type="Label" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_left = 249.0
+offset_top = 32.0
+offset_right = 289.0
+offset_bottom = 55.0
+
+[node name="LevelValue" type="Label" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_left = 109.0
+offset_top = -27.0
+offset_right = 149.0
+offset_bottom = -4.0
+horizontal_alignment = 1
 
 [node name="MainMenuMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_0gow5")

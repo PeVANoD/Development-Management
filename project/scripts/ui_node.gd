@@ -6,14 +6,18 @@ var language_texts = {
 		"defeat": ":'(",
 		"nickname_result": "Никнейм: ",
 		"terrain_result": "Территории захвачено: ",
-		"size_result": "Размер: "
+		"size_result": "Размер: ",
+		"kills_result": "Убито: ",
+		"exp_result": "Опыта получено: "
 	},
 	"en" = {
 		"victory": "VICTORY!",
 		"defeat": ":'(",
 		"nickname_result": "Nickname: ",
 		"terrain_result": "Terrain captured: ",
-		"size_result": "Size: "
+		"size_result": "Size: ",
+		"kills_result": "Kills: ",
+		"exp_result": "Exp gained: "
 	}
 }
 
@@ -36,10 +40,12 @@ var colors = [
 	"#FF4080"   # Фуксия
 ]
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
+var exp: int = 0
 
 func _ready():
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
+	$PassSessionPanel.visible = false
 	colorBoard()
 
 func colorBoard():
@@ -52,6 +58,7 @@ func _process(delta):
 	sortTerrain()
 	sortSize()
 	sessionEnd()
+	#print(exp, G.exp)
 
 
 func setAliveSnakes():
@@ -99,21 +106,25 @@ func sortSize():
 				container.move_child(node, pos)
 				pos += 1
 
-# Передача инфы про настоящую сессию после смерти
+# Передача инфы про настоящую сессию после смерти/победы
 func sessionEnd() -> void:
 	var text = language_texts[G.language]
-	if !G.alive:
+	if !G.alive and !$PassSessionPanel.visible:
 		await get_tree().create_timer(1).timeout
-		$PassSessionBox.visible = true
-		$PassSessionBox/EndResLabel.text = text["defeat"]
-		$PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
-		$PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
-		$PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
-	elif G.result_is_win:
+		sessionEndText(text, "defeat")
+	elif G.result_is_win and !$PassSessionPanel.visible:
 		await get_tree().create_timer(2).timeout
-		$PassSessionBox.visible = true
-		$PassSessionBox/EndResLabel.text = text["victory"]
-		$PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
-		$PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
-		$PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
+		exp += 100
+		sessionEndText(text, "victory")
 		
+		
+func sessionEndText(text, match_res):
+	exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text)/10 + int($"Leaders/Size/VBoxContainer/1/Count".text)/10 + (G.kills*100)
+	$PassSessionPanel.visible = true
+	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
+	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
+	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
+	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
+	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
+	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(exp)
+	G.exp = exp # происходит аномалия, сюда складываются очень большие числа как-то

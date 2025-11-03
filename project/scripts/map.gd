@@ -50,7 +50,7 @@ func smooth_modulate_transition(node,target_color: Color, duration: float) -> vo
 
 func check_game():
 	if !G.alive:
-		print("Loooooose...")
+		#print("Loooooose...")
 		G.result_is_win = false
 		Engine.time_scale = 0.5
 		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)

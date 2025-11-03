@@ -28,6 +28,7 @@ var colors = [
 @onready var map_node = $"../.."
 @export var length = 0
 @export var snakeNum = 0
+@export var kills = 0
 var targetZoom = 0.8
 var isRotating
 var direction = Vector2(0,-1)
@@ -272,6 +273,7 @@ func kill_snake():
 	territory_capture.clear_territory(snakeNum)
 	if !ai_control:
 		G.alive = false
+		G.kills = kills
 	self.queue_free()
 	map_node.clearSnake()
 
@@ -284,6 +286,7 @@ func _in_mouth_body_entered(body):
 			bodyGrow()
 		map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
+		body.get_node("../../..").kills += 1
 		kill_snake()
 
 func suck_food(node):
@@ -301,6 +304,7 @@ func suck_food(node):
 			node.queue_free()
 	else:
 		node.queue_free()
+
 
 var aiTimer = 0.0
 var ai_direction = Vector2(0,0)
@@ -357,6 +361,6 @@ func debuff_out_territory(delta):
 			kill_snake()
 		debuff_amount = clamp(debuff_amount*1.05,1.0,max_debuff_amount)
 		loseGrowth(round(debuff_amount))
-		print(debuff_amount)
+		#print(debuff_amount)
 		#print_rich("losing grow")
 	debuff_timer += delta

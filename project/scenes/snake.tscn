@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://dpa3cyxhfjpyh" path="res://project/sounds/territoryCaptureSound.mp3" id="7_v8h33"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xgrlx"]
-radius = 14.0
+radius = 13.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_svp7d"]
 radius = 16.0
@@ -31,6 +31,7 @@ shape = SubResource("CircleShape2D_xgrlx")
 
 [node name="Head" type="Sprite2D" parent="."]
 z_index = 4096
+position = Vector2(-52, 1)
 rotation = 1.5708
 texture = ExtResource("2_xgrlx")
 

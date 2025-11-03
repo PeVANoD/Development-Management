@@ -11,6 +11,10 @@ var music_level
 #var terrain_res
 #var size_res
 
+var max_exp_value : int = 1000
+var min_exp_value : int = 0
+var level : int = 1
+
 # Тексты для разных языков
 var language_texts = {
 	"ru": {
@@ -28,7 +32,8 @@ var language_texts = {
 		"nickname_enter": "Введите ваш никнейм",
 		"nickname_result": "Никнейм: ",
 		"terrain_result": "Территории захвачено: ",
-		"size_result": "Размер: "
+		"size_result": "Размер: ",
+		"player_level": "Уровень: "
 	},
 	"en": {
 		"play": "PLAY",
@@ -45,7 +50,8 @@ var language_texts = {
 		"nickname_enter": "Enter your nickname",
 		"nickname_result": "Nickname: ",
 		"terrain_result": "Terrain captured: ",
-		"size_result": "Size: "
+		"size_result": "Size: ",
+		"player_level": "Level: "
 	}
 }
 
@@ -54,6 +60,8 @@ var current_language = "ru"
 func _ready():
 	# Применяем текущий язык
 	_apply_language()
+	$CanvasLayer/ExpBar/MinValue.text = str(G.exp)
+	set_exp_value(G.exp)
 	#prev_session_results()
 	#print("Меню загружено")
 
@@ -65,6 +73,7 @@ func _apply_language():
 	$CanvasLayer/MusicButton.text = texts["music"]
 	$CanvasLayer/SoundButton.text = texts["sounds"]
 	$CanvasLayer/Label.text = texts["nickname_enter"]
+	$CanvasLayer/ExpBar/LevelValue.text = texts["player_level"] + str(level)
 	#nickname_res = texts["nickname_result"]
 	#terrain_res = texts["terrain_result"]
 	#size_res = texts["size_result"]
@@ -123,7 +132,7 @@ func _on_music_slider_value_changed(value: float) -> void:
 	else:
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), false)
 		is_muted_music = false
-	print(value, is_muted_music)
+	#print(value, is_muted_music)
 	 
 # Кнопка для музыки
 func _on_music_button_pressed() -> void:
@@ -169,3 +178,21 @@ func _on_language_button_pressed() -> void:
 		G.language = "ru"
 		$CanvasLayer/LanguageButton.text = "RU"
 	_apply_language()
+	
+
+# Шкала опыта
+func set_exp_value(new_value):
+	var temp_value : int = 0
+	if $CanvasLayer/ExpBar.value + new_value > max_exp_value:
+		temp_value = new_value - max_exp_value
+	$CanvasLayer/ExpBar.value += new_value
+	if $CanvasLayer/ExpBar.value >= max_exp_value:
+		level += 1
+		$CanvasLayer/ExpBar.min_value = max_exp_value
+		min_exp_value = max_exp_value
+		max_exp_value *= 5
+		$CanvasLayer/ExpBar.max_value = max_exp_value
+		$CanvasLayer/ExpBar.value += temp_value
+	$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
+	$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
+	$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
