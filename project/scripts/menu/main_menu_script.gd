@@ -11,7 +11,7 @@ var music_level
 #var terrain_res
 #var size_res
 
-var max_exp_value : int = 1000
+var max_exp_value : int = 100
 var min_exp_value : int = 0
 var level : int = 1
 

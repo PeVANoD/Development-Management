@@ -1089,7 +1089,6 @@ offset_left = 434.0
 offset_top = 40.0
 offset_right = 723.0
 offset_bottom = 67.0
-max_value = 1000.0
 texture_progress = SubResource("GradientTexture2D_kmb6j")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/ExpBar"]

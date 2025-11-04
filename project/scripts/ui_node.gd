@@ -41,6 +41,7 @@ var colors = [
 ]
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
 var exp: int = 0
+var session_finished = false
 
 func _ready():
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
@@ -58,7 +59,6 @@ func _process(delta):
 	sortTerrain()
 	sortSize()
 	sessionEnd()
-	#print(exp, G.exp)
 
 
 func setAliveSnakes():
@@ -108,18 +108,22 @@ func sortSize():
 
 # Передача инфы про настоящую сессию после смерти/победы
 func sessionEnd() -> void:
+	if session_finished:
+		return
 	var text = language_texts[G.language]
 	if !G.alive and !$PassSessionPanel.visible:
+		session_finished = true
 		await get_tree().create_timer(1).timeout
 		sessionEndText(text, "defeat")
 	elif G.result_is_win and !$PassSessionPanel.visible:
+		session_finished = true
 		await get_tree().create_timer(2).timeout
 		exp += 100
 		sessionEndText(text, "victory")
 		
 		
 func sessionEndText(text, match_res):
-	exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text)/10 + int($"Leaders/Size/VBoxContainer/1/Count".text)/10 + (G.kills*100)
+	exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text) + int($"Leaders/Size/VBoxContainer/1/Count".text) + (G.kills*100)
 	$PassSessionPanel.visible = true
 	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
 	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
@@ -127,4 +131,4 @@ func sessionEndText(text, match_res):
 	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
 	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(exp)
-	G.exp = exp # происходит аномалия, сюда складываются очень большие числа как-то
+	G.exp += exp 
