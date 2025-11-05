@@ -11,4 +11,6 @@ var alive = true
 var result_is_win = false
 var language = "ru"
 
+var chosen_skin = "1"
+
 var exp: int = 0

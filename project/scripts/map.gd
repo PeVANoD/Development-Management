@@ -25,9 +25,8 @@ func _ready():
 func spawn_initial_snakes():
 	var snake_count = 8
 	for i in range(snake_count):
-		genSnake()
-		if i > 0:
-			toggle_snake_ai(i)
+		genSnake(i)
+
 
 func genFood(amount = 1, pos = false):
 	for i in range(amount):
@@ -56,6 +55,7 @@ func check_game():
 		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
 		await get_tree().create_timer(1).timeout
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
+			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 	elif $Snakes.get_child_count() < 2:
 		print("WIN!!!")
@@ -64,6 +64,7 @@ func check_game():
 		Engine.time_scale = 1.5
 		await get_tree().create_timer(2).timeout
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 
 var turnAI = true
@@ -78,9 +79,9 @@ func _physics_process(_delta):
 
 func handle_input():
 	# Создание новой змейки
-	if Input.is_action_just_pressed("Space"):
-		#genSnake()
-		pass
+	if Input.is_action_just_pressed("Esc"):
+		if G.alive:
+			$Snakes.get_child(0).kill_snake()
 	
 	# Информация о территории
 	if Input.is_action_just_pressed("Enter"):
@@ -147,8 +148,11 @@ func clearSnake():
 				$DeathSound.play()
 			break
 
-func genSnake():
+func genSnake(i = 0):
 	var newSnake = SNAKE.instantiate()
+	if i > 0:
+		newSnake.ai_control = true
+		toggle_snake_ai(i)
 	newSnake.territory_capture = territory_capture
 	newSnake.snake_index = snakeArr.size()
 	

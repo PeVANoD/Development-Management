@@ -19,6 +19,7 @@ var colors = [
 	"#FF4080"   # Фуксия
 ]
 
+var skins = ["1","2","3"]
 
 #region переменные персонажа
 @export var speed = 150.0
@@ -51,16 +52,21 @@ var territory_capture: TerritoryCapture
 @export var snake_index: int = 0  # Индекс этой змейки
 var was_in_territory: bool = false
 
+@export var ai_control = false
+var aiSpeed = false
 func _ready():
-	modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
+	if !ai_control:
+		$Head.animation = G.chosen_skin
+		$Body/part1.animation = G.chosen_skin
+	else:
+		modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
 	# инициирует размер змейки
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
 	bodyGrow(30)
 	await get_tree().create_timer(0.1).timeout
 	changeBody()
-@export var ai_control = false
-var aiSpeed = false
+
 
 func _physics_process(delta):
 	update_camera()

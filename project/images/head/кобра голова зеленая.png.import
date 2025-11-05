@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ekud1ofvt4b3"
-path="res://.godot/imported/Head.png-52f2aa28a0004db096501e84236e572a.ctex"
+uid="uid://bfqa6hmgwypyr"
+path="res://.godot/imported/кобра голова зеленая.png-ae1f3847cc6516e37b2d2d0e3d717f0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://project/images/Head.png"
-dest_files=["res://.godot/imported/Head.png-52f2aa28a0004db096501e84236e572a.ctex"]
+source_file="res://project/images/head/кобра голова зеленая.png"
+dest_files=["res://.godot/imported/кобра голова зеленая.png-ae1f3847cc6516e37b2d2d0e3d717f0c.ctex"]
 
 [params]
 

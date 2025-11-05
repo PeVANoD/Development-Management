@@ -6,6 +6,7 @@ extends Node
 func _ready():
 	$BLUR.modulate.a = 0.0
 	$ChooseWindow.scale = Vector2(0.0,0.0)
+	$"../Skin/Slot/Head".animation = G.chosen_skin
 
 func _on_button_pressed():
 	if choose_map.get_node("Button").is_pressed():
@@ -68,8 +69,11 @@ func _on_choose_pressed():
 	if $"ChooseWindow/MAP/H/3/Button".is_pressed():
 		$"../Map/Slot/Sprite".animation = "2"
 	if $"ChooseWindow/SKIN/H/1/Button".is_pressed():
-		$"../Skin/Slot/Sprite".modulate = colors[0]
+		$"../Skin/Slot/Head".animation = "1"
+		G.chosen_skin = "1"
 	if $"ChooseWindow/SKIN/H/2/Button".is_pressed():
-		$"../Skin/Slot/Sprite".modulate = colors[1]
+		$"../Skin/Slot/Head".animation = "2"
+		G.chosen_skin = "2"
 	if $"ChooseWindow/SKIN/H/3/Button".is_pressed():
-		$"../Skin/Slot/Sprite".modulate = colors[2]
+		$"../Skin/Slot/Head".animation = "3"
+		G.chosen_skin = "3"

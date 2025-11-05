@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=34 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
@@ -8,9 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://c8vobcx4dncwy" path="res://project/images/Map2.png" id="4_k1ki7"]
 [ext_resource type="AudioStream" uid="uid://cerbpfjtew484" path="res://project/sounds/play_button_load_map_soundeffect.mp3" id="4_wuwks"]
 [ext_resource type="Texture2D" uid="uid://c3o1sswgq2uhs" path="res://project/images/Map3.png" id="5_331vj"]
-[ext_resource type="Texture2D" uid="uid://ekud1ofvt4b3" path="res://project/images/Head.png" id="6_1flf6"]
+[ext_resource type="Texture2D" uid="uid://ekud1ofvt4b3" path="res://project/images/head/Head.png" id="6_1flf6"]
 [ext_resource type="Script" uid="uid://k0o1qqu14adf" path="res://project/scripts/code.gd" id="7_1dtmg"]
+[ext_resource type="Texture2D" uid="uid://bhjy5m8vcklou" path="res://project/images/head/head 1.png" id="7_331vj"]
+[ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_1flf6"]
 [ext_resource type="Shader" uid="uid://dnow5vqu6jbu8" path="res://project/resources/blur.gdshader" id="8_3iiqw"]
+[ext_resource type="Texture2D" uid="uid://r8h4xe52i0pr" path="res://project/images/head/head 3.png" id="9_1dtmg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4wfjr"]
 outline_size = 5
@@ -101,14 +104,38 @@ corner_radius_top_right = 64
 corner_radius_bottom_right = 64
 corner_radius_bottom_left = 64
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_h2y7y"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_3iiqw"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("6_1flf6")
 }],
 "loop": true,
-"name": &"default",
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_331vj")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_1flf6")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_1dtmg")
+}],
+"loop": true,
+"name": &"3",
 "speed": 5.0
 }]
 
@@ -284,7 +311,7 @@ shader_parameter/frequency = 0.6
 shader_parameter/angle = 60.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eh6en"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0, 0, 0, 0.392157)
 border_width_left = 16
 border_width_top = 16
 border_width_right = 16
@@ -672,13 +699,13 @@ offset_bottom = 70.0
 pivot_offset = Vector2(130, 130)
 theme_override_styles/panel = SubResource("StyleBoxFlat_6rtcj")
 
-[node name="Sprite" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot"]
-modulate = Color(0.376471, 1, 0.435294, 1)
-material = ExtResource("2_xfj45")
-position = Vector2(0, -1)
+[node name="Head" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot"]
+z_index = 4096
+position = Vector2(0, -3)
 rotation = 1.5708
 scale = Vector2(3.7, 3.7)
-sprite_frames = SubResource("SpriteFrames_h2y7y")
+sprite_frames = SubResource("SpriteFrames_3iiqw")
+animation = &"1"
 
 [node name="Button" type="Button" parent="CanvasLayer/Skin"]
 layout_mode = 1
@@ -691,7 +718,6 @@ focus_mode = 0
 flat = true
 
 [node name="Choose" type="Control" parent="CanvasLayer"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -737,6 +763,7 @@ offset_right = 500.0
 offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(500, 524)
 
 [node name="Panel" type="Panel" parent="CanvasLayer/Choose/ChooseWindow"]
@@ -941,7 +968,6 @@ custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 
 [node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
-modulate = Color(0.375506, 0.999999, 0.436684, 1)
 material = SubResource("ShaderMaterial_4jd7g")
 custom_minimum_size = Vector2(240, 240)
 layout_mode = 1
@@ -953,7 +979,6 @@ grow_vertical = 2
 rotation = 1.5708
 scale = Vector2(0.85, 0.85)
 pivot_offset = Vector2(120, 150)
-texture = ExtResource("6_1flf6")
 expand_mode = 1
 stretch_mode = 5
 
@@ -974,6 +999,13 @@ grow_vertical = 2
 pivot_offset = Vector2(130, 130)
 theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
 
+[node name="Head" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite"]
+z_index = 4096
+position = Vector2(123.529, 151.176)
+scale = Vector2(6.5, 6.5)
+sprite_frames = SubResource("SpriteFrames_3iiqw")
+animation = &"1"
+
 [node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
 layout_mode = 1
 anchors_preset = 15
@@ -989,7 +1021,6 @@ custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 
 [node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
-modulate = Color(1, 0.586436, 0.63507, 1)
 material = ExtResource("2_xfj45")
 custom_minimum_size = Vector2(240, 240)
 layout_mode = 1
@@ -1001,7 +1032,6 @@ grow_vertical = 2
 rotation = 1.5708
 scale = Vector2(0.85, 0.85)
 pivot_offset = Vector2(120, 153)
-texture = ExtResource("6_1flf6")
 stretch_mode = 5
 
 [node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite"]
@@ -1021,6 +1051,13 @@ grow_vertical = 2
 pivot_offset = Vector2(130, 130)
 theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
 
+[node name="Head" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite"]
+z_index = 4096
+position = Vector2(123.529, 151.177)
+scale = Vector2(6.5, 6.5)
+sprite_frames = SubResource("SpriteFrames_3iiqw")
+animation = &"2"
+
 [node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
 layout_mode = 1
 anchors_preset = 15
@@ -1036,7 +1073,6 @@ custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 
 [node name="Sprite" type="TextureRect" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
-modulate = Color(0.433909, 0.838059, 1, 1)
 material = SubResource("ShaderMaterial_4f5le")
 custom_minimum_size = Vector2(240, 240)
 layout_mode = 1
@@ -1048,7 +1084,6 @@ grow_vertical = 2
 rotation = 1.5708
 scale = Vector2(0.85, 0.85)
 pivot_offset = Vector2(120, 153)
-texture = ExtResource("6_1flf6")
 stretch_mode = 5
 
 [node name="Shadow" type="Panel" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite"]
@@ -1067,6 +1102,13 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(130, 130)
 theme_override_styles/panel = SubResource("StyleBoxFlat_eh6en")
+
+[node name="Head" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite"]
+z_index = 4096
+position = Vector2(123.529, 151.176)
+scale = Vector2(6.5, 6.5)
+sprite_frames = SubResource("SpriteFrames_3iiqw")
+animation = &"3"
 
 [node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
 layout_mode = 1

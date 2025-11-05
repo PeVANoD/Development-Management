@@ -65,7 +65,6 @@ func _ready():
 	#prev_session_results()
 	#print("Меню загружено")
 
-
 func _apply_language():
 	var texts = language_texts[current_language]
 	# Обновляем тексты меню
