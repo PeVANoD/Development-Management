@@ -454,20 +454,40 @@ func create_ai_direction():
 		goingToBase = true
 		ai_direction = (closestEntryPoint - $Head.global_position).normalized()
 	else:
-		var xPos = randf_range(-1.0,1.0)
-		var preYPos = 1-abs(xPos)
-		var yPos = randf_range(-preYPos, preYPos)
-		ai_direction = Vector2(xPos,yPos)
+		var food_hunt = find_closest_food($Head.global_position)
+		if food_hunt and randi_range(0,4):
+			ai_direction = food_hunt
+		else:
+			var xPos = randf_range(-1.0,1.0)
+			var preYPos = 1-abs(xPos)
+			var yPos = randf_range(-preYPos, preYPos)
+			ai_direction = Vector2(xPos,yPos)
 
-func find_closest_polygon_point(position: Vector2, polygon: PackedVector2Array) -> Vector2:
+func find_closest_food(pos: Vector2):
+	var targets = $Head/FindFood.get_overlapping_bodies()
+	var nearest_distance = INF
+	var new_nearest: Node2D = null
+	for target in targets:
+		if target.is_in_group("Food"):
+			var distance = pos.distance_to(target.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				new_nearest = target
+	if new_nearest:
+		var direction = (new_nearest.global_position - pos).normalized()
+		return direction
+	else:
+		return false
+
+func find_closest_polygon_point(pos: Vector2, polygon: PackedVector2Array) -> Vector2:
 	if polygon.is_empty():
-		return position
+		return pos
 	
 	var closest_point = polygon[0]
-	var min_distance = position.distance_to(polygon[0])
+	var min_distance = pos.distance_to(polygon[0])
 	
 	for i in range(1, polygon.size()):
-		var distance = position.distance_to(polygon[i])
+		var distance = pos.distance_to(polygon[i])
 		if distance < min_distance:
 			min_distance = distance
 			closest_point = polygon[i]

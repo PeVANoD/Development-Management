@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cjpuaslk4snkw"]
+[gd_scene load_steps=19 format=3 uid="uid://cjpuaslk4snkw"]
 
 [ext_resource type="Script" uid="uid://chbc5x46o2anv" path="res://project/scripts/snake.gd" id="1_66od3"]
 [ext_resource type="Texture2D" uid="uid://duitlwhqq3j3n" path="res://project/images/body/Body.png" id="2_svp7d"]
@@ -90,6 +90,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_svp7d"]
 radius = 16.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bsw34"]
+radius = 200.0
+
 [node name="Snake" type="Node2D"]
 script = ExtResource("1_66od3")
 
@@ -160,6 +163,13 @@ rotation = 3.14159
 enabled = false
 target_position = Vector2(0, 200)
 collision_mask = 65536
+
+[node name="FindFood" type="Area2D" parent="Head"]
+position = Vector2(-43, 0.00015566)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/FindFood"]
+position = Vector2(-52, 0.00018824)
+shape = SubResource("CircleShape2D_bsw34")
 
 [node name="EatSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_fdxhw")
