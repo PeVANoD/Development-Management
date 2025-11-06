@@ -338,3 +338,48 @@ func is_snake_capturing(snake_index: int) -> bool:
 	if snake_index < snake_capture_states.size() and snake_capture_states[snake_index] != null:
 		return snake_capture_states[snake_index].is_capturing
 	return false
+
+# Передача территории от одной змейки к другой
+func transfer_territory(from_snake_index: int, to_snake_index: int):
+	# Проверяем валидность индексов
+	if from_snake_index >= territories.size() or to_snake_index >= territories.size():
+		print("Ошибка: неверные индексы змеек ", from_snake_index, " -> ", to_snake_index)
+		return
+	if from_snake_index < 0 or to_snake_index < 0:
+		print("Ошибка: отрицательные индексы змеек ", from_snake_index, " -> ", to_snake_index)
+		return
+	if territories[from_snake_index].is_empty():
+		print("Предупреждение: у убитой змейки ", from_snake_index, " нет территории")
+		return
+	
+	print("Передача территории: змейка ", from_snake_index, " (площадь: ", get_territory_area(from_snake_index), ") -> змейка ", to_snake_index, " (площадь: ", get_territory_area(to_snake_index), ")")
+		
+	# Сохраняем исходную территорию получателя
+	var receiver_territory = territories[to_snake_index].duplicate()
+	var victim_territory = territories[from_snake_index].duplicate()
+	
+	# Объединяем территории
+	if receiver_territory.is_empty():
+		# Если у получателя нет территории, просто передаем всю территорию жертвы
+		territories[to_snake_index] = victim_territory
+	else:
+		# Объединяем обе территории
+		var union_result = Geometry2D.merge_polygons(receiver_territory, victim_territory)
+		if not union_result.is_empty():
+			territories[to_snake_index] = combine_polygons(union_result)
+		else:
+			# Если объединение не удалось, просто добавляем территорию жертвы
+			print("Объединение территорий не удалось, добавляем территорию жертвы")
+			territories[to_snake_index] = victim_territory
+	
+	# Очищаем территорию убитой змейки
+	territories[from_snake_index].clear()
+	if from_snake_index < snake_capture_states.size():
+		snake_capture_states[from_snake_index] = null
+	
+	# Обновляем визуализацию
+	update_territory_mesh()
+	queue_redraw()
+	
+	print("Территория передана от змейки ", from_snake_index, " к змейке ", to_snake_index)
+	print("Новая площадь территории получателя: ", get_territory_area(to_snake_index))
