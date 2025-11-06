@@ -126,6 +126,41 @@ visible = false
 position = Vector2(-4, 1.74846e-07)
 shape = SubResource("CircleShape2D_svp7d")
 
+[node name="-90" type="RayCast2D" parent="Head"]
+enabled = false
+target_position = Vector2(0, 200)
+collision_mask = 65280
+
+[node name="-45" type="RayCast2D" parent="Head"]
+rotation = 0.785398
+enabled = false
+target_position = Vector2(0, 200)
+collision_mask = 65280
+
+[node name="0" type="RayCast2D" parent="Head"]
+rotation = 1.5708
+enabled = false
+target_position = Vector2(0, 200)
+collision_mask = 65280
+
+[node name="45" type="RayCast2D" parent="Head"]
+rotation = 2.35619
+enabled = false
+target_position = Vector2(0, 200)
+collision_mask = 65280
+
+[node name="90" type="RayCast2D" parent="Head"]
+rotation = 3.14159
+enabled = false
+target_position = Vector2(0, 200)
+collision_mask = 65280
+
+[node name="CRight" type="RayCast2D" parent="Head"]
+rotation = 3.14159
+enabled = false
+target_position = Vector2(0, 200)
+collision_mask = 65536
+
 [node name="EatSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_fdxhw")
 volume_db = -20.0

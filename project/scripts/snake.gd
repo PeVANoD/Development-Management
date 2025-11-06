@@ -55,18 +55,36 @@ var was_in_territory: bool = false
 @export var ai_control = false
 var aiSpeed = false
 func _ready():
+	$Body/part1/StaticBody2D.set_collision_layer_value(snakeNum+9,true)
+	$Body/part1/StaticBody2D.set_collision_mask_value(snakeNum+9,true)
+	print($Body/part1/StaticBody2D.collision_layer, " ",$Body/part1/StaticBody2D.collision_mask)
 	if !ai_control:
-		$Head.animation = G.chosen_skin
-		$Body/part1.animation = G.chosen_skin
+		no_ai()
 	else:
-		modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
+		enable_ai()
 	# инициирует размер змейки
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
-	bodyGrow(30)
+	bodyGrow(60)
 	await get_tree().create_timer(0.1).timeout
 	changeBody()
 
+func no_ai():
+	$Head.animation = G.chosen_skin
+	$Body/part1.animation = G.chosen_skin
+
+func enable_ai():
+	modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
+	$"Head/-90".enabled = true
+	$"Head/-45".enabled = true
+	$"Head/0".enabled = true
+	$"Head/45".enabled = true
+	$"Head/90".enabled = true
+	$"Head/-90".set_collision_mask_value(9+snakeNum,false)
+	$"Head/-45".set_collision_mask_value(9+snakeNum,false)
+	$"Head/0".set_collision_mask_value(9+snakeNum,false)
+	$"Head/45".set_collision_mask_value(9+snakeNum,false)
+	$"Head/90".set_collision_mask_value(9+snakeNum,false)
 
 func _physics_process(delta):
 	update_camera()
@@ -259,6 +277,8 @@ func checkBody():
 		var target_index = i * partDistance
 		if target_index < positionHistory.size():
 			parts[i].global_position = positionHistory[target_index]
+			var scaling = min(1,float(parts.size()-1-i)/40+0.7)
+			parts[i].scale = Vector2(scaling,scaling)
 			
 			# Упрощенный поворот - смотрим на следующую часть
 			if i < parts.size():
@@ -313,12 +333,20 @@ func suck_food(node):
 
 
 var aiTimer = 0.0
+var feedTimer = 0.0
+@export var feedTime = 0.8
+@export var miss_chance = 0.2
 var ai_direction = Vector2(0,0)
 @onready var headOutPos = null
 var firstPartInside = 0
 func get_ai_direction(delta):
+	check_colisions()
 	aiTimer += delta
-	if aiTimer >= 0.5:
+	feedTimer += delta
+	if feedTimer > feedTime:
+		bodyGrow(1)
+		feedTimer = 0.0
+	if aiTimer > 0.5:
 		if !aiSpeed:
 			aiSpeed = randi_range(0,10)
 			if aiSpeed:
@@ -328,6 +356,49 @@ func get_ai_direction(delta):
 		aiTimer = 0.0
 		create_ai_direction()
 	return ai_direction
+
+func check_colisions():
+	var changed = false
+	if $"Head/0".is_colliding() and aiTimer > 0.2:
+		changed = true
+		if $Head/CRight.is_colliding() or $"Head/90".is_colliding() or $"Head/45".is_colliding():
+			collided(-60)
+		else:
+			collided(60)
+	elif $"Head/-45".is_colliding() and aiTimer > 0.2:
+		changed = true
+		collided(45)
+	elif $"Head/45".is_colliding() and aiTimer > 0.2:
+		changed = true
+		collided(-45)
+	elif $"Head/-90".is_colliding() and aiTimer > 0.2:
+		changed = true
+		collided(15)
+	elif $"Head/90".is_colliding() and aiTimer > 0.2:
+		changed = true
+		collided(-15)
+	if changed:
+		aiTimer = 0.0
+
+func collided(degr = 0):
+	var current_rotation = int($Head.rotation_degrees+90) % 360
+	if current_rotation < 0:
+		current_rotation += 360
+	if current_rotation > 180:
+		current_rotation -= 360
+	if randi_range(0,100)/100 < miss_chance:
+		#print(str(snakeNum+1," missed! On: ", degr))
+		if abs(degr) == 60:
+			degr = 0
+		elif abs(degr) == 15:
+			degr *= -6
+		else:
+			degr *= -1
+		#print("new degr = ",degr)
+	var total_angle = current_rotation + degr
+	var rad_angle = deg_to_rad(total_angle)
+	ai_direction = Vector2.from_angle(rad_angle)
+
 
 var goingToBase = false
 func create_ai_direction():
