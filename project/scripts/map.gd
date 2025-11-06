@@ -106,30 +106,9 @@ func handle_input():
 		for i in range(10):  # Клавиши 0-9
 			if Input.is_physical_key_pressed(KEY_0 + i) and snakeArr.size() > i and turnAI:
 				turnAI = false
-				toggle_snake_ai(i)
 	else:
 		turnAI = true
 
-func toggle_snake_ai(snake_index: int):
-	if snake_index >= snakeArr.size():
-		print("Ошибка: змейки с индексом ", snake_index, " не существует")
-		return
-	
-	var snake = snakeArr[snake_index]
-	
-	if snake.ai_control:
-		snake.ai_control = false
-		#print("AI выключен для змейки ", snake_index + 1)
-	else:
-		snake.ai_control = true
-		#print("AI включен для змейки ", snake_index + 1)
-		if curSnake == snake_index:
-			curSnake = null
-			for i in range(snakeArr.size()):
-				if not (i in ai_snakes):
-					curSnake = i
-					print("Автоматически переключились на змейку ", i + 1)
-					break
 
 func clearSnake():
 	snakeArr[curSnake] = null
@@ -152,7 +131,6 @@ func genSnake(i = 0):
 	var newSnake = SNAKE.instantiate()
 	if i > 0:
 		newSnake.ai_control = true
-		toggle_snake_ai(i)
 	newSnake.territory_capture = territory_capture
 	newSnake.snake_index = snakeArr.size()
 	

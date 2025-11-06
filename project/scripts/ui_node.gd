@@ -123,7 +123,7 @@ func sessionEnd() -> void:
 		
 		
 func sessionEndText(text, match_res):
-	exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text) + int($"Leaders/Size/VBoxContainer/1/Count".text) + (G.kills*100)
+	exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text) + int($"Leaders/Size/VBoxContainer/1/Count".text) + (G.kills*100.0)
 	$PassSessionPanel.visible = true
 	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
 	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
