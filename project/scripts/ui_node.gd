@@ -40,6 +40,8 @@ var colors = [
 	"#FF4080"   # Фуксия
 ]
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
+@onready var outTerritoryWarning = $"OutTerritoryWarning"
+
 var exp: int = 0
 var session_finished = false
 
@@ -47,11 +49,8 @@ func _ready():
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
 	$PassSessionPanel.visible = false
-<<<<<<< Updated upstream
-=======
 	outTerritoryWarning.visible = false  # Изначально скрываем предупреждение
 	reset_param()
->>>>>>> Stashed changes
 	colorBoard()
 
 func reset_param():
@@ -121,11 +120,11 @@ func sessionEnd() -> void:
 	var text = language_texts[G.language]
 	if !G.alive and !$PassSessionPanel.visible:
 		session_finished = true
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(1).timeout
 		sessionEndText(text, "defeat")
 	elif G.result_is_win and !$PassSessionPanel.visible:
 		session_finished = true
-		await get_tree().create_timer(0.3).timeout
+		await get_tree().create_timer(2).timeout
 		exp += 100
 		sessionEndText(text, "victory")
 		
@@ -139,4 +138,13 @@ func sessionEndText(text, match_res):
 	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
 	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(exp)
-	G.exp += exp 
+	G.exp += exp
+
+# Функции для управления предупреждением о выходе из территории
+func show_territory_warning():
+	if outTerritoryWarning:
+		outTerritoryWarning.visible = true
+
+func hide_territory_warning():
+	if outTerritoryWarning:
+		outTerritoryWarning.visible = false 

@@ -59,6 +59,7 @@ var current_language = "ru"
 
 func _ready():
 	# Применяем текущий язык
+	$CanvasLayer/NicknameInput.text = G.nickname
 	_apply_language()
 	$CanvasLayer/ExpBar/MinValue.text = str(G.exp)
 	set_exp_value(G.exp)

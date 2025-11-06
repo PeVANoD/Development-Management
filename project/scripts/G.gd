@@ -2,7 +2,7 @@ extends Node
 
 var tera
 
-var nickname = "Player 1"
+var nickname = ""
 var terrain = 0
 var size = 0
 var kills = 0
