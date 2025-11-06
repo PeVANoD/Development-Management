@@ -6,10 +6,6 @@ var is_muted_sound = false
 var sound_level
 var music_level
 
-# Переменные для списка результатов
-#var nickname_res
-#var terrain_res
-#var size_res
 
 var max_exp_value : int = 100
 var min_exp_value : int = 0
@@ -31,8 +27,11 @@ var language_texts = {
 		"english": "English",
 		"nickname_enter": "Введите ваш никнейм",
 		"nickname_result": "Никнейм: ",
-		"terrain_result": "Территории захвачено: ",
-		"size_result": "Размер: ",
+		"wins_result": "Победы: ",
+		"total_kills_result": "Всего убийств: ",
+		"max_kills_result": "Макс убийств: ",
+		"size_result": "Макс размер: ",
+		"terrain_result": "Макс захвачено территории: ",
 		"player_level": "Уровень: "
 	},
 	"en": {
@@ -49,8 +48,11 @@ var language_texts = {
 		"english": "English",
 		"nickname_enter": "Enter your nickname",
 		"nickname_result": "Nickname: ",
-		"terrain_result": "Terrain captured: ",
-		"size_result": "Size: ",
+		"wins_result": "Wins: ",
+		"total_kills_result": "Total kills: ",
+		"max_kills_result": "Max kills: ",
+		"size_result": "Max size: ",
+		"terrain_result": "Max terrain captured: ",
 		"player_level": "Level: "
 	}
 }
@@ -62,7 +64,7 @@ func _ready():
 	_apply_language()
 	$CanvasLayer/ExpBar/MinValue.text = str(G.exp)
 	set_exp_value(G.exp)
-	#prev_session_results()
+	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
 	#print("Меню загружено")
 
 func _apply_language():
@@ -73,10 +75,7 @@ func _apply_language():
 	$CanvasLayer/SoundButton.text = texts["sounds"]
 	$CanvasLayer/Label.text = texts["nickname_enter"]
 	$CanvasLayer/ExpBar/LevelValue.text = texts["player_level"] + str(level)
-	#nickname_res = texts["nickname_result"]
-	#terrain_res = texts["terrain_result"]
-	#size_res = texts["size_result"]
-	#prev_session_results() # нужно переписать текст в заголовках
+	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
 
 # Функция для воспроизведения звука кнопок
 func play_button_sound(): 
@@ -112,14 +111,6 @@ func play_transition_sound():
 	$TransitionSound.play()
 	await $TransitionSound.finished
 	$TransitionSound.queue_free()
-
-# Результаты предыдущей сессии
-#func prev_session_results():
-	#if G.alive == false:
-		#$CanvasLayer/PassSessionBox.visible = true
-		#$CanvasLayer/PassSessionBox/NicknameLabel.text = nickname_res + G.nickname
-		#$CanvasLayer/PassSessionBox/TerrainLabel.text = terrain_res + G.terrain
-		#$CanvasLayer/PassSessionBox/SizeLabel.text = size_res + G.size
 
 
 # Слайдер для музыки
@@ -195,3 +186,15 @@ func set_exp_value(new_value):
 	$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
 	$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
 	$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
+
+
+# Статистика игрока
+func set_player_stats(wins, total_kills, max_kills, max_territory, max_size):
+	var texts = language_texts[current_language]
+	$CanvasLayer/PlayerStatsPanel/PassSesBox/WinsCount.text = texts["wins_result"] + str(wins)
+	$CanvasLayer/PlayerStatsPanel/PassSesBox/AllKiilsCount.text = texts["total_kills_result"] + str(total_kills)
+	$CanvasLayer/PlayerStatsPanel/PassSesBox/MaxKiilsCount.text = texts["max_kills_result"] + str(max_kills)
+	$CanvasLayer/PlayerStatsPanel/PassSesBox/MaxSizeCount.text = texts["size_result"] + str(max_size)
+	$CanvasLayer/PlayerStatsPanel/PassSesBox/MaxTerritoryCount.text = texts["terrain_result"] + str(max_territory) + "%"
+	
+	

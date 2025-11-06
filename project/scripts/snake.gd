@@ -300,6 +300,8 @@ func kill_snake():
 	if !ai_control:
 		G.alive = false
 		G.kills = kills
+		G.total_kills += kills
+		G.max_kills = max(G.max_kills, kills)
 	self.queue_free()
 	map_node.clearSnake()
 
