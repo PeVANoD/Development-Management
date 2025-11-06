@@ -47,7 +47,15 @@ func _ready():
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
 	$PassSessionPanel.visible = false
+<<<<<<< Updated upstream
+=======
+	outTerritoryWarning.visible = false  # Изначально скрываем предупреждение
+	reset_param()
+>>>>>>> Stashed changes
 	colorBoard()
+
+func reset_param():
+	G.result_is_win = false
 
 func colorBoard():
 	for i in range(1,9):
@@ -113,11 +121,11 @@ func sessionEnd() -> void:
 	var text = language_texts[G.language]
 	if !G.alive and !$PassSessionPanel.visible:
 		session_finished = true
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.1).timeout
 		sessionEndText(text, "defeat")
 	elif G.result_is_win and !$PassSessionPanel.visible:
 		session_finished = true
-		await get_tree().create_timer(2).timeout
+		await get_tree().create_timer(0.3).timeout
 		exp += 100
 		sessionEndText(text, "victory")
 		
