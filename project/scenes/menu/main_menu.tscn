@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=33 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
@@ -18,12 +18,6 @@
 [sub_resource type="LabelSettings" id="LabelSettings_4wfjr"]
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wuwks"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_a73ww"]
-font_color = Color(0.0166239, 0.00598695, 0.00105087, 1)
-outline_color = Color(0.0177324, 0.0177324, 0.0177324, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uh2sl"]
 bg_color = Color(0.313726, 0.313726, 0.313726, 0.392157)
@@ -470,6 +464,8 @@ gradient = SubResource("Gradient_xfj45")
 width = 289
 height = 27
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wuwks"]
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -575,32 +571,6 @@ offset_top = 135.0
 offset_right = 70.0
 offset_bottom = 170.0
 text = "RU"
-
-[node name="PassSessionBox" type="VBoxContainer" parent="CanvasLayer"]
-visible = false
-modulate = Color(0.000113828, 0.000113828, 0.000113828, 1)
-self_modulate = Color(0, 0, 0, 1)
-material = SubResource("CanvasItemMaterial_wuwks")
-layout_mode = 0
-offset_left = 430.0
-offset_top = 349.0
-offset_right = 724.0
-offset_bottom = 490.0
-
-[node name="NicknameLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
-layout_mode = 2
-text = "Nickname: "
-label_settings = SubResource("LabelSettings_a73ww")
-
-[node name="TerrainLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
-layout_mode = 2
-text = "Terrain: "
-label_settings = SubResource("LabelSettings_a73ww")
-
-[node name="SizeLabel" type="Label" parent="CanvasLayer/PassSessionBox"]
-layout_mode = 2
-text = "Size: "
-label_settings = SubResource("LabelSettings_a73ww")
 
 [node name="Map" type="Control" parent="CanvasLayer"]
 layout_mode = 1
@@ -1160,6 +1130,51 @@ offset_left = 109.0
 offset_top = -27.0
 offset_right = 149.0
 offset_bottom = -4.0
+horizontal_alignment = 1
+
+[node name="PlayerStatsPanel" type="Panel" parent="CanvasLayer"]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 344.0
+offset_right = 745.0
+offset_bottom = 486.0
+
+[node name="PassSesBox" type="VBoxContainer" parent="CanvasLayer/PlayerStatsPanel"]
+material = SubResource("CanvasItemMaterial_wuwks")
+layout_mode = 0
+offset_left = 1.0
+offset_top = -3.0
+offset_right = 326.0
+offset_bottom = 143.0
+
+[node name="WinsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Wins:"
+horizontal_alignment = 1
+
+[node name="AllKiilsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Total kills: "
+horizontal_alignment = 1
+
+[node name="MaxKiilsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Max kills:"
+horizontal_alignment = 1
+
+[node name="MaxSizeCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Size: "
+horizontal_alignment = 1
+
+[node name="MaxTerritoryCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Max territory:"
 horizontal_alignment = 1
 
 [node name="MainMenuMusic" type="AudioStreamPlayer2D" parent="."]
