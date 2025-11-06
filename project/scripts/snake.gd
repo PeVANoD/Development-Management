@@ -248,7 +248,7 @@ func loseGrowth(amount = 1):
 		if part_count > 0:
 			var lose_part = $Body.get_child(part_count-1)
 			if map_node and is_inside_tree():  # Проверяем что map_node существует
-				map_node.genFood(1,lose_part.global_position)
+				map_node.genFood(1, lose_part.global_position, true)  # Точная позиция
 			lose_part.queue_free()
 			maxHistoryLength -= addLength
 			length -= 1
@@ -311,12 +311,29 @@ func countAngle():
 	direction = direction.rotated(angle_diff)
 
 func kill_snake():
+	# Спавним еду от каждой части тела перед смертью
+	spawn_food_from_body()
+	
 	territory_capture.clear_territory(snakeNum)
 	if !ai_control:
 		G.alive = false
 		G.kills = kills
 	self.queue_free()
 	map_node.clearSnake()
+
+# Создание еды от всех частей тела змейки
+func spawn_food_from_body():
+	if not map_node:
+		return
+		
+	# Спавним еду от головы точно на её позиции
+	map_node.genFood(1, $Head.global_position, true)
+	
+	# Спавним еду от каждой части тела точно на их позициях
+	var parts = $Body.get_children()
+	for part in parts:
+		if part and is_instance_valid(part):
+			map_node.genFood(1, part.global_position, true)
 
 # при попадании головы во что-то
 func _in_mouth_body_entered(body):
@@ -329,7 +346,9 @@ func _in_mouth_body_entered(body):
 		suck_food(body)
 		if !randi_range(0,2):
 			bodyGrow()
-		map_node.genFood()
+		# Спавним новую еду только если текущее количество меньше максимального
+		if map_node.get_current_food_count() < map_node.max_food_count:
+			map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
 		body.get_node("../../..").kills += 1
 		kill_snake()
@@ -453,7 +472,7 @@ var time_to_debuff = 5.0
 var debuff_timer = 0.0
 var first_debuff_timer = 0.0
 func debuff_out_territory(delta):
-	if first_debuff_timer >= 7:
+	if first_debuff_timer >= 5:
 		if debuff_timer >= 0.3 / debuff_amount:
 			debuff_timer = 0.0
 			if $Body.get_child_count() <= 2:

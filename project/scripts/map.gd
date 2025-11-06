@@ -10,8 +10,9 @@ var ai_snakes: Array = []  # Массив змеек с включенным AI
 
 # Система спавнеров еды
 var food_spawners: Array = []  # Массив позиций спавнеров
-var spawner_count = 25  # Количество невидимых точек спавна (уменьшил с 20)
-var spawner_radius = 50  # Радиус в котором может появиться еда от спавнера
+var spawner_count = 30
+var spawner_radius = 50
+var max_food_count = 100 
 
 func _ready():
 	G.alive = true
@@ -24,7 +25,7 @@ func _ready():
 	$Music.play()
 	
 	create_food_spawners()  # Создаем невидимые точки спавна
-	genFood(100)
+	genFood(max_food_count)
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
@@ -74,9 +75,16 @@ func get_spawn_position_near_spawner(spawner_pos: Vector2) -> Vector2:
 	
 	return final_pos
 
+# Получить текущее количество еды на поле
+func get_current_food_count() -> int:
+	return $Food.get_child_count()
 
-func genFood(amount = 1, pos = false):
+func genFood(amount = 1, pos = false, exact_position = false):
 	for i in range(amount):
+		# Проверяем лимит еды только при обычном спавне (не при смерти змейки)
+		if not pos and get_current_food_count() >= max_food_count:
+			break
+			
 		var createFood = FOOD.instantiate()
 		if !pos:
 			# Используем систему спавнеров
@@ -91,12 +99,16 @@ func genFood(amount = 1, pos = false):
 				var fY = randi_range(-maxY,maxY)
 				createFood.global_position = Vector2(fX,fY)
 		else:
-			# Если задана конкретная позиция, ищем ближайший спавнер
-			if food_spawners.size() > 0:
-				var nearest_spawner = find_nearest_spawner(pos)
-				createFood.global_position = get_spawn_position_near_spawner(nearest_spawner)
-			else:
+			if exact_position:
+				# Точное размещение еды (для смерти змейки)
 				createFood.global_position = pos
+			else:
+				# Размещение рядом со спавнером (для обычного спавна)
+				if food_spawners.size() > 0:
+					var nearest_spawner = find_nearest_spawner(pos)
+					createFood.global_position = get_spawn_position_near_spawner(nearest_spawner)
+				else:
+					createFood.global_position = pos
 		var scalee = randf_range(1, 2)
 		createFood.scale = Vector2(scalee,scalee)
 		$Food.call_deferred("add_child", createFood)
