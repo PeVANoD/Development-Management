@@ -65,7 +65,7 @@ func _ready():
 	# инициирует размер змейки
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
-	bodyGrow(60)
+	bodyGrow(30)
 	await get_tree().create_timer(0.1).timeout
 	changeBody()
 
@@ -226,6 +226,7 @@ func update_territory_capture(delta):
 		debuff_out_territory(delta)
 	else:
 		debuff_amount = 1.0
+		first_debuff_timer = 0.0
 	
 func changeBody():
 	var length = ($Body.get_child_count()+20.0)/40.0
@@ -238,20 +239,34 @@ func changeBody():
 
 # уменьшение змейки
 func loseGrowth(amount = 1):
+	# Проверяем, что змейка еще существует
+	if not is_inside_tree():
+		return
+		
 	for i in range(amount):
 		var part_count = $Body.get_child_count()
-		if part_count > 1:
+		if part_count > 0:
 			var lose_part = $Body.get_child(part_count-1)
-			map_node.genFood(1,lose_part.global_position)
+			if map_node and is_inside_tree():  # Проверяем что map_node существует
+				map_node.genFood(1,lose_part.global_position)
 			lose_part.queue_free()
 			maxHistoryLength -= addLength
 			length -= 1
-			changeBody()
+			if is_inside_tree():  # Проверяем перед вызовом changeBody
+				changeBody()
 			await get_tree().create_timer(0.01).timeout
 
 # увеличение змейки
 func bodyGrow(amount = 1):
+	# Проверяем, что змейка еще жива и у неё есть части тела
+	if not is_inside_tree() or $Body.get_child_count() == 0:
+		return
+		
 	for i in range(amount):
+		# Дополнительная проверка на каждой итерации
+		if $Body.get_child_count() == 0:
+			break
+			
 		var newPart = $Body.get_child(0).duplicate()
 		newPart.z_index = $Body.get_child_count() - 1
 		length += 1
@@ -306,6 +321,10 @@ func kill_snake():
 # при попадании головы во что-то
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
+		# Проверяем, что змейка еще жива перед поеданием
+		if not is_inside_tree() or $Body.get_child_count() == 0:
+			return
+			
 		body.get_node("CollisionShape2D").set_deferred("disabled", true)
 		suck_food(body)
 		if !randi_range(0,2):
@@ -428,16 +447,19 @@ func find_closest_polygon_point(position: Vector2, polygon: PackedVector2Array) 
 	
 	return closest_point
 
-var debuff_timer = 0.0
 var debuff_amount = 1.0
-var max_debuff_amount = 2.0
+var max_debuff_amount = 5.0
+var time_to_debuff = 5.0
+var debuff_timer = 0.0
+var first_debuff_timer = 0.0
 func debuff_out_territory(delta):
-	if debuff_timer > 1.0/debuff_amount:
-		debuff_timer = 0.0
-		if $Body.get_child_count() < 1:
-			kill_snake()
-		debuff_amount = clamp(debuff_amount*1.05,1.0,max_debuff_amount)
-		loseGrowth(round(debuff_amount))
-		#print(debuff_amount)
-		#print_rich("losing grow")
-	debuff_timer += delta
+	if first_debuff_timer >= 7:
+		if debuff_timer >= 0.3 / debuff_amount:
+			debuff_timer = 0.0
+			if $Body.get_child_count() <= 2:
+				kill_snake()
+				return
+			debuff_amount *= 1.05
+			loseGrowth(1)
+		debuff_timer += delta
+	first_debuff_timer += delta

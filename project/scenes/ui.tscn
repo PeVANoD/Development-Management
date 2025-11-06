@@ -1015,3 +1015,14 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Exp gained:"
 horizontal_alignment = 1
+
+[node name="OutTerritoryWarning" type="Label" parent="CanvasLayer/uiNode"]
+visible = false
+layout_mode = 0
+offset_left = 17.0
+offset_top = 15.0
+offset_right = 324.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(0.746585, 2.00946e-06, 8.66354e-07, 1)
+theme_override_font_sizes/font_size = 20
+text = "Вернись в свою территорию"

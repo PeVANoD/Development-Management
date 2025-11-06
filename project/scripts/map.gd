@@ -8,6 +8,11 @@ var radius = 1300
 var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
+# Система спавнеров еды
+var food_spawners: Array = []  # Массив позиций спавнеров
+var spawner_count = 25  # Количество невидимых точек спавна (уменьшил с 20)
+var spawner_radius = 50  # Радиус в котором может появиться еда от спавнера
+
 func _ready():
 	G.alive = true
 	$Music.play()
@@ -18,8 +23,8 @@ func _ready():
 	territory_capture.position = Vector2.ZERO
 	$Music.play()
 	
-	
-	genFood(radius)
+	create_food_spawners()  # Создаем невидимые точки спавна
+	genFood(100)
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
@@ -27,18 +32,72 @@ func spawn_initial_snakes():
 	for i in range(snake_count):
 		genSnake(i)
 
+# Создание невидимых точек спавна еды
+func create_food_spawners():
+	food_spawners.clear()
+	for i in range(spawner_count):
+		# Генерируем случайную позицию в круге
+		var angle = randf() * 2 * PI
+		var distance = randf() * (radius - 100)  # Отступ от края карты
+		var spawner_pos = Vector2(cos(angle) * distance, sin(angle) * distance)
+		food_spawners.append(spawner_pos)
+
+# Найти ближайший спавнер к позиции
+func find_nearest_spawner(pos: Vector2) -> Vector2:
+	if food_spawners.is_empty():
+		return pos
+	
+	var nearest_spawner = food_spawners[0]
+	var min_distance = pos.distance_to(nearest_spawner)
+	
+	for spawner in food_spawners:
+		var distance = pos.distance_to(spawner)
+		if distance < min_distance:
+			min_distance = distance
+			nearest_spawner = spawner
+	
+	return nearest_spawner
+
+# Генерация позиции рядом со спавнером
+func get_spawn_position_near_spawner(spawner_pos: Vector2) -> Vector2:
+	var angle = randf() * 2 * PI
+	var distance = randf() * spawner_radius
+	var offset = Vector2(cos(angle) * distance, sin(angle) * distance)
+	var final_pos = spawner_pos + offset
+	
+	# Проверяем, что позиция в пределах карты
+	if final_pos.length() > radius - 50:
+		# Если вышли за границы, генерируем ближе к центру спавнера
+		distance = randf() * (spawner_radius * 0.5)
+		offset = Vector2(cos(angle) * distance, sin(angle) * distance)
+		final_pos = spawner_pos + offset
+	
+	return final_pos
+
 
 func genFood(amount = 1, pos = false):
 	for i in range(amount):
 		var createFood = FOOD.instantiate()
 		if !pos:
-			var fX = randi_range(-radius,radius)
-			var maxY = sqrt(radius * radius - fX * fX)
-			var fY = randi_range(-maxY,maxY)
-			createFood.global_position = Vector2(fX,fY)
+			# Используем систему спавнеров
+			if food_spawners.size() > 0:
+				# Выбираем случайный спавнер
+				var random_spawner = food_spawners[randi() % food_spawners.size()]
+				createFood.global_position = get_spawn_position_near_spawner(random_spawner)
+			else:
+				# Fallback к старой системе если спавнеры не созданы
+				var fX = randi_range(-radius,radius)
+				var maxY = sqrt(radius * radius - fX * fX)
+				var fY = randi_range(-maxY,maxY)
+				createFood.global_position = Vector2(fX,fY)
 		else:
-			createFood.global_position = pos
-		var scalee = randf_range(0.5,1.3)
+			# Если задана конкретная позиция, ищем ближайший спавнер
+			if food_spawners.size() > 0:
+				var nearest_spawner = find_nearest_spawner(pos)
+				createFood.global_position = get_spawn_position_near_spawner(nearest_spawner)
+			else:
+				createFood.global_position = pos
+		var scalee = randf_range(1, 2)
 		createFood.scale = Vector2(scalee,scalee)
 		$Food.call_deferred("add_child", createFood)
 
