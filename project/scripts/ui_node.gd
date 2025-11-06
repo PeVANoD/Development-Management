@@ -40,6 +40,8 @@ var colors = [
 	"#FF4080"   # Фуксия
 ]
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
+@onready var outTerritoryWarning = $"OutTerritoryWarning"
+
 var exp: int = 0
 var session_finished = false
 
@@ -47,6 +49,7 @@ func _ready():
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
 	$PassSessionPanel.visible = false
+	outTerritoryWarning.visible = false  # Изначально скрываем предупреждение
 	colorBoard()
 
 func colorBoard():
@@ -131,4 +134,13 @@ func sessionEndText(text, match_res):
 	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
 	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(exp)
-	G.exp += exp 
+	G.exp += exp
+
+# Функции для управления предупреждением о выходе из территории
+func show_territory_warning():
+	if outTerritoryWarning:
+		outTerritoryWarning.visible = true
+
+func hide_territory_warning():
+	if outTerritoryWarning:
+		outTerritoryWarning.visible = false 

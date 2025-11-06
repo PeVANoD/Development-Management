@@ -8,11 +8,10 @@ var radius = 1300
 var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
-# Система спавнеров еды
-var food_spawners: Array = []  # Массив позиций спавнеров
-var spawner_count = 30
-var spawner_radius = 50
-var max_food_count = 100 
+var food_spawners: Array = []
+var spawner_count = 20
+var spawner_radius = 80
+var max_food_count = 200 
 
 func _ready():
 	G.alive = true
@@ -24,7 +23,7 @@ func _ready():
 	territory_capture.position = Vector2.ZERO
 	$Music.play()
 	
-	create_food_spawners()  # Создаем невидимые точки спавна
+	create_food_spawners()
 	genFood(max_food_count)
 	spawn_initial_snakes()
 
@@ -33,17 +32,14 @@ func spawn_initial_snakes():
 	for i in range(snake_count):
 		genSnake(i)
 
-# Создание невидимых точек спавна еды
 func create_food_spawners():
 	food_spawners.clear()
 	for i in range(spawner_count):
-		# Генерируем случайную позицию в круге
 		var angle = randf() * 2 * PI
-		var distance = randf() * (radius - 100)  # Отступ от края карты
-		var spawner_pos = Vector2(cos(angle) * distance, sin(angle) * distance)
+		var distance = randf() * (radius - 400)
+		var spawner_pos = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
 		food_spawners.append(spawner_pos)
 
-# Найти ближайший спавнер к позиции
 func find_nearest_spawner(pos: Vector2) -> Vector2:
 	if food_spawners.is_empty():
 		return pos
@@ -75,7 +71,6 @@ func get_spawn_position_near_spawner(spawner_pos: Vector2) -> Vector2:
 	
 	return final_pos
 
-# Получить текущее количество еды на поле
 func get_current_food_count() -> int:
 	return $Food.get_child_count()
 
@@ -109,7 +104,7 @@ func genFood(amount = 1, pos = false, exact_position = false):
 					createFood.global_position = get_spawn_position_near_spawner(nearest_spawner)
 				else:
 					createFood.global_position = pos
-		var scalee = randf_range(1, 2)
+		var scalee = randf_range(1.5, 2.5)
 		createFood.scale = Vector2(scalee,scalee)
 		$Food.call_deferred("add_child", createFood)
 

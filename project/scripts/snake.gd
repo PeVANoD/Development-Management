@@ -27,6 +27,7 @@ var skins = ["1","2","3"]
 #endregion
 #region переменные межфункций
 @onready var map_node = $"../.."
+@onready var ui_node = get_node("/root/UI/CanvasLayer/uiNode")
 @export var length = 0
 @export var snakeNum = 0
 @export var kills = 0
@@ -65,7 +66,7 @@ func _ready():
 	# инициирует размер змейки
 	for i in range(maxHistoryLength):
 		positionHistory.push_front($Head.global_position)
-	bodyGrow(30)
+	bodyGrow(40)
 	await get_tree().create_timer(0.1).timeout
 	changeBody()
 
@@ -223,8 +224,10 @@ func update_territory_capture(delta):
 		goingToBase = false
 	
 	if not tail_in_own_territory and not head_in_own_territory:
+		show_territory_warning()  # Показываем предупреждение
 		debuff_out_territory(delta)
 	else:
+		hide_territory_warning()  # Скрываем предупреждение
 		debuff_amount = 1.0
 		first_debuff_timer = 0.0
 	
@@ -314,7 +317,9 @@ func kill_snake():
 	# Спавним еду от каждой части тела перед смертью
 	spawn_food_from_body()
 	
-	territory_capture.clear_territory(snakeNum)
+	# Просто очищаем территорию умершей змейки
+	territory_capture.clear_territory(snake_index)
+		
 	if !ai_control:
 		G.alive = false
 		G.kills = kills
@@ -350,8 +355,9 @@ func _in_mouth_body_entered(body):
 		if map_node.get_current_food_count() < map_node.max_food_count:
 			map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
-		body.get_node("../../..").kills += 1
-		kill_snake()
+		var other_snake = body.get_node("../../..")
+		other_snake.kills += 1  # Другая змейка получает убийство
+		kill_snake()  # Эта змейка (которая врезалась) умирает
 
 func suck_food(node):
 	if Engine.time_scale == 1.0:
@@ -471,14 +477,23 @@ var max_debuff_amount = 5.0
 var time_to_debuff = 5.0
 var debuff_timer = 0.0
 var first_debuff_timer = 0.0
+
 func debuff_out_territory(delta):
-	if first_debuff_timer >= 5:
+	if first_debuff_timer >= 4:
 		if debuff_timer >= 0.3 / debuff_amount:
 			debuff_timer = 0.0
 			if $Body.get_child_count() <= 2:
 				kill_snake()
 				return
-			debuff_amount *= 1.05
+			debuff_amount += 0.07
 			loseGrowth(1)
 		debuff_timer += delta
 	first_debuff_timer += delta
+
+func show_territory_warning():
+	if ai_control: return
+	ui_node.show_territory_warning()
+
+func hide_territory_warning():
+	if ai_control: return
+	ui_node.hide_territory_warning()
