@@ -688,6 +688,7 @@ focus_mode = 0
 flat = true
 
 [node name="Choose" type="Control" parent="CanvasLayer"]
+z_index = 100
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
