@@ -76,6 +76,7 @@ func no_ai():
 
 func enable_ai():
 	modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
+	territory_capture.set_territory_effect(snake_index, randi() % 16) # randi() % 16)
 	$"Head/-90".enabled = true
 	$"Head/-45".enabled = true
 	$"Head/0".enabled = true
@@ -381,10 +382,10 @@ func suck_food(node):
 
 var ai_Timer = 0.0
 var feed_Timer = 0.0
-@export var base_feed_Time = 1.0
-@onready var adds_Time = (1.0-1.0/(sqrt(float(G.difficulty))))
+@export var base_feed_Time = 1.4
+@onready var adds_Time : float = (1.0-1.0/(sqrt(float(G.difficulty))))
 @onready var feed_Time = base_feed_Time - adds_Time
-@export var miss_chance = 1.0
+@export var miss_chance = 0.2
 var ai_direction = Vector2(0,0)
 @onready var headOutPos = null
 var firstPartInside = 0

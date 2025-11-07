@@ -5,21 +5,13 @@ uniform float pattern_scale = 8.0;
 uniform float noise_scale = 4.0;
 uniform float animation_speed = 0.4;
 uniform float pattern_intensity = 0.8;
-uniform float noise_intensity = 0.5;
-uniform float scanline_speed = 2.0;
-uniform float scanline_intensity = 0.1;
-
-// Массив для разных эффектов на одной территории
-uniform float effect_types[16]; // 16 разных эффектов для разных частей
-uniform int active_effects_count = 1; // Количество активных эффектов
+uniform float noise_intensity = 0.8;
+uniform float scanline_speed = 3.0;
+uniform float scanline_intensity = 0.3;
 
 // Параметры для обработки краев
-uniform float edge_fade_distance : hint_range(0.0, 0.5) = 0.1;
-uniform float edge_distortion : hint_range(0.0, 0.1) = 0.02;
-uniform int edge_effect_type : hint_range(0, 3) = 1;
-
-// Текстура для маскирования разных эффектов
-uniform sampler2D effect_mask;
+uniform float edge_fade_distance : hint_range(0.0, 0.5) = 0.3;
+uniform float edge_darkness : hint_range(0.0, 1.0) = 0.4;
 
 // Генерируем процедурный шум
 float hash(vec2 p) {
@@ -39,35 +31,11 @@ float noise(vec2 p) {
     return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 
-// Функция для обработки краев UV координат
-vec2 apply_edge_effect(vec2 uv, float fade_dist, int effect_type) {
-    vec2 edge = vec2(0.0);
-    
+// Функция для расчета затемнения краев
+float calculate_edge_darkness(vec2 uv, float fade_dist) {
     vec2 dist_to_edge = min(uv, vec2(1.0) - uv) / fade_dist;
     float edge_factor = min(dist_to_edge.x, dist_to_edge.y);
-    
-    if (edge_factor < 1.0) {
-        if (effect_type == 1) {
-            float distortion = (1.0 - edge_factor) * edge_distortion;
-            uv.x += sin(uv.y * 50.0 + TIME * 2.0) * distortion;
-            uv.y += cos(uv.x * 40.0 + TIME * 1.5) * distortion;
-        }
-        else if (effect_type == 2) {
-            uv.x = abs(fract(uv.x * 0.5) * 2.0 - 1.0);
-            uv.y = abs(fract(uv.y * 0.5) * 2.0 - 1.0);
-        }
-        else if (effect_type == 3) {
-            uv = fract(uv);
-        }
-    }
-    
-    return clamp(uv, 0.0, 1.0);
-}
-
-float calculate_edge_alpha(vec2 uv, float fade_dist) {
-    vec2 dist_to_edge = min(uv, vec2(1.0) - uv) / fade_dist;
-    float edge_factor = min(dist_to_edge.x, dist_to_edge.y);
-    return clamp(edge_factor, 0.0, 1.0);
+    return clamp(1.0 - edge_factor, 0.0, 1.0);
 }
 
 // Все функции паттернов остаются без изменений...
@@ -227,25 +195,16 @@ void fragment() {
         COLOR = original_color;
     }
     
-    // Применяем эффекты к краям UV координат
-    vec2 processed_uv = apply_edge_effect(UV, edge_fade_distance, edge_effect_type);
-    float edge_alpha = calculate_edge_alpha(UV, edge_fade_distance);
-    
-    // Используем обработанные UV для мировых координат
+    // Используем оригинальные UV координаты
     vec2 world_uv = FRAGCOORD.xy / (100.0 * pattern_scale);
     
-    // Определяем какой эффект использовать на основе UV координат
-    float pattern_value = 0.0;
+    // ОПРЕДЕЛЯЕМ ЭФФЕКТ ИЗ АЛЬФА-КАНАЛА ЦВЕТА
+    // Альфа-канал содержит информацию о типе эффекта (0-1, нормализованный)
+    float effect_index_normalized = original_color.a;
+    int effect_index = int(effect_index_normalized * 15.0); // Денормализуем обратно в 0-15
     
-    if (active_effects_count == 1) {
-        // Один эффект для всей территории
-        pattern_value = get_pattern_by_index(int(effect_types[0]), world_uv, 1.0);
-    } else {
-        // Несколько эффектов - используем маску или координаты для распределения
-        float effect_index = fract(world_uv.x * 2.0 + world_uv.y * 3.0) * float(active_effects_count);
-        int index = int(floor(effect_index)) % active_effects_count;
-        pattern_value = get_pattern_by_index(int(effect_types[index]), world_uv, 1.0);
-    }
+    // Получаем паттерн на основе эффекта
+    float pattern_value = get_pattern_by_index(effect_index, world_uv, 1.0);
     
     // Добавляем анимацию к паттерну
     pattern_value += sin(TIME * animation_speed + world_uv.x * 5.0) * 0.1;
@@ -254,13 +213,13 @@ void fragment() {
     float procedural_noise = noise(world_uv * noise_scale + TIME * 0.1);
     
     // Эффект сканирующих линий
-    float scanline = sin(processed_uv.y * 20.0 + TIME * scanline_speed) * 0.5 + 0.5;
+    float scanline = sin(UV.y * 20.0 + TIME * scanline_speed) * 0.5 + 0.5;
     scanline = 1.0 - scanline * scanline_intensity;
     
     // Смешиваем эффекты
     vec3 final_color = original_color.rgb;
     
-    // Применяем паттерн
+    // Применяем паттерн - используем оригинальный цвет, но с паттерном
     vec3 pattern_color = mix(final_color, final_color * (1.0 - pattern_value * 0.7), pattern_intensity);
     final_color = mix(final_color, pattern_color, pattern_intensity);
     
@@ -274,8 +233,12 @@ void fragment() {
     float pulse = 1.0 + sin(TIME * 2.0) * 0.05;
     final_color *= pulse;
     
-    // Применяем альфа-канал с учетом краев
-    float final_alpha = original_color.a * 0.95 * edge_alpha;
+    // Затемнение по краям (обводка)
+    float edge_darkness_factor = calculate_edge_darkness(UV, edge_fade_distance) * edge_darkness;
+    final_color *= (1.0 - edge_darkness_factor);
+    
+    // Восстанавливаем оригинальную прозрачность (убираем информацию об эффекте)
+    float final_alpha = 0.85; // Фиксированная прозрачность для территории
     
     COLOR = vec4(final_color, final_alpha);
 }

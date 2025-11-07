@@ -42,7 +42,7 @@ var colors = [
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
 @onready var outTerritoryWarning = $"OutTerritoryWarning"
 
-var exp: int = 0
+var player_exp: int = 0
 var session_finished = false
 
 func _ready():
@@ -125,21 +125,21 @@ func sessionEnd() -> void:
 	elif G.result_is_win and !$PassSessionPanel.visible:
 		session_finished = true
 		await get_tree().create_timer(2).timeout
-		exp += 100
+		player_exp += 100
 		G.wins += 1
 		sessionEndText(text, "victory")
 		
 		
 func sessionEndText(text, match_res):
-	exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text) + int($"Leaders/Size/VBoxContainer/1/Count".text) + (G.kills*100.0)
+	player_exp += int($"Leaders/Terrain/VBoxContainer/1/Count".text) + int($"Leaders/Size/VBoxContainer/1/Count".text) + (G.kills*100.0)
 	$PassSessionPanel.visible = true
 	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
 	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
 	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
 	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
-	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(exp)
-	G.exp += exp 
+	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(player_exp)
+	G.player_exp += player_exp 
 	G.max_territory = max(G.max_territory, float($"Leaders/Terrain/VBoxContainer/1/Count".text))
 	G.max_size = max(G.max_size, int($"Leaders/Size/VBoxContainer/1/Count".text))
 

@@ -63,8 +63,8 @@ func _ready():
 	# Применяем текущий язык
 	$CanvasLayer/NicknameInput.text = G.nickname
 	_apply_language()
-	$CanvasLayer/ExpBar/MinValue.text = str(G.exp)
-	set_exp_value(G.exp)
+	$CanvasLayer/ExpBar/MinValue.text = str(G.player_exp)
+	set_exp_value(G.player_exp)
 	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
 	#print("Меню загружено")
 
