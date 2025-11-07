@@ -42,7 +42,7 @@ var lastBodyAngle = 1.0
 @onready var baseSpeed = speed
 @onready var maxSpeed = speed*1.5
 var positionHistory = []
-var maxHistoryLength = 1
+var maxHistoryLength = 6
 var addLength = 6
 var time_since_last_growth: float = 0.0
 @export var is_controlled: bool = false  # Управляется ли эта змейка
@@ -56,7 +56,6 @@ var was_in_territory: bool = false
 @export var ai_control = false
 var aiSpeed = false
 func _ready():
-	print(adds_Time," = ",feed_Time)
 	$Body/part1/StaticBody2D.set_collision_layer_value(snakeNum+9,true)
 	$Body/part1/StaticBody2D.set_collision_mask_value(snakeNum+9,true)
 	if !ai_control:
@@ -234,10 +233,12 @@ func update_territory_capture(delta):
 		hide_territory_warning()  # Скрываем предупреждение
 		debuff_amount = 1.0
 		first_debuff_timer = 0.0
-	
+
+var last_scaling = 1.0
 func changeBody():
 	var lengthB = ($Body.get_child_count()+20.0)/40.0
-	var scaling = max(pow(lengthB,0.3),1.0)
+	var scaling = lerp(last_scaling, max(pow(lengthB,0.3),1.0),0.01)
+	last_scaling = scaling
 	var countSpeed = max(pow(territory_capture.get_territory_area(snake_index)/31000,0.05),1.0)
 	targetZoom = 0.8*1/scaling
 	startSpeed = baseSpeed*countSpeed

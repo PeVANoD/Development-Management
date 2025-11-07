@@ -111,7 +111,7 @@ shape = SubResource("CircleShape2D_xgrlx")
 
 [node name="Head" type="AnimatedSprite2D" parent="."]
 z_index = 4096
-position = Vector2(-52, 1)
+position = Vector2(0, 1)
 rotation = 1.5708
 sprite_frames = SubResource("SpriteFrames_1x5eq")
 animation = &"0"
