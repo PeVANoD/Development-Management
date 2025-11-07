@@ -61,7 +61,7 @@ func colorBoard():
 		$Leaders/Terrain/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = colors[i-1]
 		$Leaders/Size/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = colors[i-1]
 
-func _process(delta):
+func _process(_delta):
 	setAliveSnakes()
 	sortTerrain()
 	sortSize()

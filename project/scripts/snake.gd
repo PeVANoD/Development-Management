@@ -42,7 +42,7 @@ var lastBodyAngle = 1.0
 @onready var baseSpeed = speed
 @onready var maxSpeed = speed*1.5
 var positionHistory = []
-var maxHistoryLength = 4
+var maxHistoryLength = 1
 var addLength = 6
 var time_since_last_growth: float = 0.0
 @export var is_controlled: bool = false  # Управляется ли эта змейка
@@ -56,9 +56,9 @@ var was_in_territory: bool = false
 @export var ai_control = false
 var aiSpeed = false
 func _ready():
+	print(adds_Time," = ",feed_Time)
 	$Body/part1/StaticBody2D.set_collision_layer_value(snakeNum+9,true)
 	$Body/part1/StaticBody2D.set_collision_mask_value(snakeNum+9,true)
-	print($Body/part1/StaticBody2D.collision_layer, " ",$Body/part1/StaticBody2D.collision_mask)
 	if !ai_control:
 		no_ai()
 	else:
@@ -181,7 +181,7 @@ func update_territory_capture(delta):
 	
 	for i in range($Body.get_child_count()):
 		var body_part = $Body.get_child(i)
-		var local_body_pos = territory_capture.global_to_territory_local(body_part.global_position)
+		var _local_body_pos = territory_capture.global_to_territory_local(body_part.global_position)
 		if territory_capture.is_point_in_territory_global(body_part.global_position, snake_index):
 			tail_in_own_territory = true
 			firstPartInside = i
@@ -191,7 +191,7 @@ func update_territory_capture(delta):
 	if not head_in_own_territory and tail_in_own_territory and not capture_started:
 		# Начинаем захват
 		headOutPos = head_pos
-		var start_point = local_head_pos
+		var _start_point = local_head_pos
 		territory_capture.start_external_capture(snake_index,  local_head_pos - direction.normalized()*16)
 		territory_capture.update_external_capture(snake_index, local_head_pos)
 		capture_started = true
@@ -232,8 +232,8 @@ func update_territory_capture(delta):
 		first_debuff_timer = 0.0
 	
 func changeBody():
-	var length = ($Body.get_child_count()+20.0)/40.0
-	var scaling = max(pow(length,0.3),1.0)
+	var lengthB = ($Body.get_child_count()+20.0)/40.0
+	var scaling = max(pow(lengthB,0.3),1.0)
 	var countSpeed = max(pow(territory_capture.get_territory_area(snake_index)/31000,0.05),1.0)
 	targetZoom = 0.8*1/scaling
 	startSpeed = baseSpeed*countSpeed
@@ -264,7 +264,9 @@ func bodyGrow(amount = 1):
 	# Проверяем, что змейка еще жива и у неё есть части тела
 	if not is_inside_tree() or $Body.get_child_count() == 0:
 		return
-		
+	if amount < 0:
+		loseGrowth(-amount)
+		return
 	for i in range(amount):
 		# Дополнительная проверка на каждой итерации
 		if $Body.get_child_count() == 0:
@@ -284,27 +286,26 @@ func bodyGrow(amount = 1):
 # перемещение каждой части тела по следу головы
 func checkBody():
 	var parts = $Body.get_children()
-	if parts.size() == 0:
+	var parts_count = parts.size()
+	if parts_count == 0 or positionHistory.size() < partDistance:
 		return
-	
-	# ОПТИМИЗАЦИЯ: проверяем нужно ли вообще обновлять тело
-	if positionHistory.size() < partDistance:
-		return
-	
-	for i in range(parts.size()-1,-1,-1):
+	var history_size = positionHistory.size()
+	for i in range(parts_count - 1, -1, -1):
 		var target_index = i * partDistance
-		if target_index < positionHistory.size():
-			parts[i].global_position = positionHistory[target_index]
-			var scaling = min(1,float(parts.size()-1-i)/40+0.7)
-			parts[i].scale = Vector2(scaling,scaling)
-			
-			# Упрощенный поворот - смотрим на следующую часть
-			if i < parts.size():
-				var next_part_pos = positionHistory[min((i + 1) * partDistance, positionHistory.size() - 1)]
-				var dir = (next_part_pos - parts[i].global_position).normalized()
-				parts[i].rotation = atan2(dir.y, dir.x)
-				#if i == parts.size()-1:
-					#parts[i].rotation_degrees = 90
+		if target_index >= history_size:
+			continue
+		var part = parts[i]
+		part.z_index = -i
+		part.global_position = positionHistory[target_index]
+		# Оптимизация вычисления масштаба
+		var scaling = 0.7 + (parts_count - 1 - i) * 0.025  # 1/40 = 0.025
+		scaling = min(scaling, 1.0)
+		part.scale = Vector2(scaling, scaling)
+		# Оптимизация поворота
+		if i < parts_count - 1:
+			var next_index = min((i + 1) * partDistance, history_size - 1)
+			var dir = (positionHistory[next_index] - part.global_position).normalized()
+			part.rotation = atan2(dir.y, dir.x)
 					
 # перерасчет направления
 func countAngle():
@@ -378,61 +379,63 @@ func suck_food(node):
 		node.queue_free()
 
 
-var aiTimer = 0.0
-var feedTimer = 0.0
-@export var feedTime = 0.8
-@export var miss_chance = 0.2
+var ai_Timer = 0.0
+var feed_Timer = 0.0
+@export var base_feed_Time = 1.0
+@onready var adds_Time = (1.0-1.0/(sqrt(float(G.difficulty))))
+@onready var feed_Time = base_feed_Time - adds_Time
+@export var miss_chance = 1.0
 var ai_direction = Vector2(0,0)
 @onready var headOutPos = null
 var firstPartInside = 0
 func get_ai_direction(delta):
-	check_colisions()
-	aiTimer += delta
-	feedTimer += delta
-	if feedTimer > feedTime:
+	check_RC_colisions()
+	ai_Timer += delta
+	feed_Timer += delta
+	if feed_Timer > feed_Time:
 		bodyGrow(1)
-		feedTimer = 0.0
-	if aiTimer > 0.5:
+		feed_Timer = 0.0
+	if ai_Timer > 0.5:
 		if !aiSpeed:
 			aiSpeed = randi_range(0,10)
 			if aiSpeed:
 				aiSpeed = 3
 		else:
 			aiSpeed -= 1
-		aiTimer = 0.0
+		ai_Timer = 0.0
 		create_ai_direction()
 	return ai_direction
 
-func check_colisions():
+func check_RC_colisions():
 	var changed = false
-	if $"Head/0".is_colliding() and aiTimer > 0.2:
+	if $"Head/0".is_colliding() and ai_Timer > 0.2:
 		changed = true
 		if $Head/CRight.is_colliding() or $"Head/90".is_colliding() or $"Head/45".is_colliding():
-			collided(-60)
+			RC_collided(-60)
 		else:
-			collided(60)
-	elif $"Head/-45".is_colliding() and aiTimer > 0.2:
+			RC_collided(60)
+	elif $"Head/-45".is_colliding() and ai_Timer > 0.2:
 		changed = true
-		collided(45)
-	elif $"Head/45".is_colliding() and aiTimer > 0.2:
+		RC_collided(45)
+	elif $"Head/45".is_colliding() and ai_Timer > 0.2:
 		changed = true
-		collided(-45)
-	elif $"Head/-90".is_colliding() and aiTimer > 0.2:
+		RC_collided(-45)
+	elif $"Head/-90".is_colliding() and ai_Timer > 0.2:
 		changed = true
-		collided(15)
-	elif $"Head/90".is_colliding() and aiTimer > 0.2:
+		RC_collided(15)
+	elif $"Head/90".is_colliding() and ai_Timer > 0.2:
 		changed = true
-		collided(-15)
+		RC_collided(-15)
 	if changed:
-		aiTimer = 0.0
+		ai_Timer = 0.0
 
-func collided(degr = 0):
+func RC_collided(degr = 0):
 	var current_rotation = int($Head.rotation_degrees+90) % 360
 	if current_rotation < 0:
 		current_rotation += 360
 	if current_rotation > 180:
 		current_rotation -= 360
-	if randi_range(0,100)/100 < miss_chance:
+	if float(randi_range(0,100))/100.0 < miss_chance:
 		#print(str(snakeNum+1," missed! On: ", degr))
 		if abs(degr) == 60:
 			degr = 0
@@ -474,8 +477,8 @@ func find_closest_food(pos: Vector2):
 				nearest_distance = distance
 				new_nearest = target
 	if new_nearest:
-		var direction = (new_nearest.global_position - pos).normalized()
-		return direction
+		var directionNEW = (new_nearest.global_position - pos).normalized()
+		return directionNEW
 	else:
 		return false
 

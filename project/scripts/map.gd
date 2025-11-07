@@ -124,7 +124,6 @@ func check_game():
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 	elif $Snakes.get_child_count() < 2:
-		print("WIN!!!")
 		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
 		Engine.time_scale = 1.5
@@ -182,16 +181,7 @@ func clearSnake():
 		if snakeArr[i]:
 			curSnake = i
 			break
-	print("index: ",curSnake," snake: ",snakeArr[curSnake])
 	return
-	for i in range(snakeArr.size()):
-		if snakeArr[i] == snakeArr[curSnake]:
-			snakeArr.pop_at(i)
-			ai_snakes.erase(i)  # Удаляем из AI списка
-			if snakeArr:
-				curSnake = 0
-				$DeathSound.play()
-			break
 
 func genSnake(i = 0):
 	var newSnake = SNAKE.instantiate()

@@ -14,6 +14,8 @@ var total_kills = 0
 var kills = 0
 var wins = 0
 
+var difficulty = 1
+
 var alive = true
 var result_is_win = false
 var language = "ru"

@@ -92,13 +92,17 @@ func _on_play_pressed():
 	play_button_sound()  # Звук для кнопки Play
 	_go_to_map()
 	
-	
+
+var went_to_map = false
 func _go_to_map():
+	if went_to_map:
+		return
 	var nickname = $CanvasLayer/NicknameInput.text
 	if nickname.length() <= 25:
 		if nickname == "":
 			nickname = "Player"
-			
+		
+		went_to_map = true
 		G.nickname = nickname
 		# Воспроизводим звук и ЖДЕМ его окончания
 		await play_transition_sound()

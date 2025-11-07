@@ -32,11 +32,43 @@ var snake_capture_states: Array = []  # Массив состояний захв
 
 var territories: Array = []  # Массив территорий для каждой змейки
 
+# Шейдер и текстуры
+const TERRITORY_SHADER = preload("res://project/resources/territory.gdshader")
+@export var pattern_texture: Texture2D
+@export var noise_texture: Texture2D
+@export var pattern_scale: float = 0.15
+@export var animation_speed: float = 1.0
+@export var effect_type = 2.0 # 0-15 для 16 разных эффектов
+
 func _ready():
 	mesh = ArrayMesh.new()
+	z_index = -4095
+	
+	# Инициализируем шейдерный материал
+	_setup_territory_material()
+	
 	# Инициализируем массив территорий
 	territories = []
 	snake_capture_states = []
+
+func _setup_territory_material():
+	var shader_material = ShaderMaterial.new()
+	shader_material.shader = TERRITORY_SHADER
+	
+	# Устанавливаем текстуры если они заданы
+	if pattern_texture:
+		shader_material.set_shader_parameter("texture_pattern", pattern_texture)
+	if noise_texture:
+		shader_material.set_shader_parameter("noise_texture", noise_texture)
+	
+	# Устанавливаем параметры шейдера
+	shader_material.set_shader_parameter("pattern_scale", pattern_scale)
+	shader_material.set_shader_parameter("animation_speed", animation_speed)
+	shader_material.set_shader_parameter("edge_thickness", 0.01)
+	shader_material.set_shader_parameter("edge_color", Color(1, 1, 1, 0.5))
+	shader_material.set_shader_parameter("effect_type", effect_type)
+	
+	material = shader_material
 
 # Класс для хранения состояния захвата каждой змейки
 class SnakeCaptureState:
@@ -109,8 +141,7 @@ func update_external_capture(snake_index: int, new_point: Vector2):
 		state.capture_points.append(new_point)
 	
 	# ОПТИМИЗАЦИЯ: перерисовываем только при значительных изменениях
-	if state.capture_points.size() % 3 == 0:  # был каждый раз
-		#queue_redraw()
+	if state.capture_points.size() % 3 == 0:
 		pass
 
 # Внешний метод для завершения захвата
@@ -126,7 +157,6 @@ func finish_external_capture(snake_index: int):
 		state.is_capturing = false
 		return
 	
-	
 	# Замыкаем путь если нужно
 	var first_point = state.capture_points[0]
 	var last_point = state.capture_points[-1]
@@ -136,7 +166,6 @@ func finish_external_capture(snake_index: int):
 	
 	process_capture(snake_index, state.capture_points)
 	state.is_capturing = false
-	#queue_redraw()
 
 # Останавливаем захват без обработки
 func cancel_external_capture(snake_index: int):
@@ -160,7 +189,6 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	var last_point = capture_points[-1]
 	
 	if first_point.distance_to(last_point) > min_distance * 2:
-		# Автоматически замыкаем если точки близки
 		if first_point.distance_to(last_point) < min_distance * 3:
 			capture_points.append(first_point)
 		else:
@@ -169,7 +197,6 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	var capture_polygon = simplify_polygon(capture_points)
 	if capture_polygon.size() < 3:
 		return
-	
 	
 	# Расширяем массив территорий если нужно
 	while territories.size() <= snake_index:
@@ -185,9 +212,6 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 		)
 		if not union_result.is_empty():
 			territories[snake_index] = combine_polygons(union_result)
-		else:
-			pass
-			#print("Объединение не удалось")
 	
 	# Вычитаем у других змеек
 	for i in range(territories.size()):
@@ -202,13 +226,9 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	queue_redraw()
 
 func combine_polygons(polygons: Array) -> PackedVector2Array:
-	# Объединяем все полигоны в один (простая реализация)
 	if polygons.size() == 1:
 		return polygons[0]
-	
-	# Для сложных случаев - возвращаем самый большой или объединяем
 	var largest = get_largest_polygon(polygons)
-	# TODO: Реализовать proper union всех полигонов
 	return largest
 
 func get_largest_polygon(polygons: Array) -> PackedVector2Array:
@@ -244,7 +264,6 @@ func simplify_polygon(points: PackedVector2Array) -> PackedVector2Array:
 		if simplified[-1].distance_to(points[i]) > min_distance * 0.5:
 			simplified.append(points[i])
 	
-	# Убеждаемся, что полигон замкнут
 	if simplified.size() >= 3 and simplified[0].distance_to(simplified[-1]) > min_distance:
 		simplified.append(simplified[0])
 	
@@ -256,10 +275,10 @@ func update_territory_mesh():
 	var all_vertices := PackedVector2Array()
 	var all_colors := PackedColorArray()
 	var all_indices := PackedInt32Array()
+	var all_uvs := PackedVector2Array()  # Добавляем UV координаты для шейдера
 	
 	for i in range(territories.size()):
 		if i < snake_colors.size() and territories[i].size() >= 3:
-			# ОПТИМИЗАЦИЯ: пропускаем триангуляцию для очень маленьких территорий
 			if calculate_polygon_area(territories[i]) < 10.0:
 				continue
 				
@@ -267,6 +286,15 @@ func update_territory_mesh():
 			if indices.size() >= 3 and indices.size() % 3 == 0:
 				var start_index = all_vertices.size()
 				all_vertices.append_array(territories[i])
+				
+				# Генерируем UV координаты для текстуры
+				var uv_rect = _calculate_uv_rect(territories[i])
+				for point in territories[i]:
+					var uv = Vector2(
+						(point.x - uv_rect.position.x) / uv_rect.size.x,
+						(point.y - uv_rect.position.y) / uv_rect.size.y
+					)
+					all_uvs.append(uv)
 				
 				for j in range(territories[i].size()):
 					all_colors.append(snake_colors[i])
@@ -280,9 +308,26 @@ func update_territory_mesh():
 		arrays.resize(Mesh.ARRAY_MAX)
 		arrays[Mesh.ARRAY_VERTEX] = all_vertices
 		arrays[Mesh.ARRAY_COLOR] = all_colors  
+		arrays[Mesh.ARRAY_TEX_UV] = all_uvs  # Добавляем UV координаты
 		arrays[Mesh.ARRAY_INDEX] = all_indices
 		
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+
+# Вычисляем UV координаты для полигона
+func _calculate_uv_rect(points: PackedVector2Array) -> Rect2:
+	if points.is_empty():
+		return Rect2()
+	
+	var min_point = points[0]
+	var max_point = points[0]
+	
+	for point in points:
+		min_point.x = min(min_point.x, point.x)
+		min_point.y = min(min_point.y, point.y)
+		max_point.x = max(max_point.x, point.x)
+		max_point.y = max(max_point.y, point.y)
+	
+	return Rect2(min_point, max_point - min_point)
 
 func clear_territories():
 	territories.clear()
@@ -341,35 +386,25 @@ func is_snake_capturing(snake_index: int) -> bool:
 
 # Передача территории от одной змейки к другой
 func transfer_territory(from_snake_index: int, to_snake_index: int):
-	# Проверяем валидность индексов
 	if from_snake_index >= territories.size() or to_snake_index >= territories.size():
-		print("Ошибка: неверные индексы змеек ", from_snake_index, " -> ", to_snake_index)
 		return
 	if from_snake_index < 0 or to_snake_index < 0:
-		print("Ошибка: отрицательные индексы змеек ", from_snake_index, " -> ", to_snake_index)
 		return
 	if territories[from_snake_index].is_empty():
-		print("Предупреждение: у убитой змейки ", from_snake_index, " нет территории")
 		return
 	
-	print("Передача территории: змейка ", from_snake_index, " (площадь: ", get_territory_area(from_snake_index), ") -> змейка ", to_snake_index, " (площадь: ", get_territory_area(to_snake_index), ")")
-		
 	# Сохраняем исходную территорию получателя
 	var receiver_territory = territories[to_snake_index].duplicate()
 	var victim_territory = territories[from_snake_index].duplicate()
 	
 	# Объединяем территории
 	if receiver_territory.is_empty():
-		# Если у получателя нет территории, просто передаем всю территорию жертвы
 		territories[to_snake_index] = victim_territory
 	else:
-		# Объединяем обе территории
 		var union_result = Geometry2D.merge_polygons(receiver_territory, victim_territory)
 		if not union_result.is_empty():
 			territories[to_snake_index] = combine_polygons(union_result)
 		else:
-			# Если объединение не удалось, просто добавляем территорию жертвы
-			print("Объединение территорий не удалось, добавляем территорию жертвы")
 			territories[to_snake_index] = victim_territory
 	
 	# Очищаем территорию убитой змейки
@@ -380,6 +415,3 @@ func transfer_territory(from_snake_index: int, to_snake_index: int):
 	# Обновляем визуализацию
 	update_territory_mesh()
 	queue_redraw()
-	
-	print("Территория передана от змейки ", from_snake_index, " к змейке ", to_snake_index)
-	print("Новая площадь территории получателя: ", get_territory_area(to_snake_index))

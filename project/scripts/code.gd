@@ -22,7 +22,7 @@ func close_choose():
 	moveBLUR(0)
 
 var tweenChoice: Tween
-func makeChoice(where = 0, end = 0):
+func makeChoice(where = 0, _end = 0):
 	moveBLUR(1)
 	tweenChoice = create_tween()
 	tweenChoice.set_ease(Tween.EASE_OUT)
