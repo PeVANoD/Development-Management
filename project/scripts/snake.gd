@@ -209,6 +209,9 @@ func update_territory_capture(delta):
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*20)
 			territory_capture.finish_external_capture(snake_index)
 			if !ai_control:
+				G.terrain = round(float(G.tera.get_territory_area(snake_index))/5226191*1000)/10
+				G.max_territory = max(G.max_territory, G.terrain)
+			if !ai_control:
 				$TerritoryCaptureSound.pitch_scale = randf_range(0.7,1.3)
 				$TerritoryCaptureSound.play()
 			capture_started = false
@@ -276,6 +279,9 @@ func bodyGrow(amount = 1):
 		var newPart = $Body.get_child(0).duplicate()
 		newPart.z_index = $Body.get_child_count() - 1
 		length += 1
+		if !ai_control:
+			G.size = length
+			G.max_size = max(G.max_size, length)
 		maxHistoryLength += addLength
 		$Body.call_deferred("add_child", newPart)
 		$Body.call_deferred("move_child", newPart,0)

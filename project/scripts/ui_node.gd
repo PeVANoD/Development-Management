@@ -135,13 +135,12 @@ func sessionEndText(text, match_res):
 	$PassSessionPanel.visible = true
 	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
 	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
-	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + $"Leaders/Terrain/VBoxContainer/1/Count".text
-	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + $"Leaders/Size/VBoxContainer/1/Count".text
+	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + str(G.terrain)
+	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + str(G.size)
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
 	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(player_exp)
 	G.player_exp += player_exp 
-	G.max_territory = max(G.max_territory, float($"Leaders/Terrain/VBoxContainer/1/Count".text))
-	G.max_size = max(G.max_size, int($"Leaders/Size/VBoxContainer/1/Count".text))
+
 
 # Функции для управления предупреждением о выходе из территории
 func show_territory_warning():
