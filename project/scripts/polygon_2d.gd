@@ -23,7 +23,7 @@ var colors = [
 
 # Настройки
 var snake_colors: Array = []  # Цвета для каждой змейки
-var line_thickness: float = 1.0
+var line_thickness: float = 0.0
 var point_radius: float = 1.0
 var min_distance: float = 15.0
 
@@ -32,11 +32,50 @@ var snake_capture_states: Array = []  # Массив состояний захв
 
 var territories: Array = []  # Массив территорий для каждой змейки
 
+# Шейдер и текстуры
+const TERRITORY_SHADER = preload("res://project/resources/territory.gdshader")
+@export var pattern_texture: Texture2D
+@export var noise_texture: Texture2D
+@export var pattern_scale: float = 0.15
+@export var animation_speed: float = 1.0
+@export var effect_type = 0.0 # 0-15 для 16 разных эффектов
+
+# Новые переменные для поддержки разных шейдеров
+var territory_effect_types: Array = []  # Массив типов эффектов для каждой змейки
+var territory_meshes: Array = []  # Массив отдельных мешей для каждой змейки
+
 func _ready():
 	mesh = ArrayMesh.new()
+	z_index = -4095
+	
+	# Инициализируем шейдерный материал
+	_setup_territory_material()
+	
 	# Инициализируем массив территорий
 	territories = []
 	snake_capture_states = []
+	territory_effect_types = []
+	territory_meshes = []
+
+func _setup_territory_material():
+	var shader_material = ShaderMaterial.new()
+	shader_material.shader = TERRITORY_SHADER
+	
+	# Устанавливаем текстуры если они заданы
+	if pattern_texture:
+		shader_material.set_shader_parameter("texture_pattern", pattern_texture)
+	if noise_texture:
+		shader_material.set_shader_parameter("noise_texture", noise_texture)
+	
+	# Устанавливаем параметры шейдера
+	shader_material.set_shader_parameter("pattern_scale", pattern_scale)
+	shader_material.set_shader_parameter("animation_speed", animation_speed)
+	shader_material.set_shader_parameter("edge_thickness", 0.01)
+	shader_material.set_shader_parameter("edge_color", Color(1, 1, 1, 0.5))
+	shader_material.set_shader_parameter("effect_type", effect_type)
+	shader_material.set_shader_parameter("edge_effect_type", 3)
+	
+	material = shader_material
 
 # Класс для хранения состояния захвата каждой змейки
 class SnakeCaptureState:
@@ -48,7 +87,7 @@ class SnakeCaptureState:
 		capture_points = []
 
 # Создаем начальную территорию для змейки
-func create_initial_territory_for_snake(snake_index: int, center: Vector2):
+func create_initial_territory_for_snake(snake_index: int, center: Vector2, initial_effect_type: int = -1):
 	if snake_index >= colors.size():
 		# Если цветов не хватает, генерируем случайный
 		var random_color = Color(randf(), randf(), randf())
@@ -62,6 +101,13 @@ func create_initial_territory_for_snake(snake_index: int, center: Vector2):
 	if snake_capture_states.size() <= snake_index:
 		snake_capture_states.resize(snake_index + 1)
 		snake_capture_states[snake_index] = SnakeCaptureState.new()
+	if territory_effect_types.size() <= snake_index:
+		territory_effect_types.resize(snake_index + 1)
+		# Устанавливаем случайный эффект если не указан
+		if initial_effect_type == -1:
+			territory_effect_types[snake_index] = randi() % 16
+		else:
+			territory_effect_types[snake_index] = initial_effect_type
 	
 	# Создаем начальную территорию вокруг позиции змейки
 	territories[snake_index] = generate_initial_territory(center, 100)
@@ -109,8 +155,7 @@ func update_external_capture(snake_index: int, new_point: Vector2):
 		state.capture_points.append(new_point)
 	
 	# ОПТИМИЗАЦИЯ: перерисовываем только при значительных изменениях
-	if state.capture_points.size() % 3 == 0:  # был каждый раз
-		#queue_redraw()
+	if state.capture_points.size() % 3 == 0:
 		pass
 
 # Внешний метод для завершения захвата
@@ -126,7 +171,6 @@ func finish_external_capture(snake_index: int):
 		state.is_capturing = false
 		return
 	
-	
 	# Замыкаем путь если нужно
 	var first_point = state.capture_points[0]
 	var last_point = state.capture_points[-1]
@@ -136,7 +180,6 @@ func finish_external_capture(snake_index: int):
 	
 	process_capture(snake_index, state.capture_points)
 	state.is_capturing = false
-	#queue_redraw()
 
 # Останавливаем захват без обработки
 func cancel_external_capture(snake_index: int):
@@ -151,6 +194,7 @@ func is_point_in_territory_global(point: Vector2, snake_index: int) -> bool:
 	var local_point = global_to_territory_local(point)
 	return is_point_in_territory(local_point, snake_index)
 
+# Основная функция обработки захвата - БЕЗ ИЗМЕНЕНИЙ
 func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	if capture_points.size() < 3:
 		return
@@ -160,7 +204,6 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	var last_point = capture_points[-1]
 	
 	if first_point.distance_to(last_point) > min_distance * 2:
-		# Автоматически замыкаем если точки близки
 		if first_point.distance_to(last_point) < min_distance * 3:
 			capture_points.append(first_point)
 		else:
@@ -169,7 +212,6 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	var capture_polygon = simplify_polygon(capture_points)
 	if capture_polygon.size() < 3:
 		return
-	
 	
 	# Расширяем массив территорий если нужно
 	while territories.size() <= snake_index:
@@ -185,9 +227,6 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 		)
 		if not union_result.is_empty():
 			territories[snake_index] = combine_polygons(union_result)
-		else:
-			pass
-			#print("Объединение не удалось")
 	
 	# Вычитаем у других змеек
 	for i in range(territories.size()):
@@ -202,13 +241,9 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	queue_redraw()
 
 func combine_polygons(polygons: Array) -> PackedVector2Array:
-	# Объединяем все полигоны в один (простая реализация)
 	if polygons.size() == 1:
 		return polygons[0]
-	
-	# Для сложных случаев - возвращаем самый большой или объединяем
 	var largest = get_largest_polygon(polygons)
-	# TODO: Реализовать proper union всех полигонов
 	return largest
 
 func get_largest_polygon(polygons: Array) -> PackedVector2Array:
@@ -244,22 +279,22 @@ func simplify_polygon(points: PackedVector2Array) -> PackedVector2Array:
 		if simplified[-1].distance_to(points[i]) > min_distance * 0.5:
 			simplified.append(points[i])
 	
-	# Убеждаемся, что полигон замкнут
 	if simplified.size() >= 3 and simplified[0].distance_to(simplified[-1]) > min_distance:
 		simplified.append(simplified[0])
 	
 	return simplified
 
+# Обновленная функция обновления меша - УПРОЩЕННАЯ ВЕРСИЯ
 func update_territory_mesh():
 	mesh.clear_surfaces()
 	
 	var all_vertices := PackedVector2Array()
 	var all_colors := PackedColorArray()
 	var all_indices := PackedInt32Array()
+	var all_uvs := PackedVector2Array()
 	
 	for i in range(territories.size()):
 		if i < snake_colors.size() and territories[i].size() >= 3:
-			# ОПТИМИЗАЦИЯ: пропускаем триангуляцию для очень маленьких территорий
 			if calculate_polygon_area(territories[i]) < 10.0:
 				continue
 				
@@ -268,8 +303,21 @@ func update_territory_mesh():
 				var start_index = all_vertices.size()
 				all_vertices.append_array(territories[i])
 				
+				# Генерируем UV координаты для текстуры
+				var uv_rect = _calculate_uv_rect(territories[i])
+				for point in territories[i]:
+					var uv = Vector2(
+						(point.x - uv_rect.position.x) / uv_rect.size.x,
+						(point.y - uv_rect.position.y) / uv_rect.size.y
+					)
+					all_uvs.append(uv)
+				
+				# Используем цвет для передачи информации об эффекте через альфа-канал
+				var effect_color = snake_colors[i]
+				effect_color.a = float(territory_effect_types[i]) / 15.0  # Нормализуем до 0-1
+				
 				for j in range(territories[i].size()):
-					all_colors.append(snake_colors[i])
+					all_colors.append(effect_color)
 				
 				for index in indices:
 					if start_index + index < all_vertices.size():
@@ -280,14 +328,62 @@ func update_territory_mesh():
 		arrays.resize(Mesh.ARRAY_MAX)
 		arrays[Mesh.ARRAY_VERTEX] = all_vertices
 		arrays[Mesh.ARRAY_COLOR] = all_colors  
+		arrays[Mesh.ARRAY_TEX_UV] = all_uvs
 		arrays[Mesh.ARRAY_INDEX] = all_indices
 		
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	
+	# Обновляем шейдер с информацией о эффектах
+	update_shader_effects()
+
+# Функция для обновления параметров шейдера с учетом разных эффектов
+func update_shader_effects():
+	if material is ShaderMaterial:
+		# Собираем все уникальные эффекты
+		var unique_effects = []
+		for i in range(territory_effect_types.size()):
+			if i < territories.size() and not territories[i].is_empty():
+				var effect_typeS = territory_effect_types[i]
+				if not effect_typeS in unique_effects:
+					unique_effects.append(effect_typeS)
+		
+		# Если нет эффектов, используем один по умолчанию
+		if unique_effects.is_empty():
+			unique_effects.append(0)
+		
+		# Создаем массив эффектов для шейдера
+		var effect_array = []
+		effect_array.resize(16)
+		for i in range(16):
+			if i < unique_effects.size():
+				effect_array[i] = float(unique_effects[i])
+			else:
+				effect_array[i] = 0.0
+		
+		material.set_shader_parameter("effect_types", effect_array)
+		material.set_shader_parameter("active_effects_count", unique_effects.size())
+
+# Вычисляем UV координаты для полигона
+func _calculate_uv_rect(points: PackedVector2Array) -> Rect2:
+	if points.is_empty():
+		return Rect2()
+	
+	var min_point = points[0]
+	var max_point = points[0]
+	
+	for point in points:
+		min_point.x = min(min_point.x, point.x)
+		min_point.y = min(min_point.y, point.y)
+		max_point.x = max(max_point.x, point.x)
+		max_point.y = max(max_point.y, point.y)
+	
+	return Rect2(min_point, max_point - min_point)
 
 func clear_territories():
 	territories.clear()
 	snake_colors.clear()
 	snake_capture_states.clear()
+	territory_effect_types.clear()
 	update_territory_mesh()
 	queue_redraw()
 
@@ -296,6 +392,8 @@ func clear_territory(snake_index):
 		territories[snake_index].clear()
 	if snake_index < snake_capture_states.size():
 		snake_capture_states[snake_index] = null
+	if snake_index < territory_effect_types.size():
+		territory_effect_types[snake_index] = 0
 	update_territory_mesh()
 	queue_redraw()
 
@@ -338,3 +436,67 @@ func is_snake_capturing(snake_index: int) -> bool:
 	if snake_index < snake_capture_states.size() and snake_capture_states[snake_index] != null:
 		return snake_capture_states[snake_index].is_capturing
 	return false
+
+# Передача территории от одной змейки к другой
+func transfer_territory(from_snake_index: int, to_snake_index: int):
+	if from_snake_index >= territories.size() or to_snake_index >= territories.size():
+		return
+	if from_snake_index < 0 or to_snake_index < 0:
+		return
+	if territories[from_snake_index].is_empty():
+		return
+	
+	# Сохраняем исходную территорию получателя
+	var receiver_territory = territories[to_snake_index].duplicate()
+	var victim_territory = territories[from_snake_index].duplicate()
+	
+	# Объединяем территории
+	if receiver_territory.is_empty():
+		territories[to_snake_index] = victim_territory
+		# Переносим эффект
+		if from_snake_index < territory_effect_types.size():
+			territory_effect_types[to_snake_index] = territory_effect_types[from_snake_index]
+	else:
+		var union_result = Geometry2D.merge_polygons(receiver_territory, victim_territory)
+		if not union_result.is_empty():
+			territories[to_snake_index] = combine_polygons(union_result)
+		else:
+			territories[to_snake_index] = victim_territory
+	
+	# Очищаем территорию убитой змейки
+	territories[from_snake_index].clear()
+	if from_snake_index < snake_capture_states.size():
+		snake_capture_states[from_snake_index] = null
+	
+	# Обновляем визуализацию
+	update_territory_mesh()
+	queue_redraw()
+
+# НОВЫЕ ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ ЭФФЕКТАМИ
+
+# Установить эффект для территории змейки
+func set_territory_effect(snake_index: int, effect_typeE: int):
+	if snake_index < territory_effect_types.size():
+		territory_effect_types[snake_index] = effect_typeE
+		update_territory_mesh()
+		queue_redraw()
+
+# Получить текущий эффект территории змейки
+func get_territory_effect(snake_index: int) -> int:
+	if snake_index < territory_effect_types.size():
+		return territory_effect_types[snake_index]
+	return 0
+
+# Установить случайный эффект для территории змейки
+func set_random_territory_effect(snake_index: int):
+	if snake_index < territory_effect_types.size():
+		territory_effect_types[snake_index] = randi() % 16
+		update_territory_mesh()
+		queue_redraw()
+
+# Циклически переключить эффект территории змейки
+func cycle_territory_effect(snake_index: int):
+	if snake_index < territory_effect_types.size():
+		territory_effect_types[snake_index] = (territory_effect_types[snake_index] + 1) % 16
+		update_territory_mesh()
+		queue_redraw()

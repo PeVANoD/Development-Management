@@ -8,6 +8,11 @@ var radius = 1300
 var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
+var food_spawners: Array = []
+var spawner_count = 20
+var spawner_radius = 80
+var max_food_count = 200 
+
 func _ready():
 	G.alive = true
 	$Music.play()
@@ -18,8 +23,8 @@ func _ready():
 	territory_capture.position = Vector2.ZERO
 	$Music.play()
 	
-	
-	genFood(radius)
+	create_food_spawners()
+	genFood(max_food_count)
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
@@ -27,18 +32,79 @@ func spawn_initial_snakes():
 	for i in range(snake_count):
 		genSnake(i)
 
+func create_food_spawners():
+	food_spawners.clear()
+	for i in range(spawner_count):
+		var angle = randf() * 2 * PI
+		var distance = randf() * (radius - 400)
+		var spawner_pos = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
+		food_spawners.append(spawner_pos)
 
-func genFood(amount = 1, pos = false):
+func find_nearest_spawner(pos: Vector2) -> Vector2:
+	if food_spawners.is_empty():
+		return pos
+	
+	var nearest_spawner = food_spawners[0]
+	var min_distance = pos.distance_to(nearest_spawner)
+	
+	for spawner in food_spawners:
+		var distance = pos.distance_to(spawner)
+		if distance < min_distance:
+			min_distance = distance
+			nearest_spawner = spawner
+	
+	return nearest_spawner
+
+# Генерация позиции рядом со спавнером
+func get_spawn_position_near_spawner(spawner_pos: Vector2) -> Vector2:
+	var angle = randf() * 2 * PI
+	var distance = randf() * spawner_radius
+	var offset = Vector2(cos(angle) * distance, sin(angle) * distance)
+	var final_pos = spawner_pos + offset
+	
+	# Проверяем, что позиция в пределах карты
+	if final_pos.length() > radius - 50:
+		# Если вышли за границы, генерируем ближе к центру спавнера
+		distance = randf() * (spawner_radius * 0.5)
+		offset = Vector2(cos(angle) * distance, sin(angle) * distance)
+		final_pos = spawner_pos + offset
+	
+	return final_pos
+
+func get_current_food_count() -> int:
+	return $Food.get_child_count()
+
+func genFood(amount = 1, pos = false, exact_position = false):
 	for i in range(amount):
+		# Проверяем лимит еды только при обычном спавне (не при смерти змейки)
+		if not pos and get_current_food_count() >= max_food_count:
+			break
+			
 		var createFood = FOOD.instantiate()
 		if !pos:
-			var fX = randi_range(-radius,radius)
-			var maxY = sqrt(radius * radius - fX * fX)
-			var fY = randi_range(-maxY,maxY)
-			createFood.global_position = Vector2(fX,fY)
+			# Используем систему спавнеров
+			if food_spawners.size() > 0:
+				# Выбираем случайный спавнер
+				var random_spawner = food_spawners[randi() % food_spawners.size()]
+				createFood.global_position = get_spawn_position_near_spawner(random_spawner)
+			else:
+				# Fallback к старой системе если спавнеры не созданы
+				var fX = randi_range(-radius,radius)
+				var maxY = sqrt(radius * radius - fX * fX)
+				var fY = randi_range(-maxY,maxY)
+				createFood.global_position = Vector2(fX,fY)
 		else:
-			createFood.global_position = pos
-		var scalee = randf_range(0.5,1.3)
+			if exact_position:
+				# Точное размещение еды (для смерти змейки)
+				createFood.global_position = pos
+			else:
+				# Размещение рядом со спавнером (для обычного спавна)
+				if food_spawners.size() > 0:
+					var nearest_spawner = find_nearest_spawner(pos)
+					createFood.global_position = get_spawn_position_near_spawner(nearest_spawner)
+				else:
+					createFood.global_position = pos
+		var scalee = randf_range(1.5, 2.5)
 		createFood.scale = Vector2(scalee,scalee)
 		$Food.call_deferred("add_child", createFood)
 
@@ -58,7 +124,6 @@ func check_game():
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 	elif $Snakes.get_child_count() < 2:
-		print("WIN!!!")
 		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
 		Engine.time_scale = 1.5
@@ -116,16 +181,7 @@ func clearSnake():
 		if snakeArr[i]:
 			curSnake = i
 			break
-	print("index: ",curSnake," snake: ",snakeArr[curSnake])
 	return
-	for i in range(snakeArr.size()):
-		if snakeArr[i] == snakeArr[curSnake]:
-			snakeArr.pop_at(i)
-			ai_snakes.erase(i)  # Удаляем из AI списка
-			if snakeArr:
-				curSnake = 0
-				$DeathSound.play()
-			break
 
 func genSnake(i = 0):
 	var newSnake = SNAKE.instantiate()
