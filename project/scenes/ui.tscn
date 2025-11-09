@@ -433,8 +433,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/1"]
 layout_mode = 1
@@ -495,8 +493,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/2"]
 layout_mode = 1
@@ -557,8 +553,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/3"]
 layout_mode = 1
@@ -619,8 +613,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/4"]
 layout_mode = 1
@@ -681,8 +673,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/5"]
 layout_mode = 1
@@ -743,8 +733,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/6"]
 layout_mode = 1
@@ -805,8 +793,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/7"]
 layout_mode = 1
@@ -867,8 +853,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/8"]
 layout_mode = 1
@@ -1080,8 +1064,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/1"]
 layout_mode = 1
@@ -1142,8 +1124,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/2"]
 layout_mode = 1
@@ -1204,8 +1184,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/3"]
 layout_mode = 1
@@ -1266,8 +1244,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/4"]
 layout_mode = 1
@@ -1328,8 +1304,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/5"]
 layout_mode = 1
@@ -1390,8 +1364,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/6"]
 layout_mode = 1
@@ -1452,8 +1424,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/7"]
 layout_mode = 1
@@ -1514,8 +1484,6 @@ text = "Player"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 10
-visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/8"]
 layout_mode = 1

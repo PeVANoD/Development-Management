@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cjpuaslk4snkw"]
+[gd_scene load_steps=36 format=3 uid="uid://cjpuaslk4snkw"]
 
 [ext_resource type="Script" uid="uid://chbc5x46o2anv" path="res://project/scripts/snake.gd" id="1_66od3"]
 [ext_resource type="Texture2D" uid="uid://duitlwhqq3j3n" path="res://project/images/body/Body.png" id="2_svp7d"]
@@ -14,6 +14,14 @@
 [ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_hex0x"]
 [ext_resource type="Texture2D" uid="uid://r8h4xe52i0pr" path="res://project/images/head/head 3.png" id="9_mtx8m"]
 [ext_resource type="FontFile" uid="uid://dbpjhgpkj6nxv" path="res://project/resources/PixeloidSansBold-PKnYd.ttf" id="10_ithxk"]
+[ext_resource type="Texture2D" uid="uid://cpqh5tsbm0s0c" path="res://project/images/head/eye1.png" id="10_mtx8m"]
+[ext_resource type="Texture2D" uid="uid://dc7im6s47cu1l" path="res://project/images/head/eye_pupil.png" id="11_hex0x"]
+[ext_resource type="Texture2D" uid="uid://dq782g5s5winw" path="res://project/images/head/eye2.png" id="11_mtx8m"]
+[ext_resource type="Texture2D" uid="uid://cp2vgy1t7hp42" path="res://project/images/head/eye3.png" id="12_frmv1"]
+[ext_resource type="Texture2D" uid="uid://dv6ob47sfr0qv" path="res://project/images/head/eye4.png" id="13_frmv1"]
+[ext_resource type="Texture2D" uid="uid://bkt5bede5h2pt" path="res://project/images/head/eye5.png" id="14_1x5eq"]
+[ext_resource type="Texture2D" uid="uid://b3uem4pu6koio" path="res://project/images/head/eye6.png" id="15_f75sa"]
+[ext_resource type="Texture2D" uid="uid://bxigo2et16eda" path="res://project/images/head/eye7.png" id="16_7xpkp"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_frmv1"]
 animations = [{
@@ -88,8 +96,67 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_5gq0s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_mtx8m")
+}],
+"loop": false,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_mtx8m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_frmv1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_frmv1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_1x5eq")
+}],
+"loop": false,
+"name": &"2",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_f75sa")
+}],
+"loop": false,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_7xpkp")
+}],
+"loop": false,
+"name": &"4",
+"speed": 5.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_svp7d"]
 radius = 16.0
+
+[sub_resource type="Gradient" id="Gradient_f75sa"]
+offsets = PackedFloat32Array(0, 0.279152, 0.600707, 0.60424, 0.611307, 0.650177)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.705882, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7xpkp"]
+gradient = SubResource("Gradient_f75sa")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_3a2nh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.508621), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bsw34"]
 radius = 200.0
@@ -112,8 +179,8 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.198276), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_hex0x"]
-offsets = PackedFloat32Array(0, 0.0896057, 0.215054, 0.426523, 0.673835, 1)
-colors = PackedColorArray(0.107465, 0.0930978, 0.0847843, 1, 0.196341, 0.125667, 0.0917745, 0.968602, 0.699967, 0.310229, 0.131385, 0.790681, 0.979022, 0.795743, 0.366816, 0.476703, 0.148822, 0.139729, 0.120599, 0.24931, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0, 0.275986, 0.44086, 0.691756, 1)
+colors = PackedColorArray(0.295867, 0.295866, 0.295866, 1, 0.41598, 0.41598, 0.41598, 0.968627, 0.7, 0.7, 0.7, 0.792157, 0.266575, 0.266575, 0.266575, 0.478431, 1, 1, 1, 0.392157)
 
 [node name="Snake" type="Node2D"]
 script = ExtResource("1_66od3")
@@ -138,6 +205,33 @@ rotation = 1.5708
 sprite_frames = SubResource("SpriteFrames_1x5eq")
 animation = &"0"
 
+[node name="Eyes" type="Node2D" parent="Head"]
+position = Vector2(-11, 7.00004)
+
+[node name="1" type="AnimatedSprite2D" parent="Head/Eyes"]
+position = Vector2(2.57492e-05, -2.57493e-05)
+rotation = 1.5708
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_5gq0s")
+animation = &"2"
+
+[node name="pupil" type="Sprite2D" parent="Head/Eyes/1"]
+texture = ExtResource("11_hex0x")
+
+[node name="2" type="AnimatedSprite2D" parent="Head/Eyes"]
+position = Vector2(-2.49147e-05, -14)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_5gq0s")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="Head/Eyes/2"]
+position = Vector2(0, 9.53674e-07)
+texture = ExtResource("11_hex0x")
+
+[node name="eyeT" type="Timer" parent="Head/Eyes"]
+wait_time = 0.3
+one_shot = true
+
 [node name="Camera2D" type="Camera2D" parent="Head"]
 rotation = -1.5708
 enabled = false
@@ -146,51 +240,131 @@ position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
 [node name="Mouth" type="Area2D" parent="Head"]
+z_index = -1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Mouth"]
 position = Vector2(-4, 1.74846e-07)
 shape = SubResource("CircleShape2D_svp7d")
 
+[node name="CPU1" type="CPUParticles2D" parent="Head/Mouth"]
+position = Vector2(-22, 7.96401e-05)
+emitting = false
+texture = SubResource("GradientTexture2D_7xpkp")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+draw_order = 1
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 120.0
+scale_amount_min = 0.15
+scale_amount_max = 0.25
+scale_amount_curve = SubResource("Curve_3a2nh")
+color = Color(0.74195, 0.171982, 0.224195, 1)
+
+[node name="CPU2" type="CPUParticles2D" parent="Head/Mouth"]
+position = Vector2(-22, 7.96401e-05)
+emitting = false
+texture = SubResource("GradientTexture2D_7xpkp")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+draw_order = 1
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 120.0
+scale_amount_min = 0.15
+scale_amount_max = 0.25
+scale_amount_curve = SubResource("Curve_3a2nh")
+color = Color(0.74195, 0.171982, 0.224195, 1)
+
+[node name="CPU3" type="CPUParticles2D" parent="Head/Mouth"]
+position = Vector2(-22, 7.96401e-05)
+emitting = false
+texture = SubResource("GradientTexture2D_7xpkp")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+draw_order = 1
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 120.0
+scale_amount_min = 0.15
+scale_amount_max = 0.25
+scale_amount_curve = SubResource("Curve_3a2nh")
+color = Color(0.74195, 0.171982, 0.224195, 1)
+
+[node name="CPU4" type="CPUParticles2D" parent="Head/Mouth"]
+position = Vector2(-22, 7.96401e-05)
+emitting = false
+texture = SubResource("GradientTexture2D_7xpkp")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+draw_order = 1
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 120.0
+scale_amount_min = 0.15
+scale_amount_max = 0.25
+scale_amount_curve = SubResource("Curve_3a2nh")
+color = Color(0.74195, 0.171982, 0.224195, 1)
+
 [node name="-90" type="RayCast2D" parent="Head"]
+z_index = -1
 enabled = false
-target_position = Vector2(0, 200)
+target_position = Vector2(0, 120)
 collision_mask = 65280
 
 [node name="-45" type="RayCast2D" parent="Head"]
+z_index = -1
 rotation = 0.785398
 enabled = false
-target_position = Vector2(0, 200)
+target_position = Vector2(0, 120)
 collision_mask = 65280
 
 [node name="0" type="RayCast2D" parent="Head"]
+z_index = -1
 rotation = 1.5708
 enabled = false
-target_position = Vector2(0, 200)
+target_position = Vector2(0, 120)
 collision_mask = 65280
 
 [node name="45" type="RayCast2D" parent="Head"]
+z_index = -1
 rotation = 2.35619
 enabled = false
-target_position = Vector2(0, 200)
+target_position = Vector2(0, 120)
 collision_mask = 65280
 
 [node name="90" type="RayCast2D" parent="Head"]
+z_index = -1
 rotation = 3.14159
 enabled = false
-target_position = Vector2(0, 200)
+target_position = Vector2(0, 120)
 collision_mask = 65280
 
 [node name="CRight" type="RayCast2D" parent="Head"]
+z_index = -1
 rotation = 3.14159
 enabled = false
-target_position = Vector2(0, 200)
+target_position = Vector2(0, 120)
 collision_mask = 65536
 
 [node name="FindFood" type="Area2D" parent="Head"]
+z_index = -1
 position = Vector2(-43, 0.00015566)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/FindFood"]
-position = Vector2(-52, 0.00018824)
+position = Vector2(-49, 1.00018)
 shape = SubResource("CircleShape2D_bsw34")
 debug_color = Color(0.825842, 0.00160006, 0.955437, 0.121569)
 
@@ -211,7 +385,7 @@ horizontal_alignment = 1
 z_index = 4096
 position = Vector2(-20, 7.23998e-05)
 emitting = false
-amount = 50
+amount = 16
 texture = SubResource("GradientTexture2D_gjaiy")
 lifetime = 0.8
 one_shot = true
@@ -221,13 +395,12 @@ emission_sphere_radius = 1.0
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 30.0
-initial_velocity_max = 60.0
-scale_amount_min = 0.5
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+scale_amount_min = 0.8
+scale_amount_max = 1.5
 scale_amount_curve = SubResource("Curve_k1ry5")
 color_ramp = SubResource("Gradient_hex0x")
-hue_variation_min = -0.5
-hue_variation_max = 0.5
 
 [node name="EatSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_fdxhw")
@@ -252,4 +425,5 @@ volume_db = -15.0
 pitch_scale = 1.2
 bus = &"Sounds"
 
+[connection signal="timeout" from="Head/Eyes/eyeT" to="." method="_on_eye_t_timeout"]
 [connection signal="body_entered" from="Head/Mouth" to="." method="_in_mouth_body_entered"]

@@ -58,6 +58,7 @@ var aiSpeed = false
 func _ready():
 	$Body/part1/StaticBody2D.set_collision_layer_value(snakeNum+9,true)
 	$Body/part1/StaticBody2D.set_collision_mask_value(snakeNum+9,true)
+	$Head/CPU.color = lerp(Color(0,0,0),Color.html(colors[snakeNum]),0.5)
 	if !ai_control:
 		no_ai()
 	else:
@@ -74,6 +75,7 @@ func no_ai():
 	$Head.animation = G.chosen_skin
 	$Body/part1.animation = G.chosen_skin
 	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(colors[snakeNum]),0.4)
+
 
 func enable_ai():
 	$Head/Nick.text = str("Player ",snakeNum)
@@ -109,7 +111,8 @@ func update_camera():
 	$Head/Camera2D.enabled = true
 	var new_zoom = lerp($Head/Camera2D.zoom.x, targetZoom, 0.1)
 	$Head/Camera2D.zoom = Vector2(new_zoom, new_zoom)
-	
+
+var lock_eyes = false
 func checkInputs(delta):
 	if is_controlled:
 		# Оригинальное управление игрока
@@ -124,6 +127,13 @@ func checkInputs(delta):
 		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and $Body.get_child_count() > 2 and (!ai_control or aiSpeed):
 		speed = lerp(speed, maxSpeed, 0.1)
+		lock_eyes = true
+		$Head/Eyes/eyeT.start()
+		if $"Head/Eyes/1".animation != "2":
+			$"Head/Eyes/1".speed_scale = 1
+			$"Head/Eyes/2".speed_scale = 1
+			$"Head/Eyes/1".play("2")
+			$"Head/Eyes/2".play("2")
 		time_since_last_growth += delta
 		if time_since_last_growth >= 0.2:
 			if !randi_range(0,1):
@@ -132,6 +142,14 @@ func checkInputs(delta):
 					$SpeedUpSound.play()
 			time_since_last_growth = 0.0
 	else:
+		if $"Head/Eyes/1".animation == "2" and $"Head/Eyes/1".frame == 3:
+			$"Head/Eyes/1".speed_scale = 1.5
+			$"Head/Eyes/2".speed_scale = 1.5
+			$"Head/Eyes/1".play_backwards("2")
+			$"Head/Eyes/2".play_backwards("2")
+		if !lock_eyes:
+			$"Head/Eyes/1".animation = "1"
+			$"Head/Eyes/2".animation = "1"
 		speed = lerp(speed, startSpeed, 0.1)
 		if !ai_control:
 			$SpeedUpSound.stop()
@@ -158,7 +176,16 @@ func move_head(delta):
 	$Head/Nick.rotation_degrees = lerp($Head/Nick.rotation_degrees,-rad_to_deg(angle),0.2)
 	$Head/Nick.position = lerp($Head/Nick.position, Vector2(-65, -10 + 50*sin(angle+rad_to_deg(90))),0.2)
 	$Head.rotation = angle
-	
+	eyes_process(angle)
+
+var eye_dir = Vector2(0,0)
+func eyes_process(angle):
+	eye_dir = lerp(eye_dir,desiredDirection.rotated(-angle - deg_to_rad(90)), 0.1)
+	var eX = clamp(-3,eye_dir.x*3,3)
+	var eY = clamp(-3,eye_dir.y*3,3)
+	$"Head/Eyes/1/pupil".position = Vector2(-eX,eY)
+	$"Head/Eyes/2/pupil".position = Vector2(eX,eY)
+
 func keep_inside_bounds():
 	var head_pos = $Head.global_position
 	var distance_from_center = head_pos.length()
@@ -283,7 +310,6 @@ func bodyGrow(amount = 1):
 		# Дополнительная проверка на каждой итерации
 		if $Body.get_child_count() == 0:
 			break
-			
 		var newPart = $Body.get_child(0).duplicate()
 		newPart.z_index = $Body.get_child_count() - 1
 		length += 1
@@ -330,7 +356,9 @@ func countAngle():
 	direction = direction.rotated(angle_diff)
 
 func kill_snake():
-	# Спавним еду от каждой части тела перед смертью
+	if !ai_control:
+		deathActivate()
+	
 	spawn_food_from_body()
 	
 	# Просто очищаем территорию умершей змейки
@@ -358,27 +386,51 @@ func spawn_food_from_body():
 		if part and is_instance_valid(part):
 			map_node.genFood(1, part.global_position, true)
 
-# при попадании головы во что-то
+var which_CPU = 0
 func _in_mouth_body_entered(body):
 	if body.is_in_group("Food"):
 		# Проверяем, что змейка еще жива перед поеданием
 		if not is_inside_tree() or $Body.get_child_count() == 0:
 			return
-			
 		body.get_node("CollisionShape2D").set_deferred("disabled", true)
 		suck_food(body)
+		if !lock_eyes:
+			print("FOOD")
+			$"Head/Eyes/1".animation = "4"
+			$"Head/Eyes/2".animation = "4"
+			$Head/Eyes/eyeT.start()
+			lock_eyes = true
+		
 		if !randi_range(0,2):
 			bodyGrow()
 		# Спавним новую еду только если текущее количество меньше максимального
 		if map_node.get_current_food_count() < map_node.max_food_count:
 			map_node.genFood()
-	if body.is_in_group("Snake") and body.get_node("../../..") != self:
-		var other_snake = body.get_node("../../..")
-		print(other_snake.name, " ",other_snake.kills)
-		other_snake.kills += 1  # Другая змейка получает убийство
-		deathActivate()
-		$"../..".delCPU()
-		kill_snake()  # Эта змейка (которая врезалась) умирает
+		await get_tree().create_timer(0.2).timeout
+		match which_CPU:
+			0:
+				$Head/Mouth/CPU1.restart()
+				$Head/Mouth/CPU1.emitting = true
+			1:
+				$Head/Mouth/CPU2.restart()
+				$Head/Mouth/CPU2.emitting = true
+			2:
+				$Head/Mouth/CPU3.restart()
+				$Head/Mouth/CPU3.emitting = true
+			3:
+				$Head/Mouth/CPU4.restart()
+				$Head/Mouth/CPU4.emitting = true
+				which_CPU = -1
+		which_CPU += 1
+
+		which_CPU != which_CPU
+	if body:
+		if body.is_in_group("Snake") and body.get_node("../../..") != self:
+			var other_snake = body.get_node("../../..")
+			print(other_snake.name, " ",other_snake.kills)
+			other_snake.kills += 1  # Другая змейка получает убийство
+			$"../..".delCPU()
+			kill_snake()  # Эта змейка (которая врезалась) умирает
 
 func deathActivate():
 	var newCam = $Head/Camera2D.duplicate()
@@ -386,11 +438,15 @@ func deathActivate():
 	$"../..".add_child(newCam)
 	$Head/Camera2D.queue_free()
 	var newCPU = $Head/CPU.duplicate()
+	newCPU.amount = max(length / 3 , 16)
 	newCPU.global_position = $Head/CPU.global_position
 	$"../..".add_child(newCPU)
 	$Head/CPU.queue_free()
 	$"../..".CPUarr.push_back(newCPU)
 	newCPU.emitting = true
+
+func _on_eye_t_timeout():
+	lock_eyes = false
 
 func suck_food(node):
 	if Engine.time_scale == 1.0:
