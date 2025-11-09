@@ -22,12 +22,12 @@ float noise(vec2 p) {
     vec2 i = floor(p);
     vec2 f = fract(p);
     f = f * f * (3.0 - 2.0 * f);
-    
+
     float a = hash(i);
     float b = hash(i + vec2(1.0, 0.0));
     float c = hash(i + vec2(0.0, 1.0));
     float d = hash(i + vec2(1.0, 1.0));
-    
+
     return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 
@@ -63,7 +63,7 @@ float voronoi_pattern(vec2 uv, float scale) {
     uv *= scale;
     vec2 i_uv = floor(uv);
     vec2 f_uv = fract(uv);
-    
+
     float min_dist = 1.0;
     for (int y = -1; y <= 1; y++) {
         for (int x = -1; x <= 1; x++) {
@@ -190,55 +190,55 @@ float get_pattern_by_index(int index, vec2 uv, float scale) {
 
 void fragment() {
     vec4 original_color = COLOR;
-    
+
     if (original_color.a < 0.1) {
         COLOR = original_color;
     }
-    
+
     // Используем оригинальные UV координаты
     vec2 world_uv = FRAGCOORD.xy / (100.0 * pattern_scale);
-    
+
     // ОПРЕДЕЛЯЕМ ЭФФЕКТ ИЗ АЛЬФА-КАНАЛА ЦВЕТА
     // Альфа-канал содержит информацию о типе эффекта (0-1, нормализованный)
     float effect_index_normalized = original_color.a;
     int effect_index = int(effect_index_normalized * 15.0); // Денормализуем обратно в 0-15
-    
+
     // Получаем паттерн на основе эффекта
     float pattern_value = get_pattern_by_index(effect_index, world_uv, 1.0);
-    
+
     // Добавляем анимацию к паттерну
     pattern_value += sin(TIME * animation_speed + world_uv.x * 5.0) * 0.1;
-    
+
     // Процедурный шум
     float procedural_noise = noise(world_uv * noise_scale + TIME * 0.1);
-    
+
     // Эффект сканирующих линий
     float scanline = sin(UV.y * 20.0 + TIME * scanline_speed) * 0.5 + 0.5;
     scanline = 1.0 - scanline * scanline_intensity;
-    
+
     // Смешиваем эффекты
     vec3 final_color = original_color.rgb;
-    
+
     // Применяем паттерн - используем оригинальный цвет, но с паттерном
     vec3 pattern_color = mix(final_color, final_color * (1.0 - pattern_value * 0.7), pattern_intensity);
     final_color = mix(final_color, pattern_color, pattern_intensity);
-    
+
     // Добавляем шум
     final_color += (procedural_noise - 0.5) * noise_intensity * 0.3;
-    
+
     // Сканирующие линии
     final_color *= scanline;
-    
+
     // Пульсация в такт
     float pulse = 1.0 + sin(TIME * 2.0) * 0.05;
     final_color *= pulse;
-    
+
     // Затемнение по краям (обводка)
     float edge_darkness_factor = calculate_edge_darkness(UV, edge_fade_distance) * edge_darkness;
     final_color *= (1.0 - edge_darkness_factor);
-    
+
     // Восстанавливаем оригинальную прозрачность (убираем информацию об эффекте)
     float final_alpha = 0.85; // Фиксированная прозрачность для территории
-    
+
     COLOR = vec4(final_color, final_alpha);
 }

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1xxx4s3i5l46"]
+[gd_scene load_steps=20 format=3 uid="uid://b1xxx4s3i5l46"]
 
 [ext_resource type="PackedScene" uid="uid://d2m1ldvx5xuc7" path="res://project/scenes/map.tscn" id="1_a2vad"]
 [ext_resource type="Script" uid="uid://1r02dnbrfk60" path="res://project/scripts/ui_node.gd" id="2_sb116"]
+[ext_resource type="FontFile" uid="uid://dtm28tqdm1wxs" path="res://project/resources/PixeloidSans-mLxMm.ttf" id="3_uyeg7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2vad"]
 bg_color = Color(0.00392157, 0.0235294, 0.0862745, 1)
@@ -22,11 +23,312 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uyeg7"]
+bg_color = Color(0.999776, 0.056702, 0.205017, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.219407, 1.24839e-07, 0.0324863, 0)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sb116"]
 bg_color = Color(0.0583842, 0.00937853, 0.0439383, 1)
 border_width_left = 16
 border_color = Color(0, 0, 0, 0)
 border_blend = true
+
+[sub_resource type="Animation" id="Animation_icniv"]
+resource_name = "1"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Terrain/VBoxContainer/1/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Size/VBoxContainer/1/Strike:size")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(202, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_s5be5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Terrain/VBoxContainer/1/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Size/VBoxContainer/1/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Size/VBoxContainer/2/Strike:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Terrain/VBoxContainer/2/Strike:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_qra1c"]
+resource_name = "2"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/2/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/2/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_ua8fp"]
+resource_name = "3"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/3/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/3/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_d05bm"]
+resource_name = "4"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/4/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/4/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_mw35j"]
+resource_name = "5"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/5/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/5/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_vpl4a"]
+resource_name = "6"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/6/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/6/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_lsivi"]
+resource_name = "7"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/7/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/7/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_g6vhh"]
+resource_name = "8"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Size/VBoxContainer/8/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Terrain/VBoxContainer/8/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(200, 15)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dns4a"]
+_data = {
+&"1": SubResource("Animation_icniv"),
+&"2": SubResource("Animation_qra1c"),
+&"3": SubResource("Animation_ua8fp"),
+&"4": SubResource("Animation_d05bm"),
+&"5": SubResource("Animation_mw35j"),
+&"6": SubResource("Animation_vpl4a"),
+&"7": SubResource("Animation_lsivi"),
+&"8": SubResource("Animation_g6vhh"),
+&"RESET": SubResource("Animation_s5be5")
+}
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sb116"]
 
@@ -160,6 +462,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/1"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="2" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -210,6 +520,14 @@ theme_override_font_sizes/normal_font_size = 21
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/2"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
 
 [node name="3" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
@@ -262,6 +580,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/3"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="4" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -312,6 +638,14 @@ theme_override_font_sizes/normal_font_size = 21
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/4"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
 
 [node name="5" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
@@ -364,6 +698,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/5"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="6" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -414,6 +756,14 @@ theme_override_font_sizes/normal_font_size = 21
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/6"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
 
 [node name="7" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
@@ -466,6 +816,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/7"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="8" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -514,6 +872,125 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/normal_font_size = 21
 text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/8"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
+[node name="Nums" type="Control" parent="CanvasLayer/uiNode/Leaders/Terrain"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="1" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 35.0
+offset_right = 63.0
+offset_bottom = 83.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 69.0
+offset_right = 63.0
+offset_bottom = 117.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 103.0
+offset_right = 63.0
+offset_bottom = 151.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="4" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 137.0
+offset_right = 63.0
+offset_bottom = 185.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "4
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="5" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 171.0
+offset_right = 63.0
+offset_bottom = 219.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="6" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 205.0
+offset_right = 63.0
+offset_bottom = 253.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="7" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 239.0
+offset_right = 63.0
+offset_bottom = 287.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="8" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Terrain/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 273.0
+offset_right = 63.0
+offset_bottom = 321.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "8
+"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -608,6 +1085,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/1"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="2" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -658,6 +1143,14 @@ theme_override_font_sizes/normal_font_size = 24
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/2"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
 
 [node name="3" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
@@ -710,6 +1203,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/3"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="4" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -760,6 +1261,14 @@ theme_override_font_sizes/normal_font_size = 24
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/4"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
 
 [node name="5" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
@@ -812,6 +1321,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/5"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="6" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -862,6 +1379,14 @@ theme_override_font_sizes/normal_font_size = 24
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/6"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
 
 [node name="7" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
@@ -914,6 +1439,14 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/7"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
 [node name="8" type="Control" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -964,6 +1497,131 @@ theme_override_font_sizes/normal_font_size = 24
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Strike" type="Panel" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/8"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 13.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyeg7")
+
+[node name="Nums" type="Control" parent="CanvasLayer/uiNode/Leaders/Size"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="1" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 35.0
+offset_right = 63.0
+offset_bottom = 83.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 69.0
+offset_right = 63.0
+offset_bottom = 117.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 103.0
+offset_right = 63.0
+offset_bottom = 151.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="4" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 137.0
+offset_right = 63.0
+offset_bottom = 185.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "4
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="5" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 171.0
+offset_right = 63.0
+offset_bottom = 219.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="6" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 205.0
+offset_right = 63.0
+offset_bottom = 253.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="7" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 239.0
+offset_right = 63.0
+offset_bottom = 287.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="8" type="RichTextLabel" parent="CanvasLayer/uiNode/Leaders/Size/Nums"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 273.0
+offset_right = 63.0
+offset_bottom = 321.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 24
+text = "8
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Kills" type="AnimationPlayer" parent="CanvasLayer/uiNode/Leaders"]
+libraries = {
+&"": SubResource("AnimationLibrary_dns4a")
+}
 
 [node name="PassSessionPanel" type="Panel" parent="CanvasLayer/uiNode"]
 top_level = true

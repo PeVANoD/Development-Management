@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cjpuaslk4snkw"]
+[gd_scene load_steps=24 format=3 uid="uid://cjpuaslk4snkw"]
 
 [ext_resource type="Script" uid="uid://chbc5x46o2anv" path="res://project/scripts/snake.gd" id="1_66od3"]
 [ext_resource type="Texture2D" uid="uid://duitlwhqq3j3n" path="res://project/images/body/Body.png" id="2_svp7d"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://dpa3cyxhfjpyh" path="res://project/sounds/territoryCaptureSound.mp3" id="7_v8h33"]
 [ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_hex0x"]
 [ext_resource type="Texture2D" uid="uid://r8h4xe52i0pr" path="res://project/images/head/head 3.png" id="9_mtx8m"]
+[ext_resource type="FontFile" uid="uid://dbpjhgpkj6nxv" path="res://project/resources/PixeloidSansBold-PKnYd.ttf" id="10_ithxk"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_frmv1"]
 animations = [{
@@ -93,6 +94,27 @@ radius = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_bsw34"]
 radius = 200.0
 
+[sub_resource type="Gradient" id="Gradient_ithxk"]
+offsets = PackedFloat32Array(0.399293, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gjaiy"]
+gradient = SubResource("Gradient_ithxk")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_k1ry5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.198276), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_hex0x"]
+offsets = PackedFloat32Array(0, 0.0896057, 0.215054, 0.426523, 0.673835, 1)
+colors = PackedColorArray(0.107465, 0.0930978, 0.0847843, 1, 0.196341, 0.125667, 0.0917745, 0.968602, 0.699967, 0.310229, 0.131385, 0.790681, 0.979022, 0.795743, 0.366816, 0.476703, 0.148822, 0.139729, 0.120599, 0.24931, 0, 0, 0, 0)
+
 [node name="Snake" type="Node2D"]
 script = ExtResource("1_66od3")
 
@@ -121,6 +143,7 @@ rotation = -1.5708
 enabled = false
 zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
+position_smoothing_speed = 4.0
 
 [node name="Mouth" type="Area2D" parent="Head"]
 
@@ -170,6 +193,41 @@ position = Vector2(-43, 0.00015566)
 position = Vector2(-52, 0.00018824)
 shape = SubResource("CircleShape2D_bsw34")
 debug_color = Color(0.825842, 0.00160006, 0.955437, 0.121569)
+
+[node name="Nick" type="RichTextLabel" parent="Head"]
+offset_left = -65.0
+offset_top = -10.0
+offset_right = 135.0
+offset_bottom = 135.0
+rotation = -1.5708
+pivot_offset = Vector2(100, 9.84275)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("10_ithxk")
+theme_override_font_sizes/normal_font_size = 15
+text = "Snake Name"
+horizontal_alignment = 1
+
+[node name="CPU" type="CPUParticles2D" parent="Head"]
+z_index = 4096
+position = Vector2(-20, 7.23998e-05)
+emitting = false
+amount = 50
+texture = SubResource("GradientTexture2D_gjaiy")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 60.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_k1ry5")
+color_ramp = SubResource("Gradient_hex0x")
+hue_variation_min = -0.5
+hue_variation_max = 0.5
 
 [node name="EatSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_fdxhw")

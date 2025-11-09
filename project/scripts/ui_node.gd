@@ -67,7 +67,7 @@ func _process(_delta):
 	sortSize()
 	sessionEnd()
 
-
+var count_left = 8
 func setAliveSnakes():
 	var snakes = map.get_node("Snakes").get_children()
 	var board = $Leaders/Terrain/VBoxContainer.get_children()
@@ -79,9 +79,20 @@ func setAliveSnakes():
 				if snake.name == board_name:
 					found = true
 					break
-			if not found:
+			if not found and $Leaders/Terrain/VBoxContainer.get_node(str(board_name)).modulate.a > 0.5:
+				$Leaders/Size/Nums.get_node(str(count_left)).modulate.a = 0.3
+				$Leaders/Terrain/Nums.get_node(str(count_left)).modulate.a = 0.3
 				$Leaders/Terrain/VBoxContainer.get_node(str(board_name)).modulate.a = 0.3
 				$Leaders/Size/VBoxContainer.get_node(str(board_name)).modulate.a = 0.3
+				count_left -= 1
+				await get_tree().create_timer(0.2).timeout
+				var tween = create_tween()
+				tween.set_ease(Tween.EASE_IN_OUT)
+				tween.set_trans(Tween.TRANS_CUBIC)
+				tween.set_parallel(true)
+				tween.tween_property($Leaders/Terrain/VBoxContainer.get_node(str(board_name,"/Strike")), "size:x", 200, 0.5)
+				tween.tween_property($Leaders/Size/VBoxContainer.get_node(str(board_name,"/Strike")), "size:x", 200, 0.5)
+
 func sortTerrain():
 	var sorted_indices = range(0, 8)
 	sorted_indices.sort_custom(func(a, b): 

@@ -70,12 +70,17 @@ func _ready():
 	changeBody()
 
 func no_ai():
+	$Head/Nick.text = G.nickname
 	$Head.animation = G.chosen_skin
 	$Body/part1.animation = G.chosen_skin
+	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(colors[snakeNum]),0.4)
 
 func enable_ai():
-	modulate = lerp(Color(0,1,0),Color.html(colors[snakeNum]),0.85)
-	territory_capture.set_territory_effect(snake_index, randi() % 16) # randi() % 16)
+	$Head/Nick.text = str("Player ",snakeNum)
+	$Head.self_modulate = lerp(Color(0,0,0),Color.html(colors[snakeNum]),0.85)
+	$Body.modulate = lerp(Color(0,0,0),Color.html(colors[snakeNum]),0.85)
+	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(colors[snakeNum]),0.4)
+	territory_capture.set_territory_effect(snake_index, randi() % 8) # randi() % 8)
 	$"Head/-90".enabled = true
 	$"Head/-45".enabled = true
 	$"Head/0".enabled = true
@@ -98,7 +103,7 @@ func _physics_process(delta):
 	checkBody()
 	
 func update_camera():
-	if (!territory_capture or !is_controlled) and !ai_control:
+	if ai_control:
 		$Head/Camera2D.enabled = false
 		return
 	$Head/Camera2D.enabled = true
@@ -150,6 +155,8 @@ func move_head(delta):
 	$Head.position += direction * delta * speed
 	var angle = lerp_angle(lastAngle, atan2(-direction.y, -direction.x), 0.2)
 	lastAngle = angle
+	$Head/Nick.rotation_degrees = lerp($Head/Nick.rotation_degrees,-rad_to_deg(angle),0.2)
+	$Head/Nick.position = lerp($Head/Nick.position, Vector2(-65, -10 + 50*sin(angle+rad_to_deg(90))),0.2)
 	$Head.rotation = angle
 	
 func keep_inside_bounds():
@@ -317,7 +324,7 @@ func checkBody():
 					
 # перерасчет направления
 func countAngle():
-	var max_rotation_speed = 0.04
+	var max_rotation_speed = 0.06
 	var angle_diff = direction.angle_to(desiredDirection)
 	angle_diff = clamp(angle_diff, -max_rotation_speed, max_rotation_speed)
 	direction = direction.rotated(angle_diff)
@@ -367,8 +374,23 @@ func _in_mouth_body_entered(body):
 			map_node.genFood()
 	if body.is_in_group("Snake") and body.get_node("../../..") != self:
 		var other_snake = body.get_node("../../..")
+		print(other_snake.name, " ",other_snake.kills)
 		other_snake.kills += 1  # Другая змейка получает убийство
+		deathActivate()
+		$"../..".delCPU()
 		kill_snake()  # Эта змейка (которая врезалась) умирает
+
+func deathActivate():
+	var newCam = $Head/Camera2D.duplicate()
+	newCam.global_position = $Head/Camera2D.global_position
+	$"../..".add_child(newCam)
+	$Head/Camera2D.queue_free()
+	var newCPU = $Head/CPU.duplicate()
+	newCPU.global_position = $Head/CPU.global_position
+	$"../..".add_child(newCPU)
+	$Head/CPU.queue_free()
+	$"../..".CPUarr.push_back(newCPU)
+	newCPU.emitting = true
 
 func suck_food(node):
 	if Engine.time_scale == 1.0:
@@ -403,7 +425,7 @@ func get_ai_direction(delta):
 	if feed_Timer > feed_Time:
 		bodyGrow(1)
 		feed_Timer = 0.0
-	if ai_Timer > 0.5:
+	if ai_Timer > 0.2:
 		if !aiSpeed:
 			aiSpeed = randi_range(0,10)
 			if aiSpeed:
@@ -416,24 +438,18 @@ func get_ai_direction(delta):
 
 func check_RC_colisions():
 	var changed = false
-	if $"Head/0".is_colliding() and ai_Timer > 0.2:
+	if $"Head/0".is_colliding() and ai_Timer > 0.1:
 		changed = true
 		if $Head/CRight.is_colliding() or $"Head/90".is_colliding() or $"Head/45".is_colliding():
 			RC_collided(-60)
 		else:
 			RC_collided(60)
-	elif $"Head/-45".is_colliding() and ai_Timer > 0.2:
+	elif $"Head/-45".is_colliding() and ai_Timer > 0.1:
 		changed = true
 		RC_collided(45)
-	elif $"Head/45".is_colliding() and ai_Timer > 0.2:
+	elif $"Head/45".is_colliding() and ai_Timer > 0.1:
 		changed = true
 		RC_collided(-45)
-	elif $"Head/-90".is_colliding() and ai_Timer > 0.2:
-		changed = true
-		RC_collided(15)
-	elif $"Head/90".is_colliding() and ai_Timer > 0.2:
-		changed = true
-		RC_collided(-15)
 	if changed:
 		ai_Timer = 0.0
 
@@ -447,8 +463,8 @@ func RC_collided(degr = 0):
 		#print(str(snakeNum+1," missed! On: ", degr))
 		if abs(degr) == 60:
 			degr = 0
-		elif abs(degr) == 15:
-			degr *= -6
+		elif abs(degr) == 5:
+			degr *= -16
 		else:
 			degr *= -1
 		#print("new degr = ",degr)
@@ -481,7 +497,7 @@ func find_closest_food(pos: Vector2):
 	for target in targets:
 		if target.is_in_group("Food"):
 			var distance = pos.distance_to(target.global_position)
-			if distance < nearest_distance:
+			if distance < nearest_distance and distance > 80:
 				nearest_distance = distance
 				new_nearest = target
 	if new_nearest:

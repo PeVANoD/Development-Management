@@ -8,12 +8,15 @@ var radius = 1300
 var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
+@export var CPUarr = []
+
 var food_spawners: Array = []
 var spawner_count = 20
 var spawner_radius = 80
 var max_food_count = 200 
 
 func _ready():
+	G.result_is_win = false
 	G.alive = true
 	$Music.play()
 	# Создаем общую территорию
@@ -26,6 +29,11 @@ func _ready():
 	create_food_spawners()
 	genFood(max_food_count)
 	spawn_initial_snakes()
+
+func delCPU():
+	await get_tree().create_timer(0.5).timeout
+	var del_CPU = CPUarr.pop_front()
+	del_CPU.queue_free()
 
 func spawn_initial_snakes():
 	var snake_count = 8
@@ -123,7 +131,8 @@ func check_game():
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
-	elif $Snakes.get_child_count() < 2:
+	elif $Snakes.get_child_count() < 2 and !G.result_is_win:
+		G.kills = $Snakes.get_child(0).kills
 		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
 		Engine.time_scale = 1.5

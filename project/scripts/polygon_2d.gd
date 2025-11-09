@@ -36,9 +36,6 @@ var territories: Array = []  # Массив территорий для кажд
 const TERRITORY_SHADER = preload("res://project/resources/territory.gdshader")
 @export var pattern_texture: Texture2D
 @export var noise_texture: Texture2D
-@export var pattern_scale: float = 0.15
-@export var animation_speed: float = 1.0
-@export var effect_type = 0.0 # 0-15 для 16 разных эффектов
 
 # Новые переменные для поддержки разных шейдеров
 var territory_effect_types: Array = []  # Массив типов эффектов для каждой змейки
@@ -68,12 +65,15 @@ func _setup_territory_material():
 		shader_material.set_shader_parameter("noise_texture", noise_texture)
 	
 	# Устанавливаем параметры шейдера
-	shader_material.set_shader_parameter("pattern_scale", pattern_scale)
-	shader_material.set_shader_parameter("animation_speed", animation_speed)
-	shader_material.set_shader_parameter("edge_thickness", 0.01)
-	shader_material.set_shader_parameter("edge_color", Color(1, 1, 1, 0.5))
-	shader_material.set_shader_parameter("effect_type", effect_type)
-	shader_material.set_shader_parameter("edge_effect_type", 3)
+	shader_material.set_shader_parameter("pattern_scale", 0.5)
+	shader_material.set_shader_parameter("noise_scale", 30.0)
+	shader_material.set_shader_parameter("animation_speed", 0.1)
+	shader_material.set_shader_parameter("pattern_intensity", 0.8)
+	shader_material.set_shader_parameter("noise_intensity", 0.35)
+	shader_material.set_shader_parameter("scanline_speed",0.5)
+	shader_material.set_shader_parameter("scanline_intensity", 0.5)
+	shader_material.set_shader_parameter("edge_fade_distance",0.3)
+	shader_material.set_shader_parameter("edge_darkness", 0.4)
 	
 	material = shader_material
 

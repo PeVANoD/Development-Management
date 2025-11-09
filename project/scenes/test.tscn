@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://b64n3uomqejv5"]
+
+[ext_resource type="Shader" uid="uid://244oq300jlx7" path="res://project/resources/territory.gdshader" id="1_fcp65"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_46hya"]
+shader = ExtResource("1_fcp65")
+shader_parameter/pattern_scale = 0.5
+shader_parameter/noise_scale = 30.0
+shader_parameter/animation_speed = 0.1
+shader_parameter/pattern_intensity = 0.8
+shader_parameter/noise_intensity = 0.35
+shader_parameter/scanline_speed = 0.5
+shader_parameter/scanline_intensity = 0.5
+shader_parameter/edge_fade_distance = 0.3
+shader_parameter/edge_darkness = 0.4
+
+[sub_resource type="QuadMesh" id="QuadMesh_yv37u"]
+
+[sub_resource type="Gradient" id="Gradient_r2g1l"]
+offsets = PackedFloat32Array(0.922261, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ock8b"]
+gradient = SubResource("Gradient_r2g1l")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 1)
+metadata/_snap_enabled = true
+
+[node name="Test" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.686275, 0, 0.592157, 0.662745)
+material = SubResource("ShaderMaterial_46hya")
+position = Vector2(159.75, 124.25)
+scale = Vector2(320.5, 249.5)
+mesh = SubResource("QuadMesh_yv37u")
+texture = SubResource("GradientTexture2D_ock8b")
