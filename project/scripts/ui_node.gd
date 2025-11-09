@@ -48,11 +48,18 @@ var session_finished = false
 func _ready():
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
+	$"Leaders/Terrain/VBoxContainer/1/Name".visible_characters = 9
+	$"Leaders/Size/VBoxContainer/1/Name".visible_characters = 9
+	init_name()
 	$PassSessionPanel.visible = false
 	outTerritoryWarning.visible = false  # Изначально скрываем предупреждение
 	reset_param()
 	colorBoard()
 
+func init_name():
+	for i in range(2,9):
+		get_node(str("Leaders/Terrain/VBoxContainer/",i,"/Name")).text = str("Player ",i)
+		get_node(str("Leaders/Size/VBoxContainer/",i,"/Name")).text = str("Player ",i)
 func reset_param():
 	G.result_is_win = false
 

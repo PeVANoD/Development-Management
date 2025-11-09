@@ -70,57 +70,6 @@ tracks/1/keys = {
 "values": [Vector2(0, 15), Vector2(202, 15)]
 }
 
-[sub_resource type="Animation" id="Animation_s5be5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Terrain/VBoxContainer/1/Strike:size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Size/VBoxContainer/1/Strike:size")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Size/VBoxContainer/2/Strike:size")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Terrain/VBoxContainer/2/Strike:size")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-
 [sub_resource type="Animation" id="Animation_qra1c"]
 resource_name = "2"
 length = 0.5
@@ -317,6 +266,57 @@ tracks/1/keys = {
 "values": [Vector2(0, 15), Vector2(200, 15)]
 }
 
+[sub_resource type="Animation" id="Animation_s5be5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Terrain/VBoxContainer/1/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Size/VBoxContainer/1/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Size/VBoxContainer/2/Strike:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Terrain/VBoxContainer/2/Strike:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dns4a"]
 _data = {
 &"1": SubResource("Animation_icniv"),
@@ -428,10 +428,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 1"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/1"]
 layout_mode = 1
@@ -487,10 +490,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 2"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/2"]
 layout_mode = 1
@@ -546,10 +552,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 3"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/3"]
 layout_mode = 1
@@ -605,10 +614,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 4"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/4"]
 layout_mode = 1
@@ -664,10 +676,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 5"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/5"]
 layout_mode = 1
@@ -723,10 +738,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 6"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/6"]
 layout_mode = 1
@@ -782,10 +800,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 7"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/7"]
 layout_mode = 1
@@ -841,10 +862,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 8"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Terrain/VBoxContainer/8"]
 layout_mode = 1
@@ -1051,10 +1075,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 1"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/1"]
 layout_mode = 1
@@ -1110,10 +1137,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 2"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/2"]
 layout_mode = 1
@@ -1169,10 +1199,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 3"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/3"]
 layout_mode = 1
@@ -1228,10 +1261,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 4"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/4"]
 layout_mode = 1
@@ -1287,10 +1323,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 5"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/5"]
 layout_mode = 1
@@ -1346,10 +1385,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 6"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/6"]
 layout_mode = 1
@@ -1405,10 +1447,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 7"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/7"]
 layout_mode = 1
@@ -1464,10 +1509,13 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 8"
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 10
+visible_ratio = 1.66667
 
 [node name="ColorRect" type="TextureRect" parent="CanvasLayer/uiNode/Leaders/Size/VBoxContainer/8"]
 layout_mode = 1

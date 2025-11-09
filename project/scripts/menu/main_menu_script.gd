@@ -100,7 +100,7 @@ func _go_to_map():
 	var nickname = $CanvasLayer/NicknameInput.text
 	if nickname.length() <= 25:
 		if nickname == "":
-			nickname = "Player"
+			nickname = "Player 1"
 		
 		went_to_map = true
 		G.nickname = nickname
