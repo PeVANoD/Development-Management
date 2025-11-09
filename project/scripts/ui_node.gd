@@ -83,9 +83,10 @@ func setAliveSnakes():
 			var board_name = board[j].name
 			var found = false
 			for snake in snakes:
-				if snake.name == board_name:
-					found = true
-					break
+				if snake:
+					if snake.name == board_name:
+						found = true
+						break
 			if not found and $Leaders/Terrain/VBoxContainer.get_node(str(board_name)).modulate.a > 0.5:
 				$Leaders/Size/Nums.get_node(str(count_left)).modulate.a = 0.3
 				$Leaders/Terrain/Nums.get_node(str(count_left)).modulate.a = 0.3
