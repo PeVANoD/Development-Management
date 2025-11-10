@@ -1442,12 +1442,28 @@ offset_right = 149.0
 offset_bottom = -4.0
 horizontal_alignment = 1
 
+[node name="Tutorial" type="Button" parent="CanvasLayer/ExpBar"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.508651
+anchor_top = 11.4815
+anchor_right = 0.508651
+anchor_bottom = 11.4815
+offset_left = -75.0
+offset_top = -15.0
+offset_right = 75.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
 [node name="PlayerStatsPanel" type="Panel" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 418.0
-offset_top = 344.0
-offset_right = 745.0
-offset_bottom = 486.0
+offset_left = 416.0
+offset_top = 372.0
+offset_right = 743.0
+offset_bottom = 514.0
 
 [node name="PassSesBox" type="VBoxContainer" parent="CanvasLayer/PlayerStatsPanel"]
 material = SubResource("CanvasItemMaterial_wuwks")
@@ -1517,3 +1533,4 @@ bus = &"Sounds"
 [connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
+[connection signal="pressed" from="CanvasLayer/ExpBar/Tutorial" to="." method="_on_tutorial_pressed"]

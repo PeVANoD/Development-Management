@@ -6,7 +6,6 @@ var is_muted_sound = false
 var sound_level
 var music_level
 
-
 var max_exp_value : int = 100
 var min_exp_value : int = 0
 var level : int = 1
@@ -16,9 +15,9 @@ var language_texts = {
 	"ru": {
 		"play": "ИГРАТЬ",
 		"options": "НАСТРОЙКИ",
+		"tutorial": "ОБУЧЕНИЕ",
 		"music": "Музыка",
 		"sounds": "Звуки",
-		"show_windows": "ПОКАЗАТЬ ОКНА",
 		"random_skin": "Случайный скин",
 		"daily_skins": "Ежедневные скины", 
 		"quests": "Квесты",
@@ -37,9 +36,9 @@ var language_texts = {
 	"en": {
 		"play": "PLAY",
 		"options": "OPTIONS",
+		"tutorial": "TUTORIAL",
 		"music": "Music",
 		"sounds": "Sounds",
-		"show_windows": "SHOW WINDOWS",
 		"random_skin": "Random Skin",
 		"daily_skins": "Daily Skins",
 		"quests": "Quests",
@@ -59,7 +58,6 @@ var language_texts = {
 
 var current_language = "ru"
 
-
 func _ready():
 	# Применяем текущий язык
 	$CanvasLayer/NicknameInput.text = G.nickname
@@ -69,6 +67,10 @@ func _ready():
 	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
 	await get_tree().create_timer(0.1).timeout
 	$CanvasLayer/Skin/Slot/Head/Eyes.set_process(true)
+	
+	# Подключение кнопки обучения
+	if has_node("CanvasLayer/ExpBar/Tutorial"):
+		$CanvasLayer/ExpBar/Tutorial.pressed.connect(_on_tutorial_pressed)
 
 func _apply_language():
 	var texts = language_texts[current_language]
@@ -78,22 +80,32 @@ func _apply_language():
 	$CanvasLayer/SoundButton.text = texts["sounds"]
 	$CanvasLayer/Label.text = texts["nickname_enter"]
 	$CanvasLayer/ExpBar/LevelValue.text = texts["player_level"] + str(level)
+	
+	# Обновляем текст кнопки обучения
+	if has_node("CanvasLayer/ExpBar/Tutorial"):
+		$CanvasLayer/ExpBar/Tutorial.text = texts["tutorial"]
+	
 	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
+
+func _on_tutorial_pressed():
+	"""Показывает окно туториала"""
+	play_button_sound()
+
+	var tutorial_scene = preload("res://project/scenes/tutorial/tutorial_window.tscn")
+	var tutorial_instance = tutorial_scene.instantiate()
+	add_child(tutorial_instance)
 
 # Функция для воспроизведения звука кнопок
 func play_button_sound(): 
 	$ButtonSound.play()
 
-
 # Универсальный обработчик звука для всех кнопок
 func _on_any_button_pressed():
 	play_button_sound()
 
-
 func _on_play_pressed(): 
 	play_button_sound()  # Звук для кнопки Play
 	_go_to_map()
-	
 
 var went_to_map = false
 func _go_to_map():
@@ -113,12 +125,10 @@ func _go_to_map():
 	else:
 		pass
 
-
 func play_transition_sound():
 	$TransitionSound.play()
 	await $TransitionSound.finished
 	$TransitionSound.queue_free()
-
 
 # Слайдер для музыки
 func _on_music_slider_value_changed(value: float) -> void:
@@ -140,7 +150,6 @@ func _on_music_button_pressed() -> void:
 		$CanvasLayer/MusicSlider.value = music_level
 		is_muted_music = false
 
-
 # Слайдер для звуков
 func _on_sound_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), value)
@@ -151,7 +160,6 @@ func _on_sound_slider_value_changed(value: float) -> void:
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds"), false)
 		is_muted_sound = false
 
-
 # Кнопка для звуков
 func _on_sound_button_pressed() -> void:
 	if $CanvasLayer/SoundSlider.value != -40.0 and is_muted_sound == false:
@@ -161,7 +169,6 @@ func _on_sound_button_pressed() -> void:
 	elif $CanvasLayer/SoundSlider.value == -40.0 and is_muted_sound == true:
 		$CanvasLayer/SoundSlider.value = sound_level
 		is_muted_sound = false
-
 
 func _on_language_button_pressed() -> void:
 	play_button_sound()
@@ -174,7 +181,6 @@ func _on_language_button_pressed() -> void:
 		G.language = "ru"
 		$CanvasLayer/LanguageButton.text = "RU"
 	_apply_language()
-	
 
 # Шкала опыта
 func set_exp_value(new_value):
@@ -193,7 +199,6 @@ func set_exp_value(new_value):
 	$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
 	$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
 
-
 # Статистика игрока
 func set_player_stats(wins, total_kills, max_kills, max_territory, max_size):
 	var texts = language_texts[current_language]
@@ -202,5 +207,3 @@ func set_player_stats(wins, total_kills, max_kills, max_territory, max_size):
 	$CanvasLayer/PlayerStatsPanel/PassSesBox/MaxKiilsCount.text = texts["max_kills_result"] + str(max_kills)
 	$CanvasLayer/PlayerStatsPanel/PassSesBox/MaxSizeCount.text = texts["size_result"] + str(max_size)
 	$CanvasLayer/PlayerStatsPanel/PassSesBox/MaxTerritoryCount.text = texts["terrain_result"] + str(max_territory) + "%"
-	
-	
