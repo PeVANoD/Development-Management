@@ -58,13 +58,6 @@ var tutorial_data = [
 var current_page = 0
 
 func _ready():
-	# Подключение сигналов кнопок
-	if prev_btn:
-		prev_btn.pressed.connect(_on_prev_button_pressed)
-	if skip_btn:
-		skip_btn.pressed.connect(_on_skip_button_pressed)
-	if next_btn:
-		next_btn.pressed.connect(_on_next_button_pressed)
 	
 	# Обновление первой страницы
 	_update_page()

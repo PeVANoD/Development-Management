@@ -68,9 +68,6 @@ func _ready():
 	await get_tree().create_timer(0.1).timeout
 	$CanvasLayer/Skin/Slot/Head/Eyes.set_process(true)
 	
-	# Подключение кнопки обучения
-	if has_node("CanvasLayer/ExpBar/Tutorial"):
-		$CanvasLayer/ExpBar/Tutorial.pressed.connect(_on_tutorial_pressed)
 
 func _apply_language():
 	var texts = language_texts[current_language]
