@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2m1ldvx5xuc7"]
 
-[ext_resource type="Texture2D" uid="uid://but22lsgf6dxj" path="res://project/images/Map.png" id="1_1myhu"]
 [ext_resource type="Script" uid="uid://0x2rko78jspr" path="res://project/scripts/map.gd" id="1_mr1h5"]
+[ext_resource type="Texture2D" uid="uid://3rna1b4gh58n" path="res://project/images/MapNEW.png" id="2_pt02f"]
 [ext_resource type="AudioStream" uid="uid://cqbxb2kroj1ya" path="res://project/sounds/deathSound.mp3" id="3_mr1h5"]
 [ext_resource type="AudioStream" uid="uid://b3r55aubq06te" path="res://project/music/gamePlayMusic.mp3" id="4_pt02f"]
 
@@ -10,10 +10,10 @@ script = ExtResource("1_mr1h5")
 
 [node name="MapSprite" type="Sprite2D" parent="."]
 z_index = -4096
-scale = Vector2(2.3, 2.3)
-texture = ExtResource("1_1myhu")
+texture = ExtResource("2_pt02f")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="MapSprite"]
+scale = Vector2(2.3, 2.3)
 collision_layer = 65536
 collision_mask = 65536
 

@@ -1,24 +1,5 @@
 extends Node2D
 
-var colors = [
-	"#FF0000",  # Красный
-	"#00FF00",  # Зеленый
-	"#0000FF",  # Синий
-	"#FFFF00",  # Желтый
-	"#FF00FF",  # Пурпурный
-	"#00FFFF",  # Голубой
-	"#FF8000",  # Оранжевый
-	"#8000FF",  # Фиолетовый
-	"#FF0080",  # Розовый
-	"#00FF80",  # Весенний зеленый
-	"#80FF00",  # Лаймовый
-	"#0080FF",  # Ярко-синий
-	"#FF8040",  # Коралловый
-	"#40FF80",  # Мятный
-	"#8040FF",  # Лавандовый
-	"#FF4080"   # Фуксия
-]
-
 var skins = ["1","2","3"]
 
 #region переменные персонажа
@@ -58,7 +39,9 @@ var aiSpeed = false
 func _ready():
 	$Body/part1/StaticBody2D.set_collision_layer_value(snakeNum+9,true)
 	$Body/part1/StaticBody2D.set_collision_mask_value(snakeNum+9,true)
-	$Head/CPU.color = lerp(Color(0,0,0),Color.html(colors[snakeNum]),0.5)
+	$"Head/Eyes/1/lid".modulate = lerp(Color(0,0,0),Color.html(G.colors[snakeNum]),0.85)
+	$"Head/Eyes/2/lid".modulate = lerp(Color(0,0,0),Color.html(G.colors[snakeNum]),0.85)
+	$Head/CPU.color = lerp(Color(0,0,0),Color.html(G.colors[snakeNum]),0.5)
 	if !ai_control:
 		no_ai()
 	else:
@@ -74,14 +57,14 @@ func no_ai():
 	$Head/Nick.text = G.nickname
 	$Head.animation = G.chosen_skin
 	$Body/part1.animation = G.chosen_skin
-	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(colors[snakeNum]),0.4)
+	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(G.colors[snakeNum]),0.4)
 
 
 func enable_ai():
-	$Head/Nick.text = str("Player ",snakeNum)
-	$Head.self_modulate = lerp(Color(0,0,0),Color.html(colors[snakeNum]),0.85)
-	$Body.modulate = lerp(Color(0,0,0),Color.html(colors[snakeNum]),0.85)
-	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(colors[snakeNum]),0.4)
+	$Head/Nick.text = str("Player ",snakeNum+1)
+	$Head.self_modulate = lerp(Color(0,0,0),Color.html(G.colors[snakeNum]),0.85)
+	$Body.modulate = lerp(Color(0,0,0),Color.html(G.colors[snakeNum]),0.85)
+	$Head/Nick.modulate = lerp(Color(1,1,1),Color.html(G.colors[snakeNum]),0.4)
 	territory_capture.set_territory_effect(snake_index, randi() % 8) # randi() % 8)
 	$"Head/-90".enabled = true
 	$"Head/-45".enabled = true
@@ -123,13 +106,12 @@ func checkInputs(delta):
 		
 		if Input.is_action_just_pressed("ui_up"):
 			pass
-			#print("ChildCount: ",$Body.get_child_count(), " Length: ", $Head.global_position.distance_to($Body.get_child(0).global_position))
 		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and $Body.get_child_count() > 2 and (!ai_control or aiSpeed):
 		speed = lerp(speed, maxSpeed, 0.1)
 		lock_eyes = true
 		$Head/Eyes/eyeT.start()
-		if $"Head/Eyes/1".animation != "2":
+		if $"Head/Eyes/1".animation != "2"  and $"Head/Eyes/1".animation != "3":
 			$"Head/Eyes/1".speed_scale = 1
 			$"Head/Eyes/2".speed_scale = 1
 			$"Head/Eyes/1".play("2")
@@ -147,7 +129,7 @@ func checkInputs(delta):
 			$"Head/Eyes/2".speed_scale = 1.5
 			$"Head/Eyes/1".play_backwards("2")
 			$"Head/Eyes/2".play_backwards("2")
-		if !lock_eyes:
+		if !lock_eyes and $"Head/Eyes/1".animation != "3":
 			$"Head/Eyes/1".animation = "1"
 			$"Head/Eyes/2".animation = "1"
 		speed = lerp(speed, startSpeed, 0.1)
@@ -178,13 +160,23 @@ func move_head(delta):
 	$Head.rotation = angle
 	eyes_process(angle)
 
+var special_eyes = false
 var eye_dir = Vector2(0,0)
 func eyes_process(angle):
-	eye_dir = lerp(eye_dir,desiredDirection.rotated(-angle - deg_to_rad(90)), 0.1)
-	var eX = clamp(-3,eye_dir.x*3,3)
-	var eY = clamp(-3,eye_dir.y*3,3)
-	$"Head/Eyes/1/pupil".position = Vector2(-eX,eY)
-	$"Head/Eyes/2/pupil".position = Vector2(eX,eY)
+	if !special_eyes:
+		eye_dir = lerp(eye_dir,desiredDirection.rotated(-angle - deg_to_rad(90)), 0.1)
+		var eX = clamp(-3,eye_dir.x*3,3)
+		var eY = clamp(-3,eye_dir.y*3,3)
+		$"Head/Eyes/1/pupil".position = Vector2(-eX,eY)
+		$"Head/Eyes/2/pupil".position = Vector2(eX,eY)
+	else:
+		var player_pos = get_node("..").get_child(0).get_node("Head").global_position
+		var to_player_dir = (player_pos - $Head.global_position).normalized()
+		eye_dir = lerp(eye_dir,to_player_dir.rotated(-angle - deg_to_rad(90)), 0.1)
+		var eX = clamp(-3,eye_dir.x*3,3)
+		var eY = clamp(-3,eye_dir.y*3,3)
+		$"Head/Eyes/1/pupil".position = Vector2(-eX,eY)
+		$"Head/Eyes/2/pupil".position = Vector2(eX,eY)
 
 func keep_inside_bounds():
 	var head_pos = $Head.global_position
@@ -241,6 +233,7 @@ func update_territory_capture(delta):
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*12)
 			territory_capture.update_external_capture(snake_index, local_head_pos + direction.normalized()*20)
 			territory_capture.finish_external_capture(snake_index)
+			lids()
 			if !ai_control:
 				G.terrain = round(float(G.tera.get_territory_area(snake_index))/5226191*1000)/10
 				G.max_territory = max(G.max_territory, G.terrain)
@@ -261,12 +254,23 @@ func update_territory_capture(delta):
 		goingToBase = false
 	
 	if not tail_in_own_territory and not head_in_own_territory:
+		if $"Head/Eyes/1".animation != "3":
+			$"Head/Eyes/1".play("3")
+			$"Head/Eyes/2".play("3")
 		show_territory_warning()  # Показываем предупреждение
 		debuff_out_territory(delta)
 	else:
+		if $"Head/Eyes/1".animation == "3":
+			$"Head/Eyes/1".animation = "1"
 		hide_territory_warning()  # Скрываем предупреждение
 		debuff_amount = 1.0
 		first_debuff_timer = 0.0
+
+func lids():
+	if $"Head/Eyes/1/lid".frame == 14 or $"Head/Eyes/1/lid".frame == 0:
+		$"Head/Eyes/1/lid".speed_scale = 1.0
+		$"Head/Eyes/1/lid".play("lid")
+		$"Head/Eyes/2/lid".play("lid")
 
 var last_scaling = 1.0
 func changeBody():
@@ -394,12 +398,12 @@ func _in_mouth_body_entered(body):
 			return
 		body.get_node("CollisionShape2D").set_deferred("disabled", true)
 		suck_food(body)
-		if !lock_eyes:
-			print("FOOD")
-			$"Head/Eyes/1".animation = "4"
-			$"Head/Eyes/2".animation = "4"
-			$Head/Eyes/eyeT.start()
-			lock_eyes = true
+		if !lock_eyes and $"Head/Eyes/1".animation != "3":
+			if $"Head/Eyes/1".animation != "4":
+				$"Head/Eyes/1".play("4")
+				$"Head/Eyes/2".play("4")
+		$Head/Eyes/eyeT.start()
+		lock_eyes = true
 		
 		if !randi_range(0,2):
 			bodyGrow()
@@ -427,7 +431,6 @@ func _in_mouth_body_entered(body):
 	if body:
 		if body.is_in_group("Snake") and body.get_node("../../..") != self:
 			var other_snake = body.get_node("../../..")
-			print(other_snake.name, " ",other_snake.kills)
 			other_snake.kills += 1  # Другая змейка получает убийство
 			$"../..".delCPU()
 			kill_snake()  # Эта змейка (которая врезалась) умирает
@@ -445,7 +448,26 @@ func deathActivate():
 	$"../..".CPUarr.push_back(newCPU)
 	newCPU.emitting = true
 
+var can_wink = true
+func wink():
+	special_eyes = true
+	lock_eyes = true
+	await get_tree().create_timer(0.4).timeout
+	$"Head/Eyes/1/lid".speed_scale = 0.5
+	$"Head/Eyes/1/lid".play("lid")
+	print("WINK")
+	await get_tree().create_timer(0.6).timeout
+	special_eyes = false
+	lock_eyes = false
+
+func _on_lid_t_timeout():
+	can_wink = true
+
 func _on_eye_t_timeout():
+	if $"Head/Eyes/1".animation == "4":
+		$"Head/Eyes/1".play_backwards("4")
+		$"Head/Eyes/2".play_backwards("4")
+		await get_tree().create_timer(0.3).timeout
 	lock_eyes = false
 
 func suck_food(node):
@@ -507,6 +529,14 @@ func check_RC_colisions():
 		changed = true
 		RC_collided(-45)
 	if changed:
+		if can_wink:
+			var player_pos = get_node("..").get_child(0).get_node("Head").global_position
+			var to_player_dist = (player_pos - $Head.global_position).length()
+			if to_player_dist < 500:
+				if !randi_range(0,1):
+					wink()
+				can_wink = false
+				$Head/Eyes/lidT.start()
 		ai_Timer = 0.0
 
 func RC_collided(degr = 0):

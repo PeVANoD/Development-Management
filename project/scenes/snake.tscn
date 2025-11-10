@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cjpuaslk4snkw"]
+[gd_scene load_steps=50 format=3 uid="uid://cjpuaslk4snkw"]
 
 [ext_resource type="Script" uid="uid://chbc5x46o2anv" path="res://project/scripts/snake.gd" id="1_66od3"]
 [ext_resource type="Texture2D" uid="uid://duitlwhqq3j3n" path="res://project/images/body/Body.png" id="2_svp7d"]
@@ -14,14 +14,26 @@
 [ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_hex0x"]
 [ext_resource type="Texture2D" uid="uid://r8h4xe52i0pr" path="res://project/images/head/head 3.png" id="9_mtx8m"]
 [ext_resource type="FontFile" uid="uid://dbpjhgpkj6nxv" path="res://project/resources/PixeloidSansBold-PKnYd.ttf" id="10_ithxk"]
-[ext_resource type="Texture2D" uid="uid://cpqh5tsbm0s0c" path="res://project/images/head/eye1.png" id="10_mtx8m"]
+[ext_resource type="Texture2D" uid="uid://cpqh5tsbm0s0c" path="res://project/images/head/Eyes/Apples/eye1.png" id="10_mtx8m"]
 [ext_resource type="Texture2D" uid="uid://dc7im6s47cu1l" path="res://project/images/head/eye_pupil.png" id="11_hex0x"]
-[ext_resource type="Texture2D" uid="uid://dq782g5s5winw" path="res://project/images/head/eye2.png" id="11_mtx8m"]
-[ext_resource type="Texture2D" uid="uid://cp2vgy1t7hp42" path="res://project/images/head/eye3.png" id="12_frmv1"]
-[ext_resource type="Texture2D" uid="uid://dv6ob47sfr0qv" path="res://project/images/head/eye4.png" id="13_frmv1"]
-[ext_resource type="Texture2D" uid="uid://bkt5bede5h2pt" path="res://project/images/head/eye5.png" id="14_1x5eq"]
-[ext_resource type="Texture2D" uid="uid://b3uem4pu6koio" path="res://project/images/head/eye6.png" id="15_f75sa"]
-[ext_resource type="Texture2D" uid="uid://bxigo2et16eda" path="res://project/images/head/eye7.png" id="16_7xpkp"]
+[ext_resource type="Texture2D" uid="uid://dq782g5s5winw" path="res://project/images/head/Eyes/Apples/eye2.png" id="11_mtx8m"]
+[ext_resource type="Texture2D" uid="uid://cp2vgy1t7hp42" path="res://project/images/head/Eyes/Apples/eye3.png" id="12_frmv1"]
+[ext_resource type="Texture2D" uid="uid://dv6ob47sfr0qv" path="res://project/images/head/Eyes/Apples/eye4.png" id="13_frmv1"]
+[ext_resource type="Texture2D" uid="uid://bkt5bede5h2pt" path="res://project/images/head/Eyes/Apples/eye5.png" id="14_1x5eq"]
+[ext_resource type="Texture2D" uid="uid://bv6wmwbpworc4" path="res://project/images/head/eye7.png" id="16_7xpkp"]
+[ext_resource type="Texture2D" uid="uid://breqfiuvyp1qo" path="res://project/images/head/eye8.png" id="16_65nfw"]
+[ext_resource type="Texture2D" uid="uid://cj78hd6bxyxla" path="res://project/images/head/eye9.png" id="17_7iytn"]
+[ext_resource type="Texture2D" uid="uid://ctv7f2vs60pnq" path="res://project/images/head/eye10.png" id="18_7iytn"]
+[ext_resource type="Texture2D" uid="uid://wqyak2sd6m3t" path="res://project/images/head/Eyes/Lids/lids8.png" id="18_lacyh"]
+[ext_resource type="Texture2D" uid="uid://n4a3d48vev0v" path="res://project/images/head/eye11.png" id="19_3ovmg"]
+[ext_resource type="Texture2D" uid="uid://gkbvawlkyqxt" path="res://project/images/head/Eyes/Lids/lids7.png" id="19_yee1c"]
+[ext_resource type="Texture2D" uid="uid://jl1sxrx0l6wp" path="res://project/images/head/eye12.png" id="20_3ovmg"]
+[ext_resource type="Texture2D" uid="uid://vf3bsajjpg62" path="res://project/images/head/Eyes/Lids/lids6.png" id="20_65nfw"]
+[ext_resource type="Texture2D" uid="uid://x31ww4cluwmn" path="res://project/images/head/Eyes/Lids/lids5.png" id="21_7iytn"]
+[ext_resource type="Texture2D" uid="uid://dfjfrhjrjf77s" path="res://project/images/head/Eyes/Lids/lids4.png" id="22_3ovmg"]
+[ext_resource type="Texture2D" uid="uid://d02x8cmcnvhs3" path="res://project/images/head/Eyes/Lids/lids3.png" id="23_qsql7"]
+[ext_resource type="Texture2D" uid="uid://51xid7o00h78" path="res://project/images/head/Eyes/Lids/lids2.png" id="24_pfcmo"]
+[ext_resource type="Texture2D" uid="uid://bhlejurw5pvy5" path="res://project/images/head/Eyes/Lids/lids1.png" id="25_6muov"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_frmv1"]
 animations = [{
@@ -125,27 +137,92 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("15_f75sa")
+"texture": ExtResource("16_7xpkp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_65nfw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_7iytn")
 }],
 "loop": false,
 "name": &"3",
-"speed": 5.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("16_7xpkp")
+"texture": ExtResource("18_7iytn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_3ovmg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_3ovmg")
 }],
 "loop": false,
 "name": &"4",
-"speed": 5.0
+"speed": 9.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ulkuf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_lacyh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_yee1c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_65nfw")
+}, {
+"duration": 1.1,
+"texture": ExtResource("21_7iytn")
+}, {
+"duration": 1.2,
+"texture": ExtResource("22_3ovmg")
+}, {
+"duration": 1.3,
+"texture": ExtResource("23_qsql7")
+}, {
+"duration": 1.4,
+"texture": ExtResource("24_pfcmo")
+}, {
+"duration": 3.0,
+"texture": ExtResource("25_6muov")
+}, {
+"duration": 1.4,
+"texture": ExtResource("24_pfcmo")
+}, {
+"duration": 1.3,
+"texture": ExtResource("23_qsql7")
+}, {
+"duration": 1.2,
+"texture": ExtResource("22_3ovmg")
+}, {
+"duration": 1.1,
+"texture": ExtResource("21_7iytn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_65nfw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_yee1c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_lacyh")
+}],
+"loop": false,
+"name": &"lid",
+"speed": 42.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_svp7d"]
 radius = 16.0
 
 [sub_resource type="Gradient" id="Gradient_f75sa"]
-offsets = PackedFloat32Array(0, 0.279152, 0.600707, 0.60424, 0.611307, 0.650177)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.705882, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0, 0.279152, 0.597173, 0.60424, 0.618375, 0.678445, 0.69258)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.705882, 0.48, 0.48, 0.48, 0, 0.47788, 0.47788, 0.47788, 1, 0.48, 0.48, 0.48, 1, 0.48, 0.48, 0.48, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_7xpkp"]
 gradient = SubResource("Gradient_f75sa")
@@ -157,6 +234,9 @@ metadata/_snap_enabled = true
 [sub_resource type="Curve" id="Curve_3a2nh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.508621), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_7xpkp"]
+colors = PackedColorArray(1, 1, 1, 1, 0.691357, 0.691357, 0.691357, 0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bsw34"]
 radius = 200.0
@@ -213,10 +293,17 @@ position = Vector2(2.57492e-05, -2.57493e-05)
 rotation = 1.5708
 scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_5gq0s")
-animation = &"2"
+animation = &"1"
 
 [node name="pupil" type="Sprite2D" parent="Head/Eyes/1"]
 texture = ExtResource("11_hex0x")
+
+[node name="lid" type="AnimatedSprite2D" parent="Head/Eyes/1"]
+position = Vector2(-2.57492e-05, -0.000202449)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_ulkuf")
+animation = &"lid"
 
 [node name="2" type="AnimatedSprite2D" parent="Head/Eyes"]
 position = Vector2(-2.49147e-05, -14)
@@ -228,9 +315,19 @@ animation = &"1"
 position = Vector2(0, 9.53674e-07)
 texture = ExtResource("11_hex0x")
 
+[node name="lid" type="AnimatedSprite2D" parent="Head/Eyes/2"]
+position = Vector2(0, 2.70062e-07)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_ulkuf")
+animation = &"lid"
+
 [node name="eyeT" type="Timer" parent="Head/Eyes"]
 wait_time = 0.3
 one_shot = true
+
+[node name="lidT" type="Timer" parent="Head/Eyes"]
+wait_time = 5.0
 
 [node name="Camera2D" type="Camera2D" parent="Head"]
 rotation = -1.5708
@@ -262,7 +359,8 @@ initial_velocity_max = 120.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
-color = Color(0.74195, 0.171982, 0.224195, 1)
+color = Color(0.605355, 0.126005, 0.172574, 1)
+color_ramp = SubResource("Gradient_7xpkp")
 
 [node name="CPU2" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
@@ -280,7 +378,8 @@ initial_velocity_max = 120.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
-color = Color(0.74195, 0.171982, 0.224195, 1)
+color = Color(0.605355, 0.126005, 0.172574, 1)
+color_ramp = SubResource("Gradient_7xpkp")
 
 [node name="CPU3" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
@@ -298,7 +397,8 @@ initial_velocity_max = 120.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
-color = Color(0.74195, 0.171982, 0.224195, 1)
+color = Color(0.605355, 0.126005, 0.172574, 1)
+color_ramp = SubResource("Gradient_7xpkp")
 
 [node name="CPU4" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
@@ -316,40 +416,41 @@ initial_velocity_max = 120.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
-color = Color(0.74195, 0.171982, 0.224195, 1)
+color = Color(0.605355, 0.126005, 0.172574, 1)
+color_ramp = SubResource("Gradient_7xpkp")
 
 [node name="-90" type="RayCast2D" parent="Head"]
 z_index = -1
 enabled = false
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 130)
 collision_mask = 65280
 
 [node name="-45" type="RayCast2D" parent="Head"]
 z_index = -1
 rotation = 0.785398
 enabled = false
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 130)
 collision_mask = 65280
 
 [node name="0" type="RayCast2D" parent="Head"]
 z_index = -1
 rotation = 1.5708
 enabled = false
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 130)
 collision_mask = 65280
 
 [node name="45" type="RayCast2D" parent="Head"]
 z_index = -1
 rotation = 2.35619
 enabled = false
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 130)
 collision_mask = 65280
 
 [node name="90" type="RayCast2D" parent="Head"]
 z_index = -1
 rotation = 3.14159
 enabled = false
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 130)
 collision_mask = 65280
 
 [node name="CRight" type="RayCast2D" parent="Head"]
@@ -426,4 +527,5 @@ pitch_scale = 1.2
 bus = &"Sounds"
 
 [connection signal="timeout" from="Head/Eyes/eyeT" to="." method="_on_eye_t_timeout"]
+[connection signal="timeout" from="Head/Eyes/lidT" to="." method="_on_lid_t_timeout"]
 [connection signal="body_entered" from="Head/Mouth" to="." method="_in_mouth_body_entered"]

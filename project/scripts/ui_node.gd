@@ -21,24 +21,6 @@ var language_texts = {
 	}
 }
 
-var colors = [
-	"#FF0000",  # Красный
-	"#00FF00",  # Зеленый
-	"#0000FF",  # Синий
-	"#FFFF00",  # Желтый
-	"#FF00FF",  # Пурпурный
-	"#00FFFF",  # Голубой
-	"#FF8000",  # Оранжевый
-	"#8000FF",  # Фиолетовый
-	"#FF0080",  # Розовый
-	"#00FF80",  # Весенний зеленый
-	"#80FF00",  # Лаймовый
-	"#0080FF",  # Ярко-синий
-	"#FF8040",  # Коралловый
-	"#40FF80",  # Мятный
-	"#8040FF",  # Лавандовый
-	"#FF4080"   # Фуксия
-]
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
 @onready var outTerritoryWarning = $"OutTerritoryWarning"
 
@@ -65,8 +47,8 @@ func reset_param():
 
 func colorBoard():
 	for i in range(1,9):
-		$Leaders/Terrain/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = colors[i-1]
-		$Leaders/Size/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = colors[i-1]
+		$Leaders/Terrain/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = G.colors[i-1]
+		$Leaders/Size/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = G.colors[i-1]
 
 func _process(_delta):
 	setAliveSnakes()

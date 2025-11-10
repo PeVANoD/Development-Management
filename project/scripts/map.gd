@@ -33,7 +33,8 @@ func _ready():
 func delCPU():
 	await get_tree().create_timer(0.5).timeout
 	var del_CPU = CPUarr.pop_front()
-	del_CPU.queue_free()
+	if del_CPU:
+		del_CPU.queue_free()
 
 func spawn_initial_snakes():
 	var snake_count = 8

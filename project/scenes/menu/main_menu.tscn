@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=56 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
@@ -14,6 +14,27 @@
 [ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_1flf6"]
 [ext_resource type="Shader" uid="uid://dnow5vqu6jbu8" path="res://project/resources/blur.gdshader" id="8_3iiqw"]
 [ext_resource type="Texture2D" uid="uid://r8h4xe52i0pr" path="res://project/images/head/head 3.png" id="9_1dtmg"]
+[ext_resource type="Script" uid="uid://bkr0npjo67ser" path="res://project/scripts/eyes.gd" id="10_k1xn1"]
+[ext_resource type="Texture2D" uid="uid://cpqh5tsbm0s0c" path="res://project/images/head/Eyes/Apples/eye1.png" id="10_k6mwl"]
+[ext_resource type="Texture2D" uid="uid://dq782g5s5winw" path="res://project/images/head/Eyes/Apples/eye2.png" id="11_k1xn1"]
+[ext_resource type="Texture2D" uid="uid://cp2vgy1t7hp42" path="res://project/images/head/Eyes/Apples/eye3.png" id="12_jhnob"]
+[ext_resource type="Texture2D" uid="uid://dv6ob47sfr0qv" path="res://project/images/head/Eyes/Apples/eye4.png" id="13_w540b"]
+[ext_resource type="Texture2D" uid="uid://bkt5bede5h2pt" path="res://project/images/head/Eyes/Apples/eye5.png" id="14_4loml"]
+[ext_resource type="Texture2D" uid="uid://bv6wmwbpworc4" path="res://project/images/head/eye7.png" id="15_iix2x"]
+[ext_resource type="Texture2D" uid="uid://breqfiuvyp1qo" path="res://project/images/head/eye8.png" id="16_g6f3x"]
+[ext_resource type="Texture2D" uid="uid://cj78hd6bxyxla" path="res://project/images/head/eye9.png" id="17_ub5yl"]
+[ext_resource type="Texture2D" uid="uid://ctv7f2vs60pnq" path="res://project/images/head/eye10.png" id="18_u68pa"]
+[ext_resource type="Texture2D" uid="uid://n4a3d48vev0v" path="res://project/images/head/eye11.png" id="19_b326e"]
+[ext_resource type="Texture2D" uid="uid://jl1sxrx0l6wp" path="res://project/images/head/eye12.png" id="20_acii2"]
+[ext_resource type="Texture2D" uid="uid://dc7im6s47cu1l" path="res://project/images/head/eye_pupil.png" id="21_v0ahr"]
+[ext_resource type="Texture2D" uid="uid://wqyak2sd6m3t" path="res://project/images/head/Eyes/Lids/lids8.png" id="22_8b0bk"]
+[ext_resource type="Texture2D" uid="uid://gkbvawlkyqxt" path="res://project/images/head/Eyes/Lids/lids7.png" id="23_uyqlv"]
+[ext_resource type="Texture2D" uid="uid://vf3bsajjpg62" path="res://project/images/head/Eyes/Lids/lids6.png" id="24_tuub2"]
+[ext_resource type="Texture2D" uid="uid://x31ww4cluwmn" path="res://project/images/head/Eyes/Lids/lids5.png" id="25_mohkf"]
+[ext_resource type="Texture2D" uid="uid://dfjfrhjrjf77s" path="res://project/images/head/Eyes/Lids/lids4.png" id="26_pme6q"]
+[ext_resource type="Texture2D" uid="uid://d02x8cmcnvhs3" path="res://project/images/head/Eyes/Lids/lids3.png" id="27_2ou03"]
+[ext_resource type="Texture2D" uid="uid://51xid7o00h78" path="res://project/images/head/Eyes/Lids/lids2.png" id="28_6hk38"]
+[ext_resource type="Texture2D" uid="uid://bhlejurw5pvy5" path="res://project/images/head/Eyes/Lids/lids1.png" id="29_05xvg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4wfjr"]
 outline_size = 5
@@ -131,6 +152,115 @@ animations = [{
 "loop": true,
 "name": &"3",
 "speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8a5xn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_k6mwl")
+}],
+"loop": false,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_k1xn1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_jhnob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_w540b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_4loml")
+}],
+"loop": false,
+"name": &"2",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_iix2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_g6f3x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ub5yl")
+}],
+"loop": false,
+"name": &"3",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_u68pa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_b326e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_acii2")
+}],
+"loop": false,
+"name": &"4",
+"speed": 9.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xxkch"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_8b0bk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_uyqlv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_tuub2")
+}, {
+"duration": 1.1,
+"texture": ExtResource("25_mohkf")
+}, {
+"duration": 1.2,
+"texture": ExtResource("26_pme6q")
+}, {
+"duration": 1.3,
+"texture": ExtResource("27_2ou03")
+}, {
+"duration": 1.4,
+"texture": ExtResource("28_6hk38")
+}, {
+"duration": 3.0,
+"texture": ExtResource("29_05xvg")
+}, {
+"duration": 1.4,
+"texture": ExtResource("28_6hk38")
+}, {
+"duration": 1.3,
+"texture": ExtResource("27_2ou03")
+}, {
+"duration": 1.2,
+"texture": ExtResource("26_pme6q")
+}, {
+"duration": 1.1,
+"texture": ExtResource("25_mohkf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_tuub2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_uyqlv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_8b0bk")
+}],
+"loop": false,
+"name": &"lid",
+"speed": 42.0
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bb3"]
@@ -670,12 +800,56 @@ pivot_offset = Vector2(130, 130)
 theme_override_styles/panel = SubResource("StyleBoxFlat_6rtcj")
 
 [node name="Head" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot"]
-z_index = 4096
 position = Vector2(0, -3)
 rotation = 1.5708
 scale = Vector2(3.7, 3.7)
 sprite_frames = SubResource("SpriteFrames_3iiqw")
 animation = &"1"
+
+[node name="Eyes" type="Node2D" parent="CanvasLayer/Skin/Slot/Head"]
+position = Vector2(-11, 3.38554e-05)
+script = ExtResource("10_k1xn1")
+
+[node name="1" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot/Head/Eyes"]
+position = Vector2(0, 7)
+rotation = 1.5708
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Skin/Slot/Head/Eyes/1"]
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot/Head/Eyes/1"]
+position = Vector2(-2.57492e-05, -0.000202449)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="2" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot/Head/Eyes"]
+position = Vector2(0, -7)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Skin/Slot/Head/Eyes/2"]
+position = Vector2(0, 9.53674e-07)
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Skin/Slot/Head/Eyes/2"]
+position = Vector2(0, 2.70062e-07)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="eyeT" type="Timer" parent="CanvasLayer/Skin/Slot/Head/Eyes"]
+wait_time = 0.3
+one_shot = true
+
+[node name="lidT" type="Timer" parent="CanvasLayer/Skin/Slot/Head/Eyes"]
+wait_time = 5.0
 
 [node name="Button" type="Button" parent="CanvasLayer/Skin"]
 layout_mode = 1
@@ -977,6 +1151,51 @@ scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_3iiqw")
 animation = &"1"
 
+[node name="Eyes" type="Node2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head" groups=["Eyes"]]
+position = Vector2(-11, 3.38554e-05)
+script = ExtResource("10_k1xn1")
+
+[node name="1" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes"]
+position = Vector2(0, 7)
+rotation = 1.5708
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes/1"]
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes/1"]
+position = Vector2(-2.57492e-05, -0.000202449)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="2" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes"]
+position = Vector2(0, -7)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes/2"]
+position = Vector2(0, 9.53674e-07)
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes/2"]
+position = Vector2(0, 2.70062e-07)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="eyeT" type="Timer" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes"]
+wait_time = 0.3
+one_shot = true
+
+[node name="lidT" type="Timer" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Sprite/Head/Eyes"]
+wait_time = 5.0
+
 [node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/1"]
 layout_mode = 1
 anchors_preset = 15
@@ -1029,6 +1248,51 @@ scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_3iiqw")
 animation = &"2"
 
+[node name="Eyes" type="Node2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head" groups=["Eyes"]]
+position = Vector2(-11, 3.38554e-05)
+script = ExtResource("10_k1xn1")
+
+[node name="1" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes"]
+position = Vector2(0, 7)
+rotation = 1.5708
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes/1"]
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes/1"]
+position = Vector2(-2.57492e-05, -0.000202449)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="2" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes"]
+position = Vector2(0, -7)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes/2"]
+position = Vector2(0, 9.53674e-07)
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes/2"]
+position = Vector2(0, 2.70062e-07)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="eyeT" type="Timer" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes"]
+wait_time = 0.3
+one_shot = true
+
+[node name="lidT" type="Timer" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Sprite/Head/Eyes"]
+wait_time = 5.0
+
 [node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/2"]
 layout_mode = 1
 anchors_preset = 15
@@ -1080,6 +1344,51 @@ position = Vector2(123.529, 151.176)
 scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_3iiqw")
 animation = &"3"
+
+[node name="Eyes" type="Node2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head" groups=["Eyes"]]
+position = Vector2(-11, 3.38554e-05)
+script = ExtResource("10_k1xn1")
+
+[node name="1" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes"]
+position = Vector2(0, 7)
+rotation = 1.5708
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes/1"]
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes/1"]
+position = Vector2(-2.57492e-05, -0.000202449)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="2" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes"]
+position = Vector2(0, -7)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_8a5xn")
+animation = &"1"
+
+[node name="pupil" type="Sprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes/2"]
+position = Vector2(0, 9.53674e-07)
+texture = ExtResource("21_v0ahr")
+
+[node name="lid" type="AnimatedSprite2D" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes/2"]
+position = Vector2(0, 2.70062e-07)
+rotation = 0.785398
+scale = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_xxkch")
+animation = &"lid"
+
+[node name="eyeT" type="Timer" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes"]
+wait_time = 0.3
+one_shot = true
+
+[node name="lidT" type="Timer" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Sprite/Head/Eyes"]
+wait_time = 5.0
 
 [node name="Button" type="Button" parent="CanvasLayer/Choose/ChooseWindow/SKIN/H/3"]
 layout_mode = 1

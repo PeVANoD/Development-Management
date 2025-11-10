@@ -59,6 +59,7 @@ var language_texts = {
 
 var current_language = "ru"
 
+
 func _ready():
 	# Применяем текущий язык
 	$CanvasLayer/NicknameInput.text = G.nickname
@@ -66,7 +67,8 @@ func _ready():
 	$CanvasLayer/ExpBar/MinValue.text = str(G.player_exp)
 	set_exp_value(G.player_exp)
 	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
-	#print("Меню загружено")
+	await get_tree().create_timer(0.1).timeout
+	$CanvasLayer/Skin/Slot/Head/Eyes.set_process(true)
 
 func _apply_language():
 	var texts = language_texts[current_language]
@@ -127,7 +129,6 @@ func _on_music_slider_value_changed(value: float) -> void:
 	else:
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), false)
 		is_muted_music = false
-	#print(value, is_muted_music)
 	 
 # Кнопка для музыки
 func _on_music_button_pressed() -> void:
@@ -138,8 +139,8 @@ func _on_music_button_pressed() -> void:
 	elif $CanvasLayer/MusicSlider.value == -40.0 and is_muted_music == true:
 		$CanvasLayer/MusicSlider.value = music_level
 		is_muted_music = false
-	
-	
+
+
 # Слайдер для звуков
 func _on_sound_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), value)
