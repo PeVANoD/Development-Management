@@ -8,40 +8,144 @@ var radius = 1300
 var territory_capture: TerritoryCapture
 var ai_snakes: Array = []  # Массив змеек с включенным AI
 
+@export var CPUarr = []
+
+var food_spawners: Array = []
+var spawner_count = 20
+var spawner_radius = 80
+var max_food_count = 200 
+
 func _ready():
+	G.result_is_win = false
+	G.alive = true
+	$Music.play()
 	# Создаем общую территорию
 	territory_capture = TerritoryCapture.new()
+	G.tera = territory_capture
 	add_child(territory_capture)
 	territory_capture.position = Vector2.ZERO
+	$Music.play()
 	
-	genFood(radius)
+	create_food_spawners()
+	genFood(max_food_count)
 	spawn_initial_snakes()
+
+func delCPU():
+	await get_tree().create_timer(0.5).timeout
+	var del_CPU = CPUarr.pop_front()
+	if del_CPU:
+		del_CPU.queue_free()
 
 func spawn_initial_snakes():
 	var snake_count = 8
 	for i in range(snake_count):
-		genSnake()
-		if i > 0:
-			toggle_snake_ai(i)
+		genSnake(i)
 
-func genFood(amount = 1, pos = false):
+func create_food_spawners():
+	food_spawners.clear()
+	for i in range(spawner_count):
+		var angle = randf() * 2 * PI
+		var distance = randf() * (radius - 400)
+		var spawner_pos = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
+		food_spawners.append(spawner_pos)
+
+func find_nearest_spawner(pos: Vector2) -> Vector2:
+	if food_spawners.is_empty():
+		return pos
+	
+	var nearest_spawner = food_spawners[0]
+	var min_distance = pos.distance_to(nearest_spawner)
+	
+	for spawner in food_spawners:
+		var distance = pos.distance_to(spawner)
+		if distance < min_distance:
+			min_distance = distance
+			nearest_spawner = spawner
+	
+	return nearest_spawner
+
+# Генерация позиции рядом со спавнером
+func get_spawn_position_near_spawner(spawner_pos: Vector2) -> Vector2:
+	var angle = randf() * 2 * PI
+	var distance = randf() * spawner_radius
+	var offset = Vector2(cos(angle) * distance, sin(angle) * distance)
+	var final_pos = spawner_pos + offset
+	
+	# Проверяем, что позиция в пределах карты
+	if final_pos.length() > radius - 50:
+		# Если вышли за границы, генерируем ближе к центру спавнера
+		distance = randf() * (spawner_radius * 0.5)
+		offset = Vector2(cos(angle) * distance, sin(angle) * distance)
+		final_pos = spawner_pos + offset
+	
+	return final_pos
+
+func get_current_food_count() -> int:
+	return $Food.get_child_count()
+
+func genFood(amount = 1, pos = false, exact_position = false):
 	for i in range(amount):
+		# Проверяем лимит еды только при обычном спавне (не при смерти змейки)
+		if not pos and get_current_food_count() >= max_food_count:
+			break
+			
 		var createFood = FOOD.instantiate()
 		if !pos:
-			var fX = randi_range(-radius,radius)
-			var maxY = sqrt(radius * radius - fX * fX)
-			var fY = randi_range(-maxY,maxY)
-			createFood.global_position = Vector2(fX,fY)
+			# Используем систему спавнеров
+			if food_spawners.size() > 0:
+				# Выбираем случайный спавнер
+				var random_spawner = food_spawners[randi() % food_spawners.size()]
+				createFood.global_position = get_spawn_position_near_spawner(random_spawner)
+			else:
+				# Fallback к старой системе если спавнеры не созданы
+				var fX = randi_range(-radius,radius)
+				var maxY = sqrt(radius * radius - fX * fX)
+				var fY = randi_range(-maxY,maxY)
+				createFood.global_position = Vector2(fX,fY)
 		else:
-			createFood.global_position = pos
-		var scalee = randf_range(0.5,1.3)
+			if exact_position:
+				# Точное размещение еды (для смерти змейки)
+				createFood.global_position = pos
+			else:
+				# Размещение рядом со спавнером (для обычного спавна)
+				if food_spawners.size() > 0:
+					var nearest_spawner = find_nearest_spawner(pos)
+					createFood.global_position = get_spawn_position_near_spawner(nearest_spawner)
+				else:
+					createFood.global_position = pos
+		var scalee = randf_range(1.5, 2.5)
 		createFood.scale = Vector2(scalee,scalee)
 		$Food.call_deferred("add_child", createFood)
+
+func smooth_modulate_transition(node,target_color: Color, duration: float) -> void:
+	var tween = create_tween()
+	tween.tween_property(node, "modulate", target_color, duration).set_trans(Tween.TransitionType.TRANS_SINE).set_ease(Tween.EaseType.EASE_IN_OUT)
+@onready var change_view_node = $"../.."
+
+func check_game():
+	if !G.alive:
+		#print("Loooooose...")
+		G.result_is_win = false
+		Engine.time_scale = 0.5
+		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
+		await get_tree().create_timer(1).timeout
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
+			Engine.time_scale = 1.0
+			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
+	elif $Snakes.get_child_count() < 2 and !G.result_is_win:
+		G.kills = $Snakes.get_child(0).kills
+		G.result_is_win = true
+		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
+		Engine.time_scale = 1.5
+		await get_tree().create_timer(2).timeout
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			Engine.time_scale = 1.0
+			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 
 var turnAI = true
 func _physics_process(_delta):
 	handle_input()
-	
+	check_game()
 	# Обновляем управление для всех змеек
 	for i in range(snakeArr.size()):
 		if snakeArr[i]:
@@ -50,9 +154,9 @@ func _physics_process(_delta):
 
 func handle_input():
 	# Создание новой змейки
-	if Input.is_action_just_pressed("Space"):
-		#genSnake()
-		pass
+	if Input.is_action_just_pressed("Esc"):
+		if G.alive:
+			$Snakes.get_child(0).kill_snake()
 	
 	# Информация о территории
 	if Input.is_action_just_pressed("Enter"):
@@ -66,7 +170,7 @@ func handle_input():
 			# Проверяем, не нажат ли Ctrl
 			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_ALT):
 				curSnake = i
-				print("Выбрана змейка ", i + 1)
+				#print("Выбрана змейка ", i + 1)
 	
 	for i in range(12):  # Клавиши 0-9
 		if Input.is_key_pressed(KEY_F1 + i):
@@ -77,30 +181,9 @@ func handle_input():
 		for i in range(10):  # Клавиши 0-9
 			if Input.is_physical_key_pressed(KEY_0 + i) and snakeArr.size() > i and turnAI:
 				turnAI = false
-				toggle_snake_ai(i)
 	else:
 		turnAI = true
 
-func toggle_snake_ai(snake_index: int):
-	if snake_index >= snakeArr.size():
-		print("Ошибка: змейки с индексом ", snake_index, " не существует")
-		return
-	
-	var snake = snakeArr[snake_index]
-	
-	if snake.ai_control:
-		snake.ai_control = false
-		print("AI выключен для змейки ", snake_index + 1)
-	else:
-		snake.ai_control = true
-		print("AI включен для змейки ", snake_index + 1)
-		if curSnake == snake_index:
-			curSnake = null
-			for i in range(snakeArr.size()):
-				if not (i in ai_snakes):
-					curSnake = i
-					print("Автоматически переключились на змейку ", i + 1)
-					break
 
 func clearSnake():
 	snakeArr[curSnake] = null
@@ -108,18 +191,12 @@ func clearSnake():
 		if snakeArr[i]:
 			curSnake = i
 			break
-	print("index: ",curSnake," snake: ",snakeArr[curSnake])
 	return
-	for i in range(snakeArr.size()):
-		if snakeArr[i] == snakeArr[curSnake]:
-			snakeArr.pop_at(i)
-			ai_snakes.erase(i)  # Удаляем из AI списка
-			if snakeArr:
-				curSnake = 0
-			break
 
-func genSnake():
+func genSnake(i = 0):
 	var newSnake = SNAKE.instantiate()
+	if i > 0:
+		newSnake.ai_control = true
 	newSnake.territory_capture = territory_capture
 	newSnake.snake_index = snakeArr.size()
 	
@@ -129,6 +206,7 @@ func genSnake():
 	var pos = Vector2(cos(angle) * distance, sin(angle) * distance)
 	newSnake.global_position = pos
 	newSnake.snakeNum = $Snakes.get_child_count()
+	newSnake.name = str(newSnake.snakeNum + 1)
 	
 	snakeArr.push_back(newSnake)
 	$Snakes.add_child(newSnake)

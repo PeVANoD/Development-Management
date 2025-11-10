@@ -1,39 +1,36 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2m1ldvx5xuc7"]
+[gd_scene load_steps=5 format=3 uid="uid://d2m1ldvx5xuc7"]
 
-[ext_resource type="Texture2D" uid="uid://dy1odxbb5bse0" path="res://project/images/Map.png" id="1_1myhu"]
 [ext_resource type="Script" uid="uid://0x2rko78jspr" path="res://project/scripts/map.gd" id="1_mr1h5"]
+[ext_resource type="Texture2D" uid="uid://3rna1b4gh58n" path="res://project/images/MapNEW.png" id="2_pt02f"]
+[ext_resource type="AudioStream" uid="uid://cqbxb2kroj1ya" path="res://project/sounds/deathSound.mp3" id="3_mr1h5"]
+[ext_resource type="AudioStream" uid="uid://b3r55aubq06te" path="res://project/music/gamePlayMusic.mp3" id="4_pt02f"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_mr1h5")
 
 [node name="MapSprite" type="Sprite2D" parent="."]
-scale = Vector2(3, 3)
-texture = ExtResource("1_1myhu")
+z_index = -4096
+texture = ExtResource("2_pt02f")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="MapSprite"]
+scale = Vector2(2.3, 2.3)
+collision_layer = 65536
+collision_mask = 65536
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="MapSprite/StaticBody2D"]
+polygon = PackedVector2Array(169.13, 559.13, 292.609, 510.87, 410.435, 425.217, 506.522, 301.304, 590.435, 111.304, 592.174, -66.5217, 546.087, -230.435, 448.261, -392.174, 278.696, -527.826, 74.7826, -596.087, -99.1304, -591.739, -283.043, -530, -438.696, -413.913, -544.348, -266.087, -592.609, -100.435, -604.348, 49.5652, -558.261, 242.609, -446.087, 404.348, -313.913, 510.435, -145.652, 594.348, 62.1739, 591.304, 175.217, 563.044, 176.957, 567.826, 63.913, 596.522, -145.217, 603.478, -319.565, 519.565, -456.522, 414.348, -570, 247.391, -626.522, 52.1739, -613.044, -103.913, -558.696, -277.826, -453.043, -432.609, -286.087, -551.304, -99.5652, -610.87, 85.2174, -619.565, 289.565, -544.783, 469.565, -402.174, 564.348, -241.739, 612.609, -72.1739, 610.435, 107.826, 522.174, 308.261, 425.217, 435.217, 302.609, 525.217, 173.043, 570.87)
 
 [node name="Food" type="Node2D" parent="."]
-z_index = 1
+z_index = -4094
 
 [node name="Snakes" type="Node2D" parent="."]
 z_index = 1
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-pitch_scale = 1.05
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_mr1h5")
+volume_db = -15.0
+bus = &"Sounds"
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -1254.0
-offset_top = -202.0
-offset_right = -813.0
-offset_bottom = 91.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect" type="ColorRect" parent="Control/VBoxContainer"]
-layout_mode = 2
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_pt02f")
+bus = &"Music"
