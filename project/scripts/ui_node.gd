@@ -153,9 +153,9 @@ func sessionEndText(text, match_res):
 
 # Функции для управления предупреждением о выходе из территории
 func show_territory_warning():
-	if outTerritoryWarning:
-		outTerritoryWarning.visible = true
+	if !$Warning/Anim.is_playing():
+		$Warning/Anim.play("start")
 
 func hide_territory_warning():
-	if outTerritoryWarning:
-		outTerritoryWarning.visible = false 
+	$Warning/Anim.stop()
+	$Warning.modulate.a = lerp($Warning.modulate.a, 0.0, 0.1)

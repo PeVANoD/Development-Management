@@ -75,18 +75,43 @@ func _ready():
 	$CanvasLayer/Skin/Slot/Head/Eyes.set_process(true)
 	
 
+func _process(delta):
+	process_button_hover($CanvasLayer/Map, $CanvasLayer/Map/Button)
+	process_button_hover($CanvasLayer/Skin, $CanvasLayer/Skin/Button)
+	process_button_hover($CanvasLayer/Play)
+	process_button_hover($CanvasLayer/Tutorial)
+	if process_button_hover($CanvasLayer/SoundButton):
+		$CanvasLayer/SoundSlider.scale = Vector2(1.2,1.2)
+	if process_button_hover($CanvasLayer/MusicButton):
+		$CanvasLayer/MusicSlider.scale = Vector2(1.2,1.2)
+	if get_global_mouse_position().distance_to(Vector2(80,100)) > 200:
+		$CanvasLayer/MusicSlider.scale = Vector2(0,0)
+		$CanvasLayer/SoundSlider.scale = Vector2(0,0)
+
+func process_button_hover(button_node, hover_check_node = 0):
+	if !hover_check_node:
+		hover_check_node = button_node
+	if hover_check_node.is_hovered():
+		button_node.scale = button_node.scale.lerp(Vector2(1.1,1.1), 0.1)
+		return true
+	else:
+		button_node.scale = button_node.scale.lerp(Vector2(1.0,1.0), 0.15)
+		return false
+	
+	
+
 func _apply_language():
 	var texts = language_texts[current_language]
 	# Обновляем тексты меню
-	$CanvasLayer/Button_menu/Play.text = texts["play"]
+	$CanvasLayer/Play.text = texts["play"]
 	$CanvasLayer/MusicButton.text = texts["music"]
 	$CanvasLayer/SoundButton.text = texts["sounds"]
 	$CanvasLayer/Label.text = texts["nickname_enter"]
 	$CanvasLayer/ExpBar/LevelValue.text = texts["player_level"] + str(level)
 	
 	# Обновляем текст кнопки обучения
-	if has_node("CanvasLayer/Button_menu/Tutorial"):
-		$CanvasLayer/Button_menu/Tutorial.text = texts["tutorial"]
+	if has_node("CanvasLayer/Tutorial"):
+		$CanvasLayer/Tutorial.text = texts["tutorial"]
 	
 	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
 
@@ -208,7 +233,7 @@ func set_exp_value(new_value):
 		level += 1
 		$CanvasLayer/ExpBar.min_value = max_exp_value
 		min_exp_value = max_exp_value
-		max_exp_value *= 5
+		max_exp_value = float(int(max_exp_value * 1.5))
 		$CanvasLayer/ExpBar.max_value = max_exp_value
 		$CanvasLayer/ExpBar.value += temp_value
 	$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)

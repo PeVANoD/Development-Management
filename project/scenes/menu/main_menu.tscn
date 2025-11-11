@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=64 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
@@ -40,6 +40,13 @@
 [ext_resource type="Texture2D" uid="uid://d02x8cmcnvhs3" path="res://project/images/head/Eyes/Lids/lids3.png" id="27_2ou03"]
 [ext_resource type="Texture2D" uid="uid://51xid7o00h78" path="res://project/images/head/Eyes/Lids/lids2.png" id="28_6hk38"]
 [ext_resource type="Texture2D" uid="uid://bhlejurw5pvy5" path="res://project/images/head/Eyes/Lids/lids1.png" id="29_05xvg"]
+
+[sub_resource type="Gradient" id="Gradient_g6f3x"]
+offsets = PackedFloat32Array(0, 0.706714, 0.939929, 1)
+colors = PackedColorArray(0.435192, 0.435192, 0.435192, 1, 0.266575, 0.266575, 0.266575, 1, 0.190762, 0.190762, 0.190762, 1, 0.0962047, 0.0962048, 0.0962047, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ub5yl"]
+gradient = SubResource("Gradient_g6f3x")
 
 [sub_resource type="LabelSettings" id="LabelSettings_4wfjr"]
 outline_size = 5
@@ -283,7 +290,7 @@ border_width_left = 8
 border_width_top = 8
 border_width_right = 8
 border_width_bottom = 8
-border_color = Color(0.333333, 0.333333, 0.333333, 1)
+border_color = Color(0.273873, 0.273873, 0.273873, 1)
 border_blend = true
 corner_radius_top_left = 16
 corner_radius_top_right = 16
@@ -648,16 +655,27 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.332881, 0.332881, 0.332881, 1)
 
-[node name="Button_menu" type="VBoxContainer" parent="CanvasLayer"]
-layout_mode = 0
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1152.0
+offset_right = 648.0
+offset_bottom = 504.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+texture = SubResource("GradientTexture1D_ub5yl")
+
+[node name="Play" type="Button" parent="CanvasLayer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 offset_left = 465.0
 offset_top = 296.0
 offset_right = 684.0
-offset_bottom = 419.0
-
-[node name="Play" type="Button" parent="CanvasLayer/Button_menu"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
+offset_bottom = 336.0
+pivot_offset = Vector2(110, 20)
 focus_mode = 0
 theme = ExtResource("2_w540b")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -668,12 +686,16 @@ theme_override_font_sizes/font_size = 19
 text = "PLAY"
 icon_alignment = 1
 
-[node name="Control" type="Control" parent="CanvasLayer/Button_menu"]
-layout_mode = 2
-
-[node name="Tutorial" type="Button" parent="CanvasLayer/Button_menu"]
+[node name="Tutorial" type="Button" parent="CanvasLayer"]
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+anchor_top = 0.00308642
+anchor_bottom = 0.00308642
+offset_left = 465.0
+offset_top = 344.0
+offset_right = 684.0
+offset_bottom = 384.0
+pivot_offset = Vector2(111, 20)
 focus_mode = 0
 theme = ExtResource("2_w540b")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -704,24 +726,26 @@ offset_right = 741.0
 offset_bottom = 279.0
 
 [node name="MusicButton" type="Button" parent="CanvasLayer"]
-custom_minimum_size = Vector2(80, 40)
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
-offset_right = 87.0
+offset_right = 79.0
 offset_bottom = 45.0
+pivot_offset = Vector2(41, 20)
 focus_mode = 0
 theme = ExtResource("2_w540b")
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("3_iix2x")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 text = "Музыка"
 
 [node name="MusicSlider" type="HSlider" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 37.0
-offset_top = 246.0
-offset_right = 197.0
-offset_bottom = 262.0
+offset_left = 31.0
+offset_top = 247.0
+offset_right = 191.0
+offset_bottom = 263.0
 rotation = -1.57079
 scale = Vector2(1.2, 1.2)
 min_value = -40.0
@@ -729,16 +753,18 @@ max_value = 20.0
 value = -10.0
 
 [node name="SoundButton" type="Button" parent="CanvasLayer"]
-custom_minimum_size = Vector2(80, 40)
 layout_mode = 0
 offset_left = 87.0
 offset_top = 5.0
-offset_right = 167.0
+offset_right = 157.0
 offset_bottom = 45.0
+pivot_offset = Vector2(40, 20)
 focus_mode = 0
 theme = ExtResource("2_w540b")
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("3_iix2x")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 text = "Звуки"
 
 [node name="EatSound" type="AudioStreamPlayer" parent="CanvasLayer/SoundButton"]
@@ -755,10 +781,10 @@ bus = &"Sounds"
 
 [node name="SoundSlider" type="HSlider" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 117.0
-offset_top = 246.0
-offset_right = 277.0
-offset_bottom = 262.0
+offset_left = 111.0
+offset_top = 248.0
+offset_right = 271.0
+offset_bottom = 264.0
 rotation = -1.57079
 scale = Vector2(1.2, 1.2)
 min_value = -40.0
@@ -770,8 +796,9 @@ custom_minimum_size = Vector2(80, 40)
 layout_mode = 0
 offset_left = 167.0
 offset_top = 6.0
-offset_right = 247.0
+offset_right = 257.0
 offset_bottom = 46.0
+pivot_offset = Vector2(40, 20)
 focus_mode = 0
 theme = ExtResource("2_w540b")
 theme_override_fonts/font = ExtResource("3_4loml")
@@ -788,6 +815,7 @@ offset_top = -180.0
 offset_right = 180.0
 offset_bottom = -20.0
 grow_vertical = 0
+pivot_offset = Vector2(56, 107)
 
 [node name="Panel" type="Panel" parent="CanvasLayer/Map"]
 layout_mode = 1
@@ -846,6 +874,7 @@ offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
+pivot_offset = Vector2(118, 107)
 
 [node name="Panel" type="Panel" parent="CanvasLayer/Skin"]
 layout_mode = 1
@@ -1596,8 +1625,8 @@ stream = ExtResource("4_wuwks")
 volume_db = -8.0
 bus = &"Sounds"
 
-[connection signal="pressed" from="CanvasLayer/Button_menu/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CanvasLayer/Button_menu/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="CanvasLayer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="CanvasLayer/MusicButton" to="." method="_on_music_button_pressed"]
 [connection signal="value_changed" from="CanvasLayer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="pressed" from="CanvasLayer/SoundButton" to="." method="_on_sound_button_pressed"]
