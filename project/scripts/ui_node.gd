@@ -158,4 +158,4 @@ func show_territory_warning():
 
 func hide_territory_warning():
 	$Warning/Anim.stop()
-	$Warning.modulate.a = lerp($Warning.modulate.a, 0.0, 0.1)
+	$Warning/Anim.play_backwards("start")

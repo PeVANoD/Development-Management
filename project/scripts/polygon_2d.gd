@@ -152,11 +152,12 @@ func finish_external_capture(snake_index: int):
 		state.is_capturing = false
 		return
 	
-	# Замыкаем путь если нужно
+	# Замыкаем путь всегда, чтобы создать замкнутый полигон
 	var first_point = state.capture_points[0]
 	var last_point = state.capture_points[-1]
 	
-	if first_point.distance_to(last_point) > min_distance:
+	# Всегда замыкаем полигон, даже если точки близко
+	if first_point != last_point:
 		state.capture_points.append(first_point)
 	
 	process_capture(snake_index, state.capture_points)
@@ -175,7 +176,7 @@ func is_point_in_territory_global(point: Vector2, snake_index: int) -> bool:
 	var local_point = global_to_territory_local(point)
 	return is_point_in_territory(local_point, snake_index)
 
-# Основная функция обработки захвата - БЕЗ ИЗМЕНЕНИЙ
+# Основная функция обработки захвата
 func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	if capture_points.size() < 3:
 		return
@@ -184,13 +185,12 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	var first_point = capture_points[0]
 	var last_point = capture_points[-1]
 	
-	if first_point.distance_to(last_point) > min_distance * 2:
-		if first_point.distance_to(last_point) < min_distance * 3:
-			capture_points.append(first_point)
-		else:
-			return
+	# Всегда замыкаем полигон если он не замкнут
+	if first_point != last_point:
+		capture_points.append(first_point)
 	
-	var capture_polygon = simplify_polygon(capture_points)
+	# Используем улучшенную обработку полигона
+	var capture_polygon = create_polygon_from_path(capture_points)
 	if capture_polygon.size() < 3:
 		return
 	
@@ -220,6 +220,27 @@ func process_capture(snake_index: int, capture_points: PackedVector2Array):
 	
 	update_territory_mesh()
 	queue_redraw()
+
+func create_polygon_from_path(path_points: PackedVector2Array) -> PackedVector2Array:
+	if path_points.size() < 3:
+		return PackedVector2Array()
+	
+	# Проверяем, является ли полигон самопересекающимся
+	# Используем offset_polygon для создания несамопересекающегося полигона
+	var offset_result = Geometry2D.offset_polygon(path_points, 0.0)
+	
+	if not offset_result.is_empty():
+		# Берем первый (внешний) контур
+		return offset_result[0]
+	else:
+		# Если offset не сработал, пробуем триангуляцию
+		var indices = Geometry2D.triangulate_polygon(path_points)
+		if not indices.is_empty() and indices.size() >= 3:
+			# Если триангуляция успешна, используем исходные точки
+			return path_points
+	
+	# Если все методы не сработали, возвращаем упрощенный полигон
+	return simplify_polygon(path_points)
 
 func combine_polygons(polygons: Array) -> PackedVector2Array:
 	if polygons.size() == 1:
@@ -260,7 +281,8 @@ func simplify_polygon(points: PackedVector2Array) -> PackedVector2Array:
 		if simplified[-1].distance_to(points[i]) > min_distance * 0.5:
 			simplified.append(points[i])
 	
-	if simplified.size() >= 3 and simplified[0].distance_to(simplified[-1]) > min_distance:
+	# Всегда замыкаем полигон
+	if simplified.size() >= 3 and simplified[0] != simplified[-1]:
 		simplified.append(simplified[0])
 	
 	return simplified

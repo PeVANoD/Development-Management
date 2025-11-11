@@ -6,10 +6,13 @@
 [ext_resource type="FontFile" uid="uid://dtm28tqdm1wxs" path="res://project/resources/PixeloidSans-mLxMm.ttf" id="3_uyeg7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2vad"]
-bg_color = Color(0.00392157, 0.0235294, 0.0862745, 1)
-border_width_left = 16
+bg_color = Color(0.0045, 0.02445, 0.09, 0.784314)
+border_width_left = 8
+border_width_bottom = 8
 border_color = Color(0, 0, 0, 0)
 border_blend = true
+corner_radius_bottom_left = 32
+expand_margin_bottom = 8.0
 
 [sub_resource type="Gradient" id="Gradient_a2vad"]
 offsets = PackedFloat32Array(0, 0.441696, 1)
@@ -363,6 +366,39 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 1)
 metadata/_snap_enabled = true
 
+[sub_resource type="Animation" id="Animation_6ailv"]
+length = 0.001
+capture_included = true
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rgp6p"]
+resource_name = "start"
+length = 0.5
+capture_included = true
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.392157)]
+}
+
 [sub_resource type="Animation" id="Animation_dns4a"]
 resource_name = "wave"
 loop_mode = 2
@@ -377,37 +413,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0.392157), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_6ailv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_rgp6p"]
-resource_name = "start"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.392157)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rgp6p"]
@@ -431,14 +436,13 @@ grow_vertical = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -180.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(972, 648)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Map" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("1_a2vad")]
@@ -1126,6 +1130,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Size" type="Panel" parent="CanvasLayer/uiNode/Leaders"]
+visible = false
 modulate = Color(0.962506, 0.908772, 0.935796, 1)
 self_modulate = Color(0.997098, 0.892494, 0.897295, 1)
 layout_mode = 1
@@ -1876,7 +1881,7 @@ text = "Вернись в свою зону!!!"
 [node name="Warning" type="TextureRect" parent="CanvasLayer/uiNode"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
-offset_right = 941.0
+offset_right = 1152.0
 offset_bottom = 648.0
 texture = SubResource("GradientTexture2D_s5be5")
 
