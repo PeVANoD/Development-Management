@@ -1,14 +1,19 @@
-[gd_scene load_steps=56 format=3 uid="uid://cqsrprnhyu8le"]
+[gd_scene load_steps=62 format=3 uid="uid://cqsrprnhyu8le"]
 
 [ext_resource type="Script" uid="uid://cj78n5kmmgaha" path="res://project/scripts/menu/main_menu_script.gd" id="1_ala84"]
 [ext_resource type="AudioStream" uid="uid://drvwnl51beoj5" path="res://project/sounds/Pixel Heartbeat.mp3" id="2_0gow5"]
+[ext_resource type="Theme" uid="uid://dgp1nci4gpk5l" path="res://project/resources/theme.tres" id="2_w540b"]
 [ext_resource type="Material" uid="uid://dpba1sbhm233x" path="res://project/resources/HighOut.tres" id="2_xfj45"]
+[ext_resource type="FontFile" uid="uid://dbpjhgpkj6nxv" path="res://project/resources/PixeloidSansBold-PKnYd.ttf" id="3_4loml"]
 [ext_resource type="AudioStream" uid="uid://c4cj6g7o2khg" path="res://project/sounds/9e5204b502b116c.mp3" id="3_5hjh5"]
+[ext_resource type="FontFile" uid="uid://dtm28tqdm1wxs" path="res://project/resources/PixeloidSans-mLxMm.ttf" id="3_iix2x"]
 [ext_resource type="Texture2D" uid="uid://bx4605e8wnrxk" path="res://project/images/Map1.png" id="3_kmb6j"]
 [ext_resource type="Texture2D" uid="uid://c8vobcx4dncwy" path="res://project/images/Map2.png" id="4_k1ki7"]
 [ext_resource type="AudioStream" uid="uid://cerbpfjtew484" path="res://project/sounds/play_button_load_map_soundeffect.mp3" id="4_wuwks"]
 [ext_resource type="Texture2D" uid="uid://c3o1sswgq2uhs" path="res://project/images/Map3.png" id="5_331vj"]
+[ext_resource type="AudioStream" uid="uid://dayr3ei4dcl7p" path="res://project/sounds/eatSound.mp3" id="5_g6f3x"]
 [ext_resource type="Texture2D" uid="uid://ekud1ofvt4b3" path="res://project/images/head/Head.png" id="6_1flf6"]
+[ext_resource type="AudioStream" uid="uid://dpa3cyxhfjpyh" path="res://project/sounds/territoryCaptureSound.mp3" id="6_ub5yl"]
 [ext_resource type="Script" uid="uid://k0o1qqu14adf" path="res://project/scripts/code.gd" id="7_1dtmg"]
 [ext_resource type="Texture2D" uid="uid://bhjy5m8vcklou" path="res://project/images/head/head 1.png" id="7_331vj"]
 [ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_1flf6"]
@@ -262,6 +267,34 @@ animations = [{
 "name": &"lid",
 "speed": 42.0
 }]
+
+[sub_resource type="Gradient" id="Gradient_xfj45"]
+offsets = PackedFloat32Array(0, 0.321033, 0.623616, 1)
+colors = PackedColorArray(0.102277, 1.92523e-07, 0.672867, 1, 0.362815, 0.124426, 1, 1, 0.721963, 0.445176, 1, 1, 0.995184, 0.884278, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kmb6j"]
+gradient = SubResource("Gradient_xfj45")
+width = 289
+height = 27
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4loml"]
+bg_color = Color(0.194349, 0.194349, 0.194349, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.333333, 0.333333, 0.333333, 1)
+border_blend = true
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wuwks"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bb3"]
 shader = ExtResource("8_3iiqw")
@@ -585,17 +618,6 @@ shader_parameter/highlight_strength = 0.6
 shader_parameter/frequency = 0.8
 shader_parameter/angle = 120.0
 
-[sub_resource type="Gradient" id="Gradient_xfj45"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0, 0.494152, 0.20153, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_kmb6j"]
-gradient = SubResource("Gradient_xfj45")
-width = 289
-height = 27
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wuwks"]
-
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -634,16 +656,41 @@ offset_right = 684.0
 offset_bottom = 419.0
 
 [node name="Play" type="Button" parent="CanvasLayer/Button_menu"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_w540b")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_4loml")
+theme_override_font_sizes/font_size = 19
 text = "PLAY"
 icon_alignment = 1
 
+[node name="Control" type="Control" parent="CanvasLayer/Button_menu"]
+layout_mode = 2
+
+[node name="Tutorial" type="Button" parent="CanvasLayer/Button_menu"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("2_w540b")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_4loml")
+text = "Tutorial
+"
+metadata/_edit_use_anchors_ = true
+
 [node name="Label" type="Label" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 484.0
-offset_top = 213.0
-offset_right = 668.0
-offset_bottom = 266.0
+offset_left = 414.0
+offset_top = 218.0
+offset_right = 739.0
+offset_bottom = 271.0
+theme_override_fonts/font = ExtResource("3_4loml")
 text = "Введите ваш никнейм
 "
 label_settings = SubResource("LabelSettings_4wfjr")
@@ -656,50 +703,79 @@ offset_top = 248.0
 offset_right = 741.0
 offset_bottom = 279.0
 
-[node name="MusicSlider" type="HSlider" parent="CanvasLayer"]
-layout_mode = 0
-offset_left = 90.0
-offset_top = 57.0
-offset_right = 250.0
-offset_bottom = 73.0
-min_value = -40.0
-max_value = 20.0
-value = -10.0
-
 [node name="MusicButton" type="Button" parent="CanvasLayer"]
-custom_minimum_size = Vector2(72, 31)
+custom_minimum_size = Vector2(80, 40)
 layout_mode = 0
-offset_left = 12.0
-offset_top = 48.0
-offset_right = 77.0
-offset_bottom = 79.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 87.0
+offset_bottom = 45.0
+focus_mode = 0
+theme = ExtResource("2_w540b")
+theme_override_fonts/font = ExtResource("3_iix2x")
+theme_override_font_sizes/font_size = 16
 text = "Музыка"
 
-[node name="SoundSlider" type="HSlider" parent="CanvasLayer"]
+[node name="MusicSlider" type="HSlider" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 90.0
-offset_top = 102.0
-offset_right = 250.0
-offset_bottom = 118.0
+offset_left = 37.0
+offset_top = 246.0
+offset_right = 197.0
+offset_bottom = 262.0
+rotation = -1.57079
+scale = Vector2(1.2, 1.2)
 min_value = -40.0
 max_value = 20.0
 value = -10.0
 
 [node name="SoundButton" type="Button" parent="CanvasLayer"]
-custom_minimum_size = Vector2(72, 31)
+custom_minimum_size = Vector2(80, 40)
 layout_mode = 0
-offset_left = 12.0
-offset_top = 91.0
-offset_right = 84.0
-offset_bottom = 122.0
+offset_left = 87.0
+offset_top = 5.0
+offset_right = 167.0
+offset_bottom = 45.0
+focus_mode = 0
+theme = ExtResource("2_w540b")
+theme_override_fonts/font = ExtResource("3_iix2x")
+theme_override_font_sizes/font_size = 16
 text = "Звуки"
 
-[node name="LanguageButton" type="Button" parent="CanvasLayer"]
+[node name="EatSound" type="AudioStreamPlayer" parent="CanvasLayer/SoundButton"]
+stream = ExtResource("5_g6f3x")
+volume_db = -20.0
+pitch_scale = 3.0
+bus = &"Sounds"
+
+[node name="TerritoryCaptureSound" type="AudioStreamPlayer" parent="CanvasLayer/SoundButton"]
+stream = ExtResource("6_ub5yl")
+volume_db = -15.0
+pitch_scale = 1.2
+bus = &"Sounds"
+
+[node name="SoundSlider" type="HSlider" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 135.0
-offset_right = 70.0
-offset_bottom = 170.0
+offset_left = 117.0
+offset_top = 246.0
+offset_right = 277.0
+offset_bottom = 262.0
+rotation = -1.57079
+scale = Vector2(1.2, 1.2)
+min_value = -40.0
+max_value = 20.0
+value = -10.0
+
+[node name="LanguageButton" type="Button" parent="CanvasLayer"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 0
+offset_left = 167.0
+offset_top = 6.0
+offset_right = 247.0
+offset_bottom = 46.0
+focus_mode = 0
+theme = ExtResource("2_w540b")
+theme_override_fonts/font = ExtResource("3_4loml")
+theme_override_font_sizes/font_size = 17
 text = "RU"
 
 [node name="Map" type="Control" parent="CanvasLayer"]
@@ -861,7 +937,112 @@ grow_vertical = 2
 focus_mode = 0
 flat = true
 
+[node name="ExpBar" type="TextureProgressBar" parent="CanvasLayer"]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 47.0
+offset_right = 723.0
+offset_bottom = 74.0
+texture_progress = SubResource("GradientTexture2D_kmb6j")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/ExpBar"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 291.0
+offset_bottom = 29.0
+
+[node name="MinValue" type="Label" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_left = -33.0
+offset_top = 32.0
+offset_right = 32.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("3_iix2x")
+horizontal_alignment = 1
+
+[node name="MaxValue" type="Label" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 32.0
+offset_right = 322.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("3_iix2x")
+horizontal_alignment = 1
+
+[node name="LevelValue" type="Label" parent="CanvasLayer/ExpBar"]
+layout_mode = 0
+offset_top = -36.0
+offset_right = 290.0
+offset_bottom = -6.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_4loml")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="PlayerStatsPanel" type="Panel" parent="CanvasLayer"]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 427.0
+offset_right = 743.0
+offset_bottom = 609.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4loml")
+
+[node name="PassSesBox" type="VBoxContainer" parent="CanvasLayer/PlayerStatsPanel"]
+material = SubResource("CanvasItemMaterial_wuwks")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="WinsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_iix2x")
+text = "Wins:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AllKiilsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_iix2x")
+text = "Total kills: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxKiilsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_iix2x")
+text = "Max kills:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxSizeCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_iix2x")
+text = "Size: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxTerritoryCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_iix2x")
+text = "Max territory:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Choose" type="Control" parent="CanvasLayer"]
+visible = false
 z_index = 100
 layout_mode = 1
 anchors_preset = 15
@@ -1400,109 +1581,6 @@ grow_vertical = 2
 focus_mode = 0
 flat = true
 
-[node name="Button" type="Button" parent="CanvasLayer"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="ExpBar" type="TextureProgressBar" parent="CanvasLayer"]
-layout_mode = 0
-offset_left = 434.0
-offset_top = 40.0
-offset_right = 723.0
-offset_bottom = 67.0
-texture_progress = SubResource("GradientTexture2D_kmb6j")
-
-[node name="Panel" type="Panel" parent="CanvasLayer/ExpBar"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 291.0
-offset_bottom = 28.0
-
-[node name="MinValue" type="Label" parent="CanvasLayer/ExpBar"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 32.0
-offset_right = 41.0
-offset_bottom = 55.0
-
-[node name="MaxValue" type="Label" parent="CanvasLayer/ExpBar"]
-layout_mode = 0
-offset_left = 249.0
-offset_top = 32.0
-offset_right = 289.0
-offset_bottom = 55.0
-
-[node name="LevelValue" type="Label" parent="CanvasLayer/ExpBar"]
-layout_mode = 0
-offset_left = 109.0
-offset_top = -27.0
-offset_right = 149.0
-offset_bottom = -4.0
-horizontal_alignment = 1
-
-[node name="Tutorial" type="Button" parent="CanvasLayer/ExpBar"]
-custom_minimum_size = Vector2(150, 30)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.508651
-anchor_top = 11.4815
-anchor_right = 0.508651
-anchor_bottom = 11.4815
-offset_left = -75.0
-offset_top = -15.0
-offset_right = 75.0
-offset_bottom = 15.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="PlayerStatsPanel" type="Panel" parent="CanvasLayer"]
-layout_mode = 0
-offset_left = 416.0
-offset_top = 372.0
-offset_right = 743.0
-offset_bottom = 514.0
-
-[node name="PassSesBox" type="VBoxContainer" parent="CanvasLayer/PlayerStatsPanel"]
-material = SubResource("CanvasItemMaterial_wuwks")
-layout_mode = 0
-offset_left = 1.0
-offset_top = -3.0
-offset_right = 326.0
-offset_bottom = 143.0
-
-[node name="WinsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Wins:"
-horizontal_alignment = 1
-
-[node name="AllKiilsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Total kills: "
-horizontal_alignment = 1
-
-[node name="MaxKiilsCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Max kills:"
-horizontal_alignment = 1
-
-[node name="MaxSizeCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Size: "
-horizontal_alignment = 1
-
-[node name="MaxTerritoryCount" type="Label" parent="CanvasLayer/PlayerStatsPanel/PassSesBox"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Max territory:"
-horizontal_alignment = 1
-
 [node name="MainMenuMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_0gow5")
 autoplay = true
@@ -1519,10 +1597,11 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [connection signal="pressed" from="CanvasLayer/Button_menu/Play" to="." method="_on_play_pressed"]
-[connection signal="value_changed" from="CanvasLayer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Button_menu/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="CanvasLayer/MusicButton" to="." method="_on_music_button_pressed"]
-[connection signal="value_changed" from="CanvasLayer/SoundSlider" to="." method="_on_sound_slider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="pressed" from="CanvasLayer/SoundButton" to="." method="_on_sound_button_pressed"]
+[connection signal="value_changed" from="CanvasLayer/SoundSlider" to="." method="_on_sound_slider_value_changed"]
 [connection signal="pressed" from="CanvasLayer/LanguageButton" to="." method="_on_language_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Map/Button" to="CanvasLayer/Choose" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Skin/Button" to="CanvasLayer/Choose" method="_on_button_pressed"]
@@ -1533,4 +1612,3 @@ bus = &"Sounds"
 [connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/1/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/2/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choose/ChooseWindow/SKIN/H/3/Button" to="CanvasLayer/Choose" method="_on_choose_pressed"]
-[connection signal="pressed" from="CanvasLayer/ExpBar/Tutorial" to="." method="_on_tutorial_pressed"]

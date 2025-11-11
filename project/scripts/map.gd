@@ -126,7 +126,7 @@ func check_game():
 	if !G.alive:
 		#print("Loooooose...")
 		G.result_is_win = false
-		Engine.time_scale = 0.5
+		Engine.time_scale = 0.8
 		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
 		await get_tree().create_timer(1).timeout
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
@@ -136,7 +136,7 @@ func check_game():
 		G.kills = $Snakes.get_child(0).kills
 		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
-		Engine.time_scale = 1.5
+		Engine.time_scale = 1.2
 		await get_tree().create_timer(2).timeout
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			Engine.time_scale = 1.0

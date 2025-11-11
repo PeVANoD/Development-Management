@@ -1,9 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy6eqkq6ybuvg"]
+[gd_scene load_steps=11 format=3 uid="uid://dy6eqkq6ybuvg"]
 
 [ext_resource type="Script" uid="uid://dtr2n3fp13ovd" path="res://project/scripts/tutorial_window/tutorial_window.gd" id="1_6xa38"]
+[ext_resource type="FontFile" uid="uid://dbpjhgpkj6nxv" path="res://project/resources/PixeloidSansBold-PKnYd.ttf" id="2_iw6k6"]
 [ext_resource type="AudioStream" uid="uid://c4cj6g7o2khg" path="res://project/sounds/9e5204b502b116c.mp3" id="2_olyyy"]
+[ext_resource type="FontFile" uid="uid://dtm28tqdm1wxs" path="res://project/resources/PixeloidSans-mLxMm.ttf" id="3_ot1bg"]
+[ext_resource type="StyleBox" uid="uid://nm3mky4enw8g" path="res://project/resources/but_disabled.tres" id="4_8l5j3"]
+[ext_resource type="StyleBox" uid="uid://cdldrju0vu1tv" path="res://project/resources/but_basic.tres" id="4_ot1bg"]
+[ext_resource type="StyleBox" uid="uid://cuqaqepxk6qfk" path="res://project/resources/but_hovered.tres" id="5_emrdw"]
+[ext_resource type="StyleBox" uid="uid://diyionn1546me" path="res://project/resources/but_pressedtres.tres" id="6_ivcrd"]
+[ext_resource type="Theme" uid="uid://dgp1nci4gpk5l" path="res://project/resources/theme.tres" id="8_pb7dn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_olyyy"]
+bg_color = Color(0.344076, 0.344076, 0.344075, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0.894922, 0.894922, 0.894922, 1)
+border_blend = true
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+expand_margin_left = 16.0
+expand_margin_top = 16.0
+expand_margin_right = 16.0
+expand_margin_bottom = 16.0
 
 [node name="TutorialWindow" type="Control"]
 layout_mode = 3
@@ -14,14 +36,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6xa38")
 
-[node name="Background" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(0, 0, 0, 0.278431)
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
 
 [node name="DialogPanel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(600, 500)
+custom_minimum_size = Vector2(800, 550)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -44,30 +70,35 @@ theme_override_constants/separation = 10
 [node name="PageIndicator" type="Label" parent="DialogPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.666667, 0.666667, 0.666667, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = ExtResource("3_ot1bg")
+theme_override_font_sizes/font_size = 16
 text = "1 из 9"
 horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="TitleLabel" type="Label" parent="DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_iw6k6")
 theme_override_font_sizes/font_size = 32
 text = "Добро пожаловать"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TutorialImage" type="TextureRect" parent="DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(450, 350)
+clip_contents = true
+custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-expand_mode = 2
-stretch_mode = 2
+expand_mode = 5
+stretch_mode = 5
 
 [node name="DescriptionLabel" type="Label" parent="DialogPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_ot1bg")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -78,18 +109,46 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="PrevButton" type="Button" parent="DialogPanel/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(100, 30)
+custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("2_iw6k6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/disabled = ExtResource("4_8l5j3")
+theme_override_styles/hover = ExtResource("5_emrdw")
+theme_override_styles/pressed = ExtResource("6_ivcrd")
+theme_override_styles/normal = ExtResource("4_ot1bg")
 text = "Назад"
 
 [node name="SkipButton" type="Button" parent="DialogPanel/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(100, 30)
+custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+focus_mode = 0
+theme = ExtResource("8_pb7dn")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("2_iw6k6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/disabled = ExtResource("4_8l5j3")
+theme_override_styles/hover = ExtResource("5_emrdw")
+theme_override_styles/pressed = ExtResource("6_ivcrd")
+theme_override_styles/normal = ExtResource("4_ot1bg")
 text = "Пропустить"
 
 [node name="NextButton" type="Button" parent="DialogPanel/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(100, 30)
+custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("2_iw6k6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/disabled = ExtResource("4_8l5j3")
+theme_override_styles/hover = ExtResource("5_emrdw")
+theme_override_styles/pressed = ExtResource("6_ivcrd")
+theme_override_styles/normal = ExtResource("4_ot1bg")
 text = "Далее"
 
 [node name="ButtonSound" type="AudioStreamPlayer2D" parent="."]
@@ -97,6 +156,7 @@ stream = ExtResource("2_olyyy")
 volume_db = -5.0
 bus = &"Sounds"
 
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="DialogPanel/VBoxContainer/ButtonContainer/PrevButton" to="." method="_on_prev_button_pressed"]
 [connection signal="pressed" from="DialogPanel/VBoxContainer/ButtonContainer/SkipButton" to="." method="_on_skip_button_pressed"]
 [connection signal="pressed" from="DialogPanel/VBoxContainer/ButtonContainer/NextButton" to="." method="_on_next_button_pressed"]

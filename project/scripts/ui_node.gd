@@ -1,5 +1,6 @@
 extends Control
 
+var text
 var language_texts = {
 	"ru" = {
 		"victory": "ПОБЕДА!",
@@ -8,7 +9,9 @@ var language_texts = {
 		"terrain_result": "Территории захвачено: ",
 		"size_result": "Размер: ",
 		"kills_result": "Убито: ",
-		"exp_result": "Опыта получено: "
+		"exp_result": "Опыта получено: ",
+		"terrain_size": "Лидер области:",
+		"body_size": "Лидер длины:"
 	},
 	"en" = {
 		"victory": "VICTORY!",
@@ -17,7 +20,9 @@ var language_texts = {
 		"terrain_result": "Terrain captured: ",
 		"size_result": "Size: ",
 		"kills_result": "Kills: ",
-		"exp_result": "Exp gained: "
+		"exp_result": "Exp gained: ",
+		"terrain_size": "Terrain leader:",
+		"body_size": "Leangth leader:"
 	}
 }
 
@@ -28,10 +33,14 @@ var player_exp: int = 0
 var session_finished = false
 
 func _ready():
+	text = language_texts[G.language]
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Terrain/VBoxContainer/1/Name".visible_characters = 9
 	$"Leaders/Size/VBoxContainer/1/Name".visible_characters = 9
+	$Leaders/Terrain/VBoxContainer/Header/RichTextLabel.text = text["terrain_size"]
+	$Leaders/Size/VBoxContainer/Header/RichTextLabel.text = text["body_size"]
+	
 	init_name()
 	$PassSessionPanel.visible = false
 	outTerritoryWarning.visible = false  # Изначально скрываем предупреждение
@@ -118,10 +127,9 @@ func sortSize():
 func sessionEnd() -> void:
 	if session_finished:
 		return
-	var text = language_texts[G.language]
 	if !G.alive and !$PassSessionPanel.visible:
 		session_finished = true
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.4).timeout
 		sessionEndText(text, "defeat")
 	elif G.result_is_win and !$PassSessionPanel.visible:
 		session_finished = true

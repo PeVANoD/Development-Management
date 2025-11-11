@@ -1,5 +1,11 @@
 extends Control
 
+const TUTORIAL_WINDOW = preload("res://project/scenes/tutorial/tutorial_window.tscn")
+const FOOD = preload("res://project/scenes/food.tscn")
+const MAP = preload("res://project/scenes/map.tscn")
+const SNAKE = preload("res://project/scenes/snake.tscn")
+const UI = preload("res://project/scenes/ui.tscn")
+
 # Переменные для музыки и звуков
 var is_muted_music = false
 var is_muted_sound = false
@@ -79,18 +85,20 @@ func _apply_language():
 	$CanvasLayer/ExpBar/LevelValue.text = texts["player_level"] + str(level)
 	
 	# Обновляем текст кнопки обучения
-	if has_node("CanvasLayer/ExpBar/Tutorial"):
-		$CanvasLayer/ExpBar/Tutorial.text = texts["tutorial"]
+	if has_node("CanvasLayer/Button_menu/Tutorial"):
+		$CanvasLayer/Button_menu/Tutorial.text = texts["tutorial"]
 	
 	set_player_stats(G.wins, G.total_kills, G.max_kills, G.max_territory ,G.max_size)
 
 func _on_tutorial_pressed():
 	"""Показывает окно туториала"""
+	$CanvasLayer/Choose.moveBLUR(1)
+	
 	play_button_sound()
 
 	var tutorial_scene = preload("res://project/scenes/tutorial/tutorial_window.tscn")
 	var tutorial_instance = tutorial_scene.instantiate()
-	add_child(tutorial_instance)
+	$CanvasLayer/Choose.add_child(tutorial_instance)
 
 # Функция для воспроизведения звука кнопок
 func play_button_sound(): 
@@ -116,7 +124,8 @@ func _go_to_map():
 		went_to_map = true
 		G.nickname = nickname
 		# Воспроизводим звук и ЖДЕМ его окончания
-		await play_transition_sound()
+		play_transition_sound()
+		await get_tree().create_timer(0.5).timeout
 		# Только потом переходим
 		get_tree().change_scene_to_file("res://project/scenes/ui.tscn")
 	else:
@@ -156,6 +165,7 @@ func _on_sound_slider_value_changed(value: float) -> void:
 	else:
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds"), false)
 		is_muted_sound = false
+	sounds()
 
 # Кнопка для звуков
 func _on_sound_button_pressed() -> void:
@@ -166,6 +176,15 @@ func _on_sound_button_pressed() -> void:
 	elif $CanvasLayer/SoundSlider.value == -40.0 and is_muted_sound == true:
 		$CanvasLayer/SoundSlider.value = sound_level
 		is_muted_sound = false
+	sounds()
+
+func sounds():
+	if randi_range(0,1):
+		$CanvasLayer/SoundButton/TerritoryCaptureSound.pitch_scale = randf_range(0.7,1.3)
+		$CanvasLayer/SoundButton/TerritoryCaptureSound.play()
+	else:
+		$CanvasLayer/SoundButton/EatSound.pitch_scale = randf_range(2.0,5.0)
+		$CanvasLayer/SoundButton/EatSound.play()
 
 func _on_language_button_pressed() -> void:
 	play_button_sound()
