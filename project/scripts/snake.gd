@@ -45,7 +45,11 @@ var positionHistory = []
 var maxHistoryLength = 6
 var addLength = 6
 var time_since_last_growth: float = 0.0
-@export var is_controlled: bool = false  # Управляется ли эта змейка
+
+var growth_queue: int = 0
+var growth_timer: float = 0.0
+var growth_delay: float = 0.1
+@export var is_controlled: bool = false
 #endregion
 
 # Территории
@@ -96,6 +100,7 @@ func _physics_process(delta):
 	keep_inside_bounds()
 	update_territory_capture(delta)
 	update_food_combo(delta)
+	update_growth_queue(delta)
 	checkBody()
 	
 func update_camera():
@@ -265,37 +270,43 @@ func loseGrowth(amount = 1):
 				changeBody()
 			await get_tree().create_timer(0.01).timeout
 
-# увеличение змейки
 func bodyGrow(amount = 1):
-	# Проверяем, что змейка еще жива и у неё есть части тела
 	if not is_inside_tree() or $Body.get_child_count() == 0:
 		return
 	if amount < 0:
 		loseGrowth(-amount)
 		return
-	for i in range(amount):
-		# Дополнительная проверка на каждой итерации
-		if $Body.get_child_count() == 0:
-			break
-			
-		var newPart = $Body.get_child(0).duplicate()
-		newPart.z_index = $Body.get_child_count()
-		length += 1
-		if !ai_control:
-			G.size = length
-			G.max_size = max(G.max_size, length)
+	
+	growth_queue += amount
+
+func update_growth_queue(delta):
+	if growth_queue > 0:
+		growth_timer += delta
+		if growth_timer >= growth_delay:
+			growth_timer = 0.0
+			add_body_part()
+			growth_queue -= 1
+
+func add_body_part():
+	if $Body.get_child_count() == 0:
+		return
 		
-		$Body.add_child(newPart)
-		
-		# Устанавливаем начальную позицию на позицию текущего хвоста
-		var parts_count = $Body.get_child_count()
-		if parts_count > 1:
-			# Берем позицию предпоследней части (новый хвост будет за ней)
-			var prev_tail = $Body.get_child(parts_count - 2)
-			newPart.global_position = prev_tail.global_position
-		else:
-			newPart.global_position = $Head.global_position
-		
+	var newPart = $Body.get_child(0).duplicate()
+	newPart.z_index = $Body.get_child_count()
+	length += 1
+	if !ai_control:
+		G.size = length
+		G.max_size = max(G.max_size, length)
+	
+	$Body.add_child(newPart)
+	
+	var parts_count = $Body.get_child_count()
+	if parts_count > 1:
+		var prev_tail = $Body.get_child(parts_count - 2)
+		newPart.global_position = prev_tail.global_position
+	else:
+		newPart.global_position = $Head.global_position
+	
 	changeBody()
 	
 func checkBody():
