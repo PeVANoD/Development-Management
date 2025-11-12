@@ -86,18 +86,13 @@ class SnakeCaptureState:
 		is_capturing = false
 		capture_points = []
 
-# Создаем начальную территорию для змейки
-func create_initial_territory_for_snake(snake_index: int, center: Vector2, color_index: int = -1):
-	# Если color_index не указан, используем snake_index
-	if color_index < 0:
-		color_index = snake_index
-	
-	if color_index >= colors.size():
+func create_initial_territory_for_snake(snake_index: int, center: Vector2):
+	if snake_index >= colors.size():
 		# Если цветов не хватает, генерируем случайный
 		var random_color = Color(randf(), randf(), randf())
 		snake_colors.append(random_color)
 	else:
-		snake_colors.append(Color(colors[color_index]))
+		snake_colors.append(Color(colors[snake_index]))
 	
 	# Убедимся, что массивы достаточно большие
 	if territories.size() <= snake_index:

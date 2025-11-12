@@ -9,12 +9,12 @@ var territory_capture: TerritoryCapture
 var ai_snakes: Array = []
 
 var food_spawners: Array = []  # Массив позиций спавнеров
-var spawner_radius = 80
-var max_food_count = 100
+var spawner_radius = 150
+var max_food_count = 200
 var start_food_count = 200
 
-var min_food_in_point = 15
-var max_food_in_point = 25
+var min_food_in_point = 20
+var max_food_in_point = 30
 
 var snake_count = 8
 
@@ -36,13 +36,8 @@ func _ready():
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
-	# Выбираем случайный индекс цвета для игрока
-	var player_color_index = randi() % snake_count
-	
-	genSnake(0, player_color_index)
-	
-	for i in range(1, snake_count):
-		genSnake(i, i)
+	for i in range(snake_count):
+		genSnake(i)
 
 func create_new_active_spawner():
 	var max_attempts = 50  # Максимум попыток найти свободное место
@@ -63,7 +58,7 @@ func create_new_active_spawner():
 			return
 		
 		attempts += 1
-		
+
 	angle = randf() * 2 * PI
 	distance = randf() * (radius - 400)
 	active_spawner_position = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
@@ -188,18 +183,12 @@ func clearSnake():
 			break
 	return
 
-func genSnake(i = 0, color_index = -1):
+func genSnake(i = 0):
 	var newSnake = SNAKE.instantiate()
 	if i > 0:
 		newSnake.ai_control = true
 	newSnake.territory_capture = territory_capture
-	
-	# snake_index - это уникальный индекс змейки в массиве (всегда по порядку)
 	newSnake.snake_index = snakeArr.size()
-	
-	# Если color_index не указан, используем snake_index
-	if color_index < 0:
-		color_index = snakeArr.size()
 	
 	# Устанавливаем начальную позицию
 	var angle = (snakeArr.size() * 2 * PI / 8) if snakeArr.size() < 8 else randf() * 2 * PI
@@ -212,8 +201,7 @@ func genSnake(i = 0, color_index = -1):
 	snakeArr.push_back(newSnake)
 	$Snakes.add_child(newSnake)
 	
-	# Создаем начальную территорию с правильным индексом, но используем color_index для цвета
-	territory_capture.create_initial_territory_for_snake(newSnake.snake_index, pos, color_index)
+	territory_capture.create_initial_territory_for_snake(newSnake.snake_index, pos)
 	
 	if snakeArr.size() == 1:
 		curSnake = 0
