@@ -45,12 +45,37 @@ func spawn_initial_snakes():
 		genSnake(i, i)
 
 func create_new_active_spawner():
-	var angle = randf() * 2 * PI
-	var distance = randf() * (radius - 400)
-	active_spawner_position = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
+	var max_attempts = 50  # Максимум попыток найти свободное место
+	var attempts = 0
+	var angle: float
+	var distance: float
 	
+	while attempts < max_attempts:
+		angle = randf() * 2 * PI
+		distance = randf() * (radius - 400)
+		var potential_position = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
+		
+		# Проверяем, не находится ли позиция на чьей-то территории
+		if not is_position_on_territory(potential_position):
+			active_spawner_position = potential_position
+			active_spawner_max_food = randi_range(min_food_in_point, max_food_in_point)
+			active_spawner_food_count = 0
+			return
+		
+		attempts += 1
+		
+	angle = randf() * 2 * PI
+	distance = randf() * (radius - 400)
+	active_spawner_position = Vector2(cos(angle) * (distance + 300), sin(angle) * (distance + 300))
 	active_spawner_max_food = randi_range(min_food_in_point, max_food_in_point)
 	active_spawner_food_count = 0
+
+func is_position_on_territory(pos: Vector2) -> bool:
+	for i in range(snakeArr.size()):
+		if snakeArr[i] and territory_capture.is_point_in_territory_global(pos, i):
+			return true
+	
+	return false
 
 func get_current_food_count() -> int:
 	return $Food.get_child_count()
