@@ -87,13 +87,17 @@ class SnakeCaptureState:
 		capture_points = []
 
 # Создаем начальную территорию для змейки
-func create_initial_territory_for_snake(snake_index: int, center: Vector2, initial_effect_type: int = -1):
-	if snake_index >= colors.size():
+func create_initial_territory_for_snake(snake_index: int, center: Vector2, color_index: int = -1):
+	# Если color_index не указан, используем snake_index
+	if color_index < 0:
+		color_index = snake_index
+	
+	if color_index >= colors.size():
 		# Если цветов не хватает, генерируем случайный
 		var random_color = Color(randf(), randf(), randf())
 		snake_colors.append(random_color)
 	else:
-		snake_colors.append(Color(colors[snake_index]))
+		snake_colors.append(Color(colors[color_index]))
 	
 	# Убедимся, что массивы достаточно большие
 	if territories.size() <= snake_index:
@@ -103,11 +107,8 @@ func create_initial_territory_for_snake(snake_index: int, center: Vector2, initi
 		snake_capture_states[snake_index] = SnakeCaptureState.new()
 	if territory_effect_types.size() <= snake_index:
 		territory_effect_types.resize(snake_index + 1)
-		# Устанавливаем случайный эффект если не указан
-		if initial_effect_type == -1:
-			territory_effect_types[snake_index] = randi() % 16
-		else:
-			territory_effect_types[snake_index] = initial_effect_type
+		# Устанавливаем случайный эффект (0-15)
+		territory_effect_types[snake_index] = 0  # Можно сделать randi() % 16 для случайного
 	
 	# Создаем начальную территорию вокруг позиции змейки
 	territories[snake_index] = generate_initial_territory(center, 100)

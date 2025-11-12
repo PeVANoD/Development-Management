@@ -36,8 +36,15 @@ func _ready():
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
-	for i in range(snake_count):
-		genSnake(i)
+	# Выбираем случайный индекс цвета для игрока (0-7)
+	var player_color_index = randi() % snake_count
+	
+	# Создаем игрока первым, но с случайным цветом
+	genSnake(0, player_color_index)
+	
+	# Создаем остальных змеек (AI) с их индексами
+	for i in range(1, snake_count):
+		genSnake(i, i)
 
 func create_new_active_spawner():
 	var angle = randf() * 2 * PI
@@ -158,12 +165,18 @@ func clearSnake():
 			break
 	return
 
-func genSnake(i = 0):
+func genSnake(i = 0, color_index = -1):
 	var newSnake = SNAKE.instantiate()
 	if i > 0:
 		newSnake.ai_control = true
 	newSnake.territory_capture = territory_capture
+	
+	# snake_index - это уникальный индекс змейки в массиве (всегда по порядку)
 	newSnake.snake_index = snakeArr.size()
+	
+	# Если color_index не указан, используем snake_index
+	if color_index < 0:
+		color_index = snakeArr.size()
 	
 	# Устанавливаем начальную позицию
 	var angle = (snakeArr.size() * 2 * PI / 8) if snakeArr.size() < 8 else randf() * 2 * PI
@@ -176,8 +189,8 @@ func genSnake(i = 0):
 	snakeArr.push_back(newSnake)
 	$Snakes.add_child(newSnake)
 	
-	# Создаем начальную территорию
-	territory_capture.create_initial_territory_for_snake(snakeArr.size() - 1, pos)
+	# Создаем начальную территорию с правильным индексом, но используем color_index для цвета
+	territory_capture.create_initial_territory_for_snake(newSnake.snake_index, pos, color_index)
 	
 	if snakeArr.size() == 1:
 		curSnake = 0
