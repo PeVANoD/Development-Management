@@ -36,13 +36,11 @@ func _ready():
 	spawn_initial_snakes()
 
 func spawn_initial_snakes():
-	# Выбираем случайный индекс цвета для игрока (0-7)
+	# Выбираем случайный индекс цвета для игрока
 	var player_color_index = randi() % snake_count
 	
-	# Создаем игрока первым, но с случайным цветом
 	genSnake(0, player_color_index)
 	
-	# Создаем остальных змеек (AI) с их индексами
 	for i in range(1, snake_count):
 		genSnake(i, i)
 
