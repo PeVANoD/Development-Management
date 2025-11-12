@@ -95,6 +95,7 @@ func _physics_process(delta):
 	move_head(delta)
 	keep_inside_bounds()
 	update_territory_capture(delta)
+	update_food_combo(delta)
 	checkBody()
 	
 func update_camera():
@@ -362,6 +363,10 @@ func _in_mouth_body_entered(body):
 		suck_food(body)
 		if !randi_range(0,2):
 			bodyGrow()
+		
+		food_eaten_count += 1
+		food_combo_timer = 0.0
+		
 		# Спавним новую еду только если текущее количество меньше максимального
 		if map_node.get_current_food_count() < map_node.max_food_count:
 			map_node.genFood()
@@ -510,6 +515,56 @@ var max_debuff_amount = 5.0
 var time_to_debuff = 5.0
 var debuff_timer = 0.0
 var first_debuff_timer = 0.0
+
+var food_eaten_count: int = 0
+var food_combo_timer: float = 0.0
+var combo_time_limit: float = 0.5
+var combo_threshold: int = 10
+var super_mode_active: bool = false
+var super_mode_radius: float = 200.0
+
+func update_food_combo(delta):
+	food_combo_timer += delta
+	
+	if food_combo_timer > combo_time_limit:
+		food_eaten_count = 0
+		food_combo_timer = 0.0
+	
+	if food_eaten_count >= combo_threshold and not super_mode_active:
+		activate_super_mode()
+
+func activate_super_mode():
+	super_mode_active = true
+	
+	suck_nearby_food()
+	
+	food_eaten_count = 0
+	food_combo_timer = 0.0
+	super_mode_active = false
+
+func suck_nearby_food():
+	if not map_node:
+		return
+		
+	var food_container = map_node.get_node("Food")
+	if not food_container:
+		return
+	
+	var head_pos = $Head.global_position
+	var foods_to_eat = []
+	
+	for food in food_container.get_children():
+		if food and is_instance_valid(food):
+			var distance = head_pos.distance_to(food.global_position)
+			if distance <= super_mode_radius:
+				foods_to_eat.append(food)
+	
+	for food in foods_to_eat:
+		if food and is_instance_valid(food):
+			food.get_node("CollisionShape2D").set_deferred("disabled", true)
+			suck_food(food)
+			if !randi_range(0,2):
+				bodyGrow()
 
 func debuff_out_territory(delta):
 	if first_debuff_timer >= 4:
