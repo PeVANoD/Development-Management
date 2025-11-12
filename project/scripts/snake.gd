@@ -135,7 +135,8 @@ func checkInputs(delta):
 func update_position_history():
 	if positionHistory.is_empty() or $Head.global_position.distance_to(positionHistory[0]) > 2.0:
 		positionHistory.push_front($Head.global_position)
-	var max_needed_history = $Body.get_child_count() * partDistance + 10
+	
+	var max_needed_history = $Body.get_child_count() * partDistance + 100
 	if positionHistory.size() > max_needed_history:
 		positionHistory.resize(max_needed_history)
 		
@@ -259,7 +260,6 @@ func loseGrowth(amount = 1):
 			if map_node and is_inside_tree():  # Проверяем что map_node существует
 				map_node.genFood(1, lose_part.global_position, true)  # Точная позиция
 			lose_part.queue_free()
-			maxHistoryLength -= addLength
 			length -= 1
 			if is_inside_tree():  # Проверяем перед вызовом changeBody
 				changeBody()
@@ -279,30 +279,40 @@ func bodyGrow(amount = 1):
 			break
 			
 		var newPart = $Body.get_child(0).duplicate()
-		newPart.z_index = $Body.get_child_count() - 1
+		newPart.z_index = $Body.get_child_count()
 		length += 1
 		if !ai_control:
 			G.size = length
 			G.max_size = max(G.max_size, length)
-		maxHistoryLength += addLength
-		$Body.call_deferred("add_child", newPart)
-		$Body.call_deferred("move_child", newPart,0)
-		# Добавляем больше точек в историю при создании новой части
-		for j in range(addLength):
-			positionHistory.push_back(positionHistory[-1] if positionHistory.size() > 0 else $Head.global_position)
+		
+		$Body.add_child(newPart)
+		
+		# Устанавливаем начальную позицию на позицию текущего хвоста
+		var parts_count = $Body.get_child_count()
+		if parts_count > 1:
+			# Берем позицию предпоследней части (новый хвост будет за ней)
+			var prev_tail = $Body.get_child(parts_count - 2)
+			newPart.global_position = prev_tail.global_position
+		else:
+			newPart.global_position = $Head.global_position
+		
 	changeBody()
 	
-# перемещение каждой части тела по следу головы
 func checkBody():
 	var parts = $Body.get_children()
 	var parts_count = parts.size()
 	if parts_count == 0 or positionHistory.size() < partDistance:
 		return
 	var history_size = positionHistory.size()
-	for i in range(parts_count - 1, -1, -1):
+	
+	# Обрабатываем части от головы к хвосту
+	for i in range(parts_count):
 		var target_index = i * partDistance
 		if target_index >= history_size:
-			continue
+			# Если истории не хватает, используем последнюю доступную позицию
+			target_index = history_size - 1
+			if target_index < 0:
+				continue
 		var part = parts[i]
 		part.z_index = -i
 		part.global_position = positionHistory[target_index]
@@ -315,8 +325,7 @@ func checkBody():
 			var next_index = min((i + 1) * partDistance, history_size - 1)
 			var dir = (positionHistory[next_index] - part.global_position).normalized()
 			part.rotation = atan2(dir.y, dir.x)
-					
-# перерасчет направления
+			
 func countAngle():
 	var max_rotation_speed = 0.04
 	var angle_diff = direction.angle_to(desiredDirection)
@@ -338,11 +347,7 @@ func kill_snake():
 	self.queue_free()
 	map_node.clearSnake()
 
-# Создание еды от всех частей тела змейки
 func spawn_food_from_body():
-	if not map_node:
-		return
-		
 	# Спавним еду от головы точно на её позиции
 	map_node.genFood(1, $Head.global_position, true)
 	
@@ -518,7 +523,7 @@ var first_debuff_timer = 0.0
 
 var food_eaten_count: int = 0
 var food_combo_timer: float = 0.0
-var combo_time_limit: float = 0.5
+var combo_time_limit: float = 0.3
 var combo_threshold: int = 10
 var super_mode_active: bool = false
 var super_mode_radius: float = 200.0

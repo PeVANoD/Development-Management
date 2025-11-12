@@ -11,10 +11,10 @@ var ai_snakes: Array = []
 var food_spawners: Array = []  # Массив позиций спавнеров
 var spawner_radius = 80
 var max_food_count = 100
-var start_food_count = 100
+var start_food_count = 200
 
-var min_food_in_point = 10
-var max_food_in_point = 20
+var min_food_in_point = 15
+var max_food_in_point = 25
 
 var snake_count = 8
 
