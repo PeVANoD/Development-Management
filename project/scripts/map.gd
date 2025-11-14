@@ -122,6 +122,7 @@ func smooth_modulate_transition(node,target_color: Color, duration: float) -> vo
 	tween.tween_property(node, "modulate", target_color, duration).set_trans(Tween.TransitionType.TRANS_SINE).set_ease(Tween.EaseType.EASE_IN_OUT)
 @onready var change_view_node = $"../.."
 
+var game_won = false
 func check_game():
 	if !G.alive:
 		#print("Loooooose...")
@@ -129,16 +130,19 @@ func check_game():
 		Engine.time_scale = 0.8
 		smooth_modulate_transition(change_view_node,Color8(0x45, 0x21, 0x12, 255), 0.2)
 		await get_tree().create_timer(1).timeout
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): 
+		$"../../../uiNode".sessionEnd()
+		if Input.is_action_just_pressed("RMB") || Input.is_action_just_pressed("LMB"): 
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
-	elif $Snakes.get_child_count() < 2 and !G.result_is_win:
+	elif $Snakes.get_child_count() < 2 and !game_won:
 		G.kills = $Snakes.get_child(0).kills
+		$"../../../uiNode".sessionEnd(true)
 		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)
 		Engine.time_scale = 1.2
 		await get_tree().create_timer(2).timeout
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) || Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if Input.is_action_just_pressed("RMB") || Input.is_action_just_pressed("LMB"):
+			game_won = true
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 
@@ -158,11 +162,6 @@ func handle_input():
 		if G.alive:
 			$Snakes.get_child(0).kill_snake()
 	
-	# Информация о территории
-	if Input.is_action_just_pressed("Enter"):
-		if curSnake != null and curSnake < snakeArr.size():
-			print("Территория текущей змейки: ", territory_capture.get_territory_area(curSnake))
-		print("Общая территория: ", territory_capture.get_total_territory_area())
 	
 	# Выбор змейки для управления
 	for i in range(10):  # Клавиши 0-9

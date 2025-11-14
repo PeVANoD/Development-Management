@@ -33,8 +33,8 @@ var language_texts = {
 		"nickname_enter": "Введите ваш никнейм",
 		"nickname_result": "Никнейм: ",
 		"wins_result": "Победы: ",
-		"total_kills_result": "Всего убийств: ",
-		"max_kills_result": "Макс убийств: ",
+		"total_kills_result": "Всего унитожений: ",
+		"max_kills_result": "Макс унитожений: ",
 		"size_result": "Макс размер: ",
 		"terrain_result": "Макс захвачено территории: ",
 		"player_level": "Уровень: "
@@ -66,6 +66,8 @@ var current_language = "ru"
 
 func _ready():
 	# Применяем текущий язык
+	$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
+	$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
 	$CanvasLayer/NicknameInput.text = G.nickname
 	_apply_language()
 	$CanvasLayer/ExpBar/MinValue.text = str(G.player_exp)
@@ -225,20 +227,18 @@ func _on_language_button_pressed() -> void:
 
 # Шкала опыта
 func set_exp_value(new_value):
-	var temp_value : int = 0
-	if $CanvasLayer/ExpBar.value + new_value > max_exp_value:
-		temp_value = new_value - max_exp_value
-	$CanvasLayer/ExpBar.value += new_value
-	if $CanvasLayer/ExpBar.value >= max_exp_value:
+	var temp_value : int = new_value
+	if $CanvasLayer/ExpBar.value + temp_value > max_exp_value:
+		temp_value -= max_exp_value
 		level += 1
-		$CanvasLayer/ExpBar.min_value = max_exp_value
-		min_exp_value = max_exp_value
 		max_exp_value = float(int(max_exp_value * 1.5))
 		$CanvasLayer/ExpBar.max_value = max_exp_value
+		$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
+		$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
+		$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
+		set_exp_value(temp_value)
+	else:
 		$CanvasLayer/ExpBar.value += temp_value
-	$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
-	$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
-	$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
 
 # Статистика игрока
 func set_player_stats(wins, total_kills, max_kills, max_territory, max_size):

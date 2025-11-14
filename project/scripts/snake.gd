@@ -78,6 +78,9 @@ func enable_ai():
 	$"Head/90".set_collision_mask_value(9+snakeNum,false)
 
 func _physics_process(delta):
+	if snakeNum == 0:
+		#print(G.kills)
+		pass
 	update_camera()
 	checkInputs(delta)
 	update_position_history()
@@ -424,10 +427,8 @@ func _in_mouth_body_entered(body):
 			3:
 				$Head/Mouth/CPU4.restart()
 				$Head/Mouth/CPU4.emitting = true
-				which_CPU = -1
+				which_CPU = -4
 		which_CPU += 1
-
-		which_CPU != which_CPU
 	if body:
 		if body.is_in_group("Snake") and body.get_node("../../..") != self:
 			var other_snake = body.get_node("../../..")
@@ -455,7 +456,6 @@ func wink():
 	await get_tree().create_timer(0.4).timeout
 	$"Head/Eyes/1/lid".speed_scale = 0.5
 	$"Head/Eyes/1/lid".play("lid")
-	print("WINK")
 	await get_tree().create_timer(0.6).timeout
 	special_eyes = false
 	lock_eyes = false

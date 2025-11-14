@@ -8,7 +8,7 @@ var language_texts = {
 		"nickname_result": "Никнейм: ",
 		"terrain_result": "Территории захвачено: ",
 		"size_result": "Размер: ",
-		"kills_result": "Убито: ",
+		"kills_result": "Уничтожено: ",
 		"exp_result": "Опыта получено: ",
 		"terrain_size": "Лидер области:",
 		"body_size": "Лидер длины:"
@@ -63,7 +63,6 @@ func _process(_delta):
 	setAliveSnakes()
 	sortTerrain()
 	sortSize()
-	sessionEnd()
 
 var count_left = 8
 func setAliveSnakes():
@@ -124,16 +123,13 @@ func sortSize():
 				pos += 1
 
 # Передача инфы про настоящую сессию после смерти/победы
-func sessionEnd() -> void:
-	if session_finished:
-		return
-	if !G.alive and !$PassSessionPanel.visible:
+func sessionEnd(win = false) -> void:
+	if !win and !session_finished:
 		session_finished = true
 		await get_tree().create_timer(0.4).timeout
 		sessionEndText(text, "defeat")
-	elif G.result_is_win and !$PassSessionPanel.visible:
+	elif win and !session_finished:
 		session_finished = true
-		await get_tree().create_timer(2).timeout
 		player_exp += 100
 		G.wins += 1
 		sessionEndText(text, "victory")
@@ -144,7 +140,7 @@ func sessionEndText(text, match_res):
 	$PassSessionPanel.visible = true
 	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
 	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
-	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + str(G.terrain)
+	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + str(G.terrain) + "%"
 	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + str(G.size)
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
 	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(player_exp)

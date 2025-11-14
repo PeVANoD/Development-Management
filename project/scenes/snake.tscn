@@ -286,7 +286,7 @@ sprite_frames = SubResource("SpriteFrames_1x5eq")
 animation = &"0"
 
 [node name="Eyes" type="Node2D" parent="Head"]
-position = Vector2(-11, 7.00004)
+position = Vector2(-10, 7.00004)
 
 [node name="1" type="AnimatedSprite2D" parent="Head/Eyes"]
 position = Vector2(2.57492e-05, -2.57493e-05)
@@ -346,6 +346,7 @@ shape = SubResource("CircleShape2D_svp7d")
 [node name="CPU1" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
 emitting = false
+amount = 12
 texture = SubResource("GradientTexture2D_7xpkp")
 lifetime = 0.3
 one_shot = true
@@ -354,8 +355,8 @@ draw_order = 1
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 40.0
-initial_velocity_max = 120.0
+initial_velocity_min = 60.0
+initial_velocity_max = 160.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
@@ -365,6 +366,7 @@ color_ramp = SubResource("Gradient_7xpkp")
 [node name="CPU2" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
 emitting = false
+amount = 12
 texture = SubResource("GradientTexture2D_7xpkp")
 lifetime = 0.3
 one_shot = true
@@ -373,8 +375,8 @@ draw_order = 1
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 40.0
-initial_velocity_max = 120.0
+initial_velocity_min = 60.0
+initial_velocity_max = 160.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
@@ -384,6 +386,7 @@ color_ramp = SubResource("Gradient_7xpkp")
 [node name="CPU3" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
 emitting = false
+amount = 12
 texture = SubResource("GradientTexture2D_7xpkp")
 lifetime = 0.3
 one_shot = true
@@ -392,8 +395,8 @@ draw_order = 1
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 40.0
-initial_velocity_max = 120.0
+initial_velocity_min = 60.0
+initial_velocity_max = 160.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
@@ -403,6 +406,7 @@ color_ramp = SubResource("Gradient_7xpkp")
 [node name="CPU4" type="CPUParticles2D" parent="Head/Mouth"]
 position = Vector2(-22, 7.96401e-05)
 emitting = false
+amount = 12
 texture = SubResource("GradientTexture2D_7xpkp")
 lifetime = 0.3
 one_shot = true
@@ -411,8 +415,8 @@ draw_order = 1
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 40.0
-initial_velocity_max = 120.0
+initial_velocity_min = 60.0
+initial_velocity_max = 160.0
 scale_amount_min = 0.15
 scale_amount_max = 0.25
 scale_amount_curve = SubResource("Curve_3a2nh")
