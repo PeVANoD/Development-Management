@@ -228,17 +228,22 @@ func _on_language_button_pressed() -> void:
 # Шкала опыта
 func set_exp_value(new_value):
 	var temp_value : int = new_value
-	if $CanvasLayer/ExpBar.value + temp_value > max_exp_value:
-		temp_value -= max_exp_value
-		level += 1
-		max_exp_value = float(int(max_exp_value * 1.5))
-		$CanvasLayer/ExpBar.max_value = max_exp_value
-		$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
-		$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
-		$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
-		set_exp_value(temp_value)
-	else:
-		$CanvasLayer/ExpBar.value += temp_value
+	while temp_value > 0:
+		var exp_to_level = max_exp_value - $CanvasLayer/ExpBar.value
+		if temp_value >= exp_to_level:
+			temp_value -= exp_to_level
+			level += 1
+			$CanvasLayer/ExpBar.value = 0
+			max_exp_value = int(max_exp_value * 1.5)
+			$CanvasLayer/ExpBar.max_value = max_exp_value
+			$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
+			$CanvasLayer/ExpBar/MaxValue.text = str($CanvasLayer/ExpBar.max_value)
+			$CanvasLayer/ExpBar/LevelValue.text = language_texts[current_language]["player_level"] + str(level)
+		#set_exp_value(temp_value)
+		else:
+			$CanvasLayer/ExpBar.value += temp_value
+			temp_value = 0
+			$CanvasLayer/ExpBar/MinValue.text = str($CanvasLayer/ExpBar.value)
 
 # Статистика игрока
 func set_player_stats(wins, total_kills, max_kills, max_territory, max_size):

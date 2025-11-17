@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://bfqa6hmgwypyr" path="res://project/images/head/кобра голова зеленая.png" id="8_1flf6"]
 [ext_resource type="Shader" uid="uid://dnow5vqu6jbu8" path="res://project/resources/blur.gdshader" id="8_3iiqw"]
 [ext_resource type="Texture2D" uid="uid://r8h4xe52i0pr" path="res://project/images/head/head 3.png" id="9_1dtmg"]
-[ext_resource type="Script" path="res://project/scripts/eyes.gd" id="10_k1xn1"]
+[ext_resource type="Script" uid="uid://bkr0npjo67ser" path="res://project/scripts/eyes.gd" id="10_k1xn1"]
 [ext_resource type="Texture2D" uid="uid://cpqh5tsbm0s0c" path="res://project/images/head/Eyes/Apples/eye1.png" id="10_k6mwl"]
 [ext_resource type="Texture2D" uid="uid://dq782g5s5winw" path="res://project/images/head/Eyes/Apples/eye2.png" id="11_k1xn1"]
 [ext_resource type="Texture2D" uid="uid://cp2vgy1t7hp42" path="res://project/images/head/Eyes/Apples/eye3.png" id="12_jhnob"]
