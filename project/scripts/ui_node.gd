@@ -1,5 +1,6 @@
 extends Control
 
+var text
 var language_texts = {
 	"ru" = {
 		"victory": "ПОБЕДА!",
@@ -7,8 +8,10 @@ var language_texts = {
 		"nickname_result": "Никнейм: ",
 		"terrain_result": "Территории захвачено: ",
 		"size_result": "Размер: ",
-		"kills_result": "Убито: ",
-		"exp_result": "Опыта получено: "
+		"kills_result": "Уничтожено: ",
+		"exp_result": "Опыта получено: ",
+		"terrain_size": "Лидер области:",
+		"body_size": "Лидер длины:"
 	},
 	"en" = {
 		"victory": "VICTORY!",
@@ -17,28 +20,12 @@ var language_texts = {
 		"terrain_result": "Terrain captured: ",
 		"size_result": "Size: ",
 		"kills_result": "Kills: ",
-		"exp_result": "Exp gained: "
+		"exp_result": "Exp gained: ",
+		"terrain_size": "Terrain leader:",
+		"body_size": "Leangth leader:"
 	}
 }
 
-var colors = [
-	"#FF0000",  # Красный
-	"#00FF00",  # Зеленый
-	"#0000FF",  # Синий
-	"#FFFF00",  # Желтый
-	"#FF00FF",  # Пурпурный
-	"#00FFFF",  # Голубой
-	"#FF8000",  # Оранжевый
-	"#8000FF",  # Фиолетовый
-	"#FF0080",  # Розовый
-	"#00FF80",  # Весенний зеленый
-	"#80FF00",  # Лаймовый
-	"#0080FF",  # Ярко-синий
-	"#FF8040",  # Коралловый
-	"#40FF80",  # Мятный
-	"#8040FF",  # Лавандовый
-	"#FF4080"   # Фуксия
-]
 @onready var map = $"../SubViewportContainer/SubViewport/Map"
 @onready var outTerritoryWarning = $"OutTerritoryWarning"
 
@@ -46,26 +33,36 @@ var player_exp: int = 0
 var session_finished = false
 
 func _ready():
+	text = language_texts[G.language]
 	$"Leaders/Terrain/VBoxContainer/1/Name".text = G.nickname
 	$"Leaders/Size/VBoxContainer/1/Name".text = G.nickname
+	$"Leaders/Terrain/VBoxContainer/1/Name".visible_characters = 9
+	$"Leaders/Size/VBoxContainer/1/Name".visible_characters = 9
+	$Leaders/Terrain/VBoxContainer/Header/RichTextLabel.text = text["terrain_size"]
+	$Leaders/Size/VBoxContainer/Header/RichTextLabel.text = text["body_size"]
+	
+	init_name()
 	$PassSessionPanel.visible = false
 	outTerritoryWarning.visible = false  # Изначально скрываем предупреждение
 	reset_param()
 	colorBoard()
 
+func init_name():
+	for i in range(2,9):
+		get_node(str("Leaders/Terrain/VBoxContainer/",i,"/Name")).text = str("Player ",i)
+		get_node(str("Leaders/Size/VBoxContainer/",i,"/Name")).text = str("Player ",i)
 func reset_param():
 	G.result_is_win = false
 
 func colorBoard():
 	for i in range(1,9):
-		$Leaders/Terrain/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = colors[i-1]
-		$Leaders/Size/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = colors[i-1]
+		$Leaders/Terrain/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = G.colors[i-1]
+		$Leaders/Size/VBoxContainer.get_node(str(i)+"/ColorRect").modulate = G.colors[i-1]
 
 func _process(_delta):
 	setAliveSnakes()
 	sortTerrain()
 	sortSize()
-	sessionEnd()
 
 var count_left = 8
 func setAliveSnakes():
@@ -76,9 +73,10 @@ func setAliveSnakes():
 			var board_name = board[j].name
 			var found = false
 			for snake in snakes:
-				if snake.name == board_name:
-					found = true
-					break
+				if snake:
+					if snake.name == board_name:
+						found = true
+						break
 			if not found and $Leaders/Terrain/VBoxContainer.get_node(str(board_name)).modulate.a > 0.5:
 				$Leaders/Size/Nums.get_node(str(count_left)).modulate.a = 0.3
 				$Leaders/Terrain/Nums.get_node(str(count_left)).modulate.a = 0.3
@@ -125,17 +123,13 @@ func sortSize():
 				pos += 1
 
 # Передача инфы про настоящую сессию после смерти/победы
-func sessionEnd() -> void:
-	if session_finished:
-		return
-	var text = language_texts[G.language]
-	if !G.alive and !$PassSessionPanel.visible:
+func sessionEnd(win = false) -> void:
+	if !win and !session_finished:
 		session_finished = true
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.4).timeout
 		sessionEndText(text, "defeat")
-	elif G.result_is_win and !$PassSessionPanel.visible:
+	elif win and !session_finished:
 		session_finished = true
-		await get_tree().create_timer(2).timeout
 		player_exp += 100
 		G.wins += 1
 		sessionEndText(text, "victory")
@@ -146,7 +140,7 @@ func sessionEndText(text, match_res):
 	$PassSessionPanel.visible = true
 	$PassSessionPanel/PassSessionBox/EndResLabel.text = text[match_res]
 	$PassSessionPanel/PassSessionBox/NicknameLabel.text = text["nickname_result"] + G.nickname
-	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + str(G.terrain)
+	$PassSessionPanel/PassSessionBox/TerrainLabel.text = text["terrain_result"] + str(G.terrain) + "%"
 	$PassSessionPanel/PassSessionBox/SizeLabel.text = text["size_result"] + str(G.size)
 	$PassSessionPanel/PassSessionBox/KillsLabel.text = text["kills_result"] + str(G.kills)
 	$PassSessionPanel/PassSessionBox/ExpLabel.text = text["exp_result"] + str(player_exp)
@@ -155,9 +149,9 @@ func sessionEndText(text, match_res):
 
 # Функции для управления предупреждением о выходе из территории
 func show_territory_warning():
-	if outTerritoryWarning:
-		outTerritoryWarning.visible = true
+	if !$Warning/Anim.is_playing():
+		$Warning/Anim.play("start")
 
 func hide_territory_warning():
-	if outTerritoryWarning:
-		outTerritoryWarning.visible = false 
+	$Warning/Anim.stop()
+	$Warning/Anim.play_backwards("start")

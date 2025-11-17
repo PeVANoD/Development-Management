@@ -1,14 +1,18 @@
-[gd_scene load_steps=20 format=3 uid="uid://b1xxx4s3i5l46"]
+[gd_scene load_steps=28 format=3 uid="uid://b1xxx4s3i5l46"]
 
 [ext_resource type="PackedScene" uid="uid://d2m1ldvx5xuc7" path="res://project/scenes/map.tscn" id="1_a2vad"]
 [ext_resource type="Script" uid="uid://1r02dnbrfk60" path="res://project/scripts/ui_node.gd" id="2_sb116"]
+[ext_resource type="FontFile" uid="uid://dbpjhgpkj6nxv" path="res://project/resources/PixeloidSansBold-PKnYd.ttf" id="3_icniv"]
 [ext_resource type="FontFile" uid="uid://dtm28tqdm1wxs" path="res://project/resources/PixeloidSans-mLxMm.ttf" id="3_uyeg7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2vad"]
-bg_color = Color(0.00392157, 0.0235294, 0.0862745, 1)
-border_width_left = 16
+bg_color = Color(0.0045, 0.02445, 0.09, 0.784314)
+border_width_left = 8
+border_width_bottom = 8
 border_color = Color(0, 0, 0, 0)
 border_blend = true
+corner_radius_bottom_left = 32
+expand_margin_bottom = 8.0
 
 [sub_resource type="Gradient" id="Gradient_a2vad"]
 offsets = PackedFloat32Array(0, 0.441696, 1)
@@ -68,57 +72,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(0.4, 1),
 "update": 0,
 "values": [Vector2(0, 15), Vector2(202, 15)]
-}
-
-[sub_resource type="Animation" id="Animation_s5be5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Terrain/VBoxContainer/1/Strike:size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Size/VBoxContainer/1/Strike:size")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Size/VBoxContainer/2/Strike:size")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Terrain/VBoxContainer/2/Strike:size")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 15)]
 }
 
 [sub_resource type="Animation" id="Animation_qra1c"]
@@ -317,6 +270,57 @@ tracks/1/keys = {
 "values": [Vector2(0, 15), Vector2(200, 15)]
 }
 
+[sub_resource type="Animation" id="Animation_s5be5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Terrain/VBoxContainer/1/Strike:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Size/VBoxContainer/1/Strike:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Size/VBoxContainer/2/Strike:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Terrain/VBoxContainer/2/Strike:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dns4a"]
 _data = {
 &"1": SubResource("Animation_icniv"),
@@ -330,7 +334,93 @@ _data = {
 &"RESET": SubResource("Animation_s5be5")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icniv"]
+bg_color = Color(0.092397, 0.0923971, 0.0923971, 0.784314)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+expand_margin_left = 16.0
+expand_margin_top = 16.0
+expand_margin_right = 16.0
+expand_margin_bottom = 32.0
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sb116"]
+
+[sub_resource type="Gradient" id="Gradient_icniv"]
+offsets = PackedFloat32Array(0.561837, 0.639576, 1)
+colors = PackedColorArray(0.42, 0.1932, 0.19698, 0, 0.42, 0.1932, 0.19698, 0.0784314, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s5be5"]
+gradient = SubResource("Gradient_icniv")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_6ailv"]
+length = 0.001
+capture_included = true
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rgp6p"]
+resource_name = "start"
+length = 0.5
+capture_included = true
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.392157)]
+}
+
+[sub_resource type="Animation" id="Animation_dns4a"]
+resource_name = "wave"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.392157), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rgp6p"]
+_data = {
+&"RESET": SubResource("Animation_6ailv"),
+&"start": SubResource("Animation_rgp6p"),
+&"wave": SubResource("Animation_dns4a")
+}
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -346,14 +436,13 @@ grow_vertical = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -180.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(972, 648)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Map" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("1_a2vad")]
@@ -404,9 +493,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 11.0
+offset_right = -8.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 23
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = " Terrain Leaders"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -428,8 +523,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 1"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -457,7 +556,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -487,8 +587,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 2"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -516,7 +620,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -546,8 +651,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 3"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -575,7 +684,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -605,8 +715,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 4"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -634,7 +748,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -664,8 +779,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 5"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -693,7 +812,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -723,8 +843,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 6"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -752,7 +876,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -782,8 +907,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 7"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -811,7 +940,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -841,8 +971,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 8"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -870,7 +1004,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 21
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 17
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -995,6 +1130,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Size" type="Panel" parent="CanvasLayer/uiNode/Leaders"]
+visible = false
 modulate = Color(0.962506, 0.908772, 0.935796, 1)
 self_modulate = Color(0.997098, 0.892494, 0.897295, 1)
 layout_mode = 1
@@ -1023,13 +1159,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -15.0
-offset_top = 3.0
-offset_right = -15.0
+offset_left = 14.0
+offset_top = 2.0
+offset_right = -9.0
 offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 23
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 20
 text = " Size Leaders"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1051,8 +1191,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 1"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1080,7 +1224,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1110,8 +1255,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 2"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1139,7 +1288,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1169,8 +1319,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 3"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1198,7 +1352,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1228,8 +1383,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 4"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1257,7 +1416,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1287,8 +1447,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 5"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1316,7 +1480,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1346,8 +1511,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 6"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1375,7 +1544,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1405,8 +1575,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 7"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1434,7 +1608,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1464,8 +1639,12 @@ offset_right = -50.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 22
-text = "Player 8"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_uyeg7")
+theme_override_font_sizes/normal_font_size = 20
+text = "Player"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1493,7 +1672,8 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("3_icniv")
+theme_override_font_sizes/normal_font_size = 18
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1627,26 +1807,35 @@ libraries = {
 top_level = true
 layout_mode = 2
 offset_left = 404.0
-offset_top = 252.0
+offset_top = 234.0
 offset_right = 698.0
-offset_bottom = 413.0
+offset_bottom = 421.0
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_icniv")
 
 [node name="PassSessionBox" type="VBoxContainer" parent="CanvasLayer/uiNode/PassSessionPanel"]
 material = SubResource("CanvasItemMaterial_sb116")
-layout_mode = 0
-offset_right = 294.0
-offset_bottom = 161.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="EndResLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionPanel/PassSessionBox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_icniv")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="NicknameLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionPanel/PassSessionBox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_uyeg7")
 text = "Nickname: "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1654,6 +1843,7 @@ vertical_alignment = 1
 [node name="TerrainLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionPanel/PassSessionBox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_uyeg7")
 text = "Terrain: "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1661,16 +1851,19 @@ vertical_alignment = 1
 [node name="SizeLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionPanel/PassSessionBox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_uyeg7")
 text = "Size: "
 horizontal_alignment = 1
 
 [node name="KillsLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionPanel/PassSessionBox"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uyeg7")
 text = "Kills: "
 horizontal_alignment = 1
 
 [node name="ExpLabel" type="Label" parent="CanvasLayer/uiNode/PassSessionPanel/PassSessionBox"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uyeg7")
 text = "Exp gained:"
 horizontal_alignment = 1
 
@@ -1684,3 +1877,17 @@ offset_bottom = 68.0
 theme_override_colors/font_color = Color(0.746585, 2.00946e-06, 8.66354e-07, 1)
 theme_override_font_sizes/font_size = 20
 text = "Вернись в свою зону!!!"
+
+[node name="Warning" type="TextureRect" parent="CanvasLayer/uiNode"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = SubResource("GradientTexture2D_s5be5")
+
+[node name="Anim" type="AnimationPlayer" parent="CanvasLayer/uiNode/Warning"]
+libraries = {
+&"": SubResource("AnimationLibrary_rgp6p")
+}
+next/start = &"wave"
+blend_times = [&"start", &"RESET", 0.5, &"start", &"start", 0.5, &"start", &"wave", 0.5, &"wave", &"RESET", 0.5, &"wave", &"wave", 0.5]

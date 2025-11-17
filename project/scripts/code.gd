@@ -4,6 +4,7 @@ extends Node
 @onready var choose_skin = $"../Skin"
 
 func _ready():
+	$".".visible = true
 	$BLUR.modulate.a = 0.0
 	$ChooseWindow.scale = Vector2(0.0,0.0)
 	$"../Skin/Slot/Head".animation = G.chosen_skin
@@ -13,10 +14,20 @@ func _on_button_pressed():
 		makeChoice(1)
 	if choose_skin.get_node("Button").is_pressed():
 		makeChoice(0)
+		$"../Skin/Slot/Head/Eyes".set_process(false)
+		#$"../Skin/Slot/Head/Eyes/1/pupil".position = Vector2.ZERO
+		#$"../Skin/Slot/Head/Eyes/2/pupil".position = Vector2.ZERO
+		var nodes = $ChooseWindow/SKIN/H.get_children()
+		for i in nodes:
+			i.get_node("Sprite/Head/Eyes").set_process(true)
 	if $Button.is_pressed() and opened:
 		close_choose()
 
 func close_choose():
+	$"../Skin/Slot/Head/Eyes".set_process(true)
+	var nodes = $ChooseWindow/SKIN/H.get_children()
+	for i in nodes:
+		i.get_node("Sprite/Head/Eyes").set_process(false)
 	$Button.set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
 	opened = false
 	moveBLUR(0)

@@ -2,25 +2,6 @@ extends MeshInstance2D
 
 class_name TerritoryCapture
 
-var colors = [
-	"#FF0000",  # Красный
-	"#00FF00",  # Зеленый
-	"#0000FF",  # Синий
-	"#FFFF00",  # Желтый
-	"#FF00FF",  # Пурпурный
-	"#00FFFF",  # Голубой
-	"#FF8000",  # Оранжевый
-	"#8000FF",  # Фиолетовый
-	"#FF0080",  # Розовый
-	"#00FF80",  # Весенний зеленый
-	"#80FF00",  # Лаймовый
-	"#0080FF",  # Ярко-синий
-	"#FF8040",  # Коралловый
-	"#40FF80",  # Мятный
-	"#8040FF",  # Лавандовый
-	"#FF4080"   # Фуксия
-]
-
 # Настройки
 var snake_colors: Array = []  # Цвета для каждой змейки
 var line_thickness: float = 0.0
@@ -88,12 +69,12 @@ class SnakeCaptureState:
 
 # Создаем начальную территорию для змейки
 func create_initial_territory_for_snake(snake_index: int, center: Vector2, initial_effect_type: int = -1):
-	if snake_index >= colors.size():
+	if snake_index >= G.colors.size():
 		# Если цветов не хватает, генерируем случайный
 		var random_color = Color(randf(), randf(), randf())
 		snake_colors.append(random_color)
 	else:
-		snake_colors.append(Color(colors[snake_index]))
+		snake_colors.append(Color(G.colors[snake_index]))
 	
 	# Убедимся, что массивы достаточно большие
 	if territories.size() <= snake_index:
