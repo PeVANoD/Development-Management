@@ -136,6 +136,8 @@ func check_game():
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 	elif $Snakes.get_child_count() < 2 and !game_won:
 		G.kills = $Snakes.get_child(0).kills
+		G.total_kills += G.kills
+		G.max_kills = max(G.max_kills, G.kills)
 		$"../../../uiNode".sessionEnd(true)
 		G.result_is_win = true
 		smooth_modulate_transition(change_view_node,Color8(0x00, 0x82, 0x31, 255), 0.5)

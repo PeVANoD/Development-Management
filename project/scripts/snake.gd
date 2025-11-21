@@ -379,11 +379,6 @@ func kill_snake():
 	self.queue_free()
 	map_node.clearSnake()
 	
-func countKills():
-	G.kills = kills
-	G.total_kills += kills
-	G.max_kills = max(G.max_kills, kills)
-
 
 # Создание еды от всех частей тела змейки
 func spawn_food_from_body():
