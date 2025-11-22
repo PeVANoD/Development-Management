@@ -135,8 +135,7 @@ func check_game():
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 	elif $Snakes.get_child_count() < 2 and !game_won:
-		G.kills = $Snakes.get_child(0).kills
-		G.total_kills += G.kills
+		G.kills = $Snakes.get_child(0).kills	
 		G.max_kills = max(G.max_kills, G.kills)
 		$"../../../uiNode".sessionEnd(true)
 		G.result_is_win = true
@@ -145,6 +144,7 @@ func check_game():
 		await get_tree().create_timer(2).timeout
 		if Input.is_action_just_pressed("RMB") || Input.is_action_just_pressed("LMB"):
 			game_won = true
+			G.total_kills += G.kills
 			Engine.time_scale = 1.0
 			get_tree().change_scene_to_file("res://project/scenes/menu/main_menu.tscn")
 
